@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.biz.mapper.SysTreeDictMapper">
+    <select id="listDictsByCode" parameterType="java.lang.String"  resultType="cn.biz.vo.DictVO">
+        select
+        *
+        from sys_tree_dict
+        where DD_ITEM = #{code,jdbcType=VARCHAR}  AND DD_VALUE !=-999 AND IS_DEL=0
+        ORDER BY DD_INDEX
+    </select>
+    <select id="listSubDicts"  resultType="cn.biz.vo.DictVO">
+        select
+        *
+        from sys_tree_dict
+        where DD_ITEM = #{ddItem,jdbcType=VARCHAR}  AND PARENT_VALUE =#{ddValue,jdbcType=VARCHAR}  AND IS_DEL=FALSE
+    </select>
+</mapper>
