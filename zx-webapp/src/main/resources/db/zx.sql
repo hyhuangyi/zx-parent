@@ -1,208 +1,34 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : localhost
-Source Server Version : 50640
-Source Host           : localhost:3306
+Source Server         : aliyun-zx
+Source Server Version : 50728
+Source Host           : 47.110.13.117:3306
 Source Database       : zx
 
 Target Server Type    : MYSQL
-Target Server Version : 50640
+Target Server Version : 50728
 File Encoding         : 65001
 
-Date: 2019-11-02 17:40:00
+Date: 2019-11-18 21:26:41
 */
 
 SET FOREIGN_KEY_CHECKS=0;
-
--- ----------------------------
--- Table structure for admin_user
--- ----------------------------
-DROP TABLE IF EXISTS `admin_user`;
-CREATE TABLE `admin_user` (
-  `ADMIN_USER_ID` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
-  `ADMIN_PHONE` varchar(12) DEFAULT NULL COMMENT '手机号码(登录账号)',
-  `ADMIN_NICKNAME` varchar(12) DEFAULT NULL COMMENT '用户昵称',
-  `ADMIN_SEX` int(11) DEFAULT '0' COMMENT '性别',
-  `ADMIN_WECHAT` varchar(20) DEFAULT NULL COMMENT '微信号(在线客服号)',
-  `ADMIN_COMMENT` varchar(50) DEFAULT NULL COMMENT '备注',
-  `ADMIN_PARENT_ID` int(11) DEFAULT '0' COMMENT '父id',
-  `IS_DEL` int(11) DEFAULT '0' COMMENT '删除 0:不删除  1:删除',
-  `CONDITION` int(11) DEFAULT '0' COMMENT '状态 0:有效  1:无效',
-  `ADMIN_PASSWORD` varchar(50) DEFAULT NULL COMMENT '密码',
-  `CREATE_TIME` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `UPDATE_TIME` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  PRIMARY KEY (`ADMIN_USER_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='后台用户表';
-
--- ----------------------------
--- Records of admin_user
--- ----------------------------
-
--- ----------------------------
--- Table structure for app_order
--- ----------------------------
-DROP TABLE IF EXISTS `app_order`;
-CREATE TABLE `app_order` (
-  `APP_ORDER_ID` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `APP_USER_ID` bigint(20) DEFAULT NULL COMMENT '用户id',
-  `APPLY_PHONE` varchar(12) DEFAULT NULL COMMENT '申请手机号码',
-  `APPLY_MONEY` decimal(10,2) DEFAULT '1500.00' COMMENT '申请金额',
-  `DUE_TIME` datetime DEFAULT NULL COMMENT '到期时间',
-  `INTEREST_RATE` decimal(4,2) DEFAULT '0.30' COMMENT '借款利率',
-  `BORROW_DAYS` int(11) DEFAULT '7' COMMENT '借款天数',
-  `APP_CONDITION` int(11) DEFAULT '0' COMMENT '借款状态0:机审失败  1:机审成功(认证进行中)  2:认证失败  3:认证成功(用户可立即申请) 4: 待放款进行中 5:下次借款 6:放款进行中 7:放款失败 8:放款成功(待还款)  9:续租进行中  10:续租待确认  11:续租成功 12:逾期  13:还款进行中  14:还款待确认 15: 还款成功',
-  `CREATE_TIME` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `UPDATE_TIME` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`APP_ORDER_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='订单';
-
--- ----------------------------
--- Records of app_order
--- ----------------------------
-INSERT INTO `app_order` VALUES ('1', '1', '18705621249', '1500.00', null, '0.30', '7', '0', '2019-03-19 13:51:13', '2019-03-19 13:51:13');
-
--- ----------------------------
--- Table structure for app_order_collection_record
--- ----------------------------
-DROP TABLE IF EXISTS `app_order_collection_record`;
-CREATE TABLE `app_order_collection_record` (
-  `APP_COLLECTION_ID` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '催收记录id',
-  `APP_ORDER_ID` bigint(20) DEFAULT NULL COMMENT '订单id',
-  `EXPIRE_TIME` datetime DEFAULT NULL COMMENT '到期时间',
-  `LOAN_MONEY` varchar(200) DEFAULT NULL COMMENT '借款申请金额',
-  `OVERDUE_DAYS` int(11) DEFAULT NULL COMMENT '逾期天数',
-  `OVERDUE_MONEY` int(11) DEFAULT NULL COMMENT '逾期金额',
-  `HAND_TYPE` bigint(11) DEFAULT '0' COMMENT '0:正常 1:展期 2:代扣 3:定时器代扣 4:销账 5:还款',
-  `PAY_MONEY` int(11) DEFAULT NULL COMMENT '回款金额(实际处理的金额)',
-  `OVERDUE_PAY` int(11) DEFAULT '0' COMMENT '回款的违约金（没有为0）',
-  `HISTORY_COLLECTION_ID` varchar(100) DEFAULT NULL COMMENT '历史催收人',
-  `ALLOT_ID` bigint(20) DEFAULT NULL COMMENT '分配人id',
-  `OPERATOR_ID` bigint(20) DEFAULT NULL COMMENT '催收人员id(默认为0)(权限分配的id)',
-  `CREATE_TIME` datetime DEFAULT NULL COMMENT '创建时间',
-  `UPDATE_TIME` datetime DEFAULT NULL COMMENT '修改时间',
-  `STATE` int(11) DEFAULT '0' COMMENT '状态 0正常 1删除',
-  `DELETED` int(11) DEFAULT '0' COMMENT '删除 0未删除 1删除',
-  `ONLINE` int(3) DEFAULT '0' COMMENT '0:线下 1:线上',
-  `DESCRIPTION` varchar(200) DEFAULT NULL COMMENT '操作描述',
-  `USER_ID` bigint(20) DEFAULT NULL COMMENT '用户id',
-  `HAND_TIME` datetime DEFAULT NULL COMMENT '订单处理操作时间',
-  PRIMARY KEY (`APP_COLLECTION_ID`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=127 DEFAULT CHARSET=utf8mb4 COMMENT='催收记录表';
-
--- ----------------------------
--- Records of app_order_collection_record
--- ----------------------------
-
--- ----------------------------
--- Table structure for app_order_log
--- ----------------------------
-DROP TABLE IF EXISTS `app_order_log`;
-CREATE TABLE `app_order_log` (
-  `APP_ORDER_LOG_ID` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '日志id',
-  `APP_ORDER_ID` bigint(20) NOT NULL COMMENT '订单id',
-  `DUE_TIME` datetime DEFAULT NULL COMMENT '到期时间',
-  `APP_CONDITION` int(11) DEFAULT NULL COMMENT '借款状态0:机审失败  1:机审成功(认证进行中)  2:认证失败  3:认证成功(用户可立即申请) 4: 待放款进行中 5:下次借款 6:放款进行中 7:放款失败 8:放款成功(待还款)  9:续租进行中  10:续租待确认  11:续租成功 12:逾期  13:还款进行中  14:还款待确认 15: 还款成功',
-  `RETURN_TYPE` int(11) DEFAULT '0' COMMENT '0 未还 1线下 2线上',
-  `LAST_LOG_ID` bigint(20) DEFAULT '0' COMMENT '上笔操作日志id  用来判断是否逾期',
-  `CREATE_TIME` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `UPDATE_TIME` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`APP_ORDER_LOG_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COMMENT='订单日志';
-
--- ----------------------------
--- Records of app_order_log
--- ----------------------------
-INSERT INTO `app_order_log` VALUES ('1', '1', '2019-03-19 14:04:51', '1', '0', '0', '2019-03-19 14:04:11', '2019-03-19 14:39:07');
-INSERT INTO `app_order_log` VALUES ('2', '1', '2019-03-19 14:04:55', '8', '0', '0', '2019-03-19 14:05:54', '2019-03-19 14:39:14');
-INSERT INTO `app_order_log` VALUES ('3', '1', '2019-03-19 14:04:59', '9', '0', '0', '2019-03-19 14:06:19', '2019-03-19 14:39:20');
-INSERT INTO `app_order_log` VALUES ('4', '1', '2019-03-19 14:05:02', '11', '0', '2', '2019-03-20 09:35:17', '2019-03-20 09:35:17');
-INSERT INTO `app_order_log` VALUES ('5', '1', '2019-03-19 14:05:06', '10', '0', '0', '2019-03-19 14:08:27', '2019-03-19 14:39:31');
-INSERT INTO `app_order_log` VALUES ('6', '1', '2019-03-19 14:05:09', '11', '0', '4', '2019-03-20 09:21:32', '2019-03-20 09:21:32');
-INSERT INTO `app_order_log` VALUES ('7', '1', '2019-03-19 14:05:12', '12', '0', '6', '2019-03-19 14:10:49', '2019-03-19 14:39:40');
-INSERT INTO `app_order_log` VALUES ('8', '1', '2019-03-19 14:05:15', '15', '0', '7', '2019-03-19 14:11:53', '2019-03-19 14:39:43');
-
--- ----------------------------
--- Table structure for app_order_refund_record
--- ----------------------------
-DROP TABLE IF EXISTS `app_order_refund_record`;
-CREATE TABLE `app_order_refund_record` (
-  `REFUND_ID` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '还款记录id',
-  `APP_ORDER_ID` bigint(20) DEFAULT NULL COMMENT '主订单id',
-  `LOAN_MONEY` int(200) DEFAULT NULL COMMENT '申请借款金额',
-  `PAY_MONEY` int(200) DEFAULT NULL COMMENT '实际支付金额（未包含逾期费用）',
-  `IS_OVERDUE` int(11) DEFAULT '0' COMMENT '是否逾期 0否 1是',
-  `OVERDUE_MONEY` int(11) DEFAULT '0' COMMENT '实际逾期金额',
-  `OVERDUE_PAY` int(11) DEFAULT NULL COMMENT '逾期实际支付金额',
-  `HAND_TYPE` varchar(20) DEFAULT '0' COMMENT '还款类型: 0:正常  1:手动代扣  2.定时代扣  3:销账  4.部分还款',
-  `EXPIRE_TIME` datetime DEFAULT NULL COMMENT '到期时间',
-  `USER_ID` bigint(20) DEFAULT NULL COMMENT '用户id',
-  `OPERATOR_ID` bigint(20) DEFAULT '0' COMMENT '后台操作人员（为0时系统操作）',
-  `THIRD_ORDER_ID` varchar(200) DEFAULT NULL COMMENT '第三方还款流水号id',
-  `URL` varchar(255) DEFAULT NULL COMMENT '展期url凭证地址(可以为空）',
-  `BANK_ID` bigint(20) DEFAULT '0' COMMENT '银行卡id',
-  `ONLINE` int(11) DEFAULT NULL COMMENT '0:线下 1:线上',
-  `DESCRIPTION` varchar(200) DEFAULT NULL COMMENT '操作描述',
-  `STATE` int(20) DEFAULT '0' COMMENT '状态:0:还款进行中 1:还款成功  2:还款失败',
-  `DELETED` int(20) DEFAULT '0' COMMENT '删除 0未删除 1删除',
-  `HAND_TIME` datetime DEFAULT NULL COMMENT '处理操作时间',
-  `CREATE_TIME` datetime DEFAULT NULL COMMENT '创建时间',
-  `UPDATE_TIME` datetime DEFAULT NULL COMMENT '修改时间',
-  PRIMARY KEY (`REFUND_ID`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='还款记录表';
-
--- ----------------------------
--- Records of app_order_refund_record
--- ----------------------------
-
--- ----------------------------
--- Table structure for app_order_renew_record
--- ----------------------------
-DROP TABLE IF EXISTS `app_order_renew_record`;
-CREATE TABLE `app_order_renew_record` (
-  `RENEW_ID` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '展期记录id',
-  `APP_ORDER_ID` bigint(20) DEFAULT NULL COMMENT '订单id',
-  `LOAN_MONEY` int(11) DEFAULT '0' COMMENT '申请借款金额',
-  `RENEW_DAYS` int(11) DEFAULT NULL COMMENT '展期天数',
-  `PAY_MONEY` int(11) DEFAULT '0' COMMENT '实际支付展期金额（未包含逾期费用）',
-  `IS_OVERDUE` int(11) DEFAULT '0' COMMENT '是否逾期 0否 1是',
-  `OVERDUE_MONEY` int(11) DEFAULT '0' COMMENT '实际逾期金额',
-  `OVERDUE_PAY` int(11) DEFAULT NULL COMMENT '逾期实际支付金额',
-  `LAST_EXPIRE_TIME` datetime DEFAULT NULL COMMENT '上次到期时间',
-  `EXPIRE_TIME` datetime DEFAULT NULL COMMENT '当前到期时间',
-  `USER_ID` bigint(20) DEFAULT NULL COMMENT '用户id',
-  `OPERATOR_ID` bigint(20) DEFAULT '0' COMMENT '后台操作人员（为0时系统操作）',
-  `THIRD_ORDER_ID` varchar(200) DEFAULT NULL COMMENT '第三方展期流水号id',
-  `URL` varchar(255) DEFAULT NULL COMMENT '展期url凭证地址(可以为空）',
-  `BANK_ID` bigint(20) DEFAULT '0' COMMENT '银行卡id',
-  `ONLINE` int(11) DEFAULT NULL COMMENT '0:线下 1:线上',
-  `DESCRIPTION` varchar(200) DEFAULT NULL COMMENT '操作描述',
-  `STATE` int(11) DEFAULT NULL COMMENT '状态:0:展期进行中 1:展期成功  2:展期失败',
-  `DELETED` int(11) DEFAULT '0' COMMENT '删除 0未删除 1删除',
-  `HAND_TIME` datetime DEFAULT NULL COMMENT '操作时间',
-  `CREATE_TIME` datetime DEFAULT NULL COMMENT '创建时间',
-  `UPDATE_TIME` datetime DEFAULT NULL COMMENT '修改时间',
-  PRIMARY KEY (`RENEW_ID`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='展期记录表';
-
--- ----------------------------
--- Records of app_order_renew_record
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for auth_menu
 -- ----------------------------
 DROP TABLE IF EXISTS `auth_menu`;
 CREATE TABLE `auth_menu` (
-  `MENU_ID` int(11) NOT NULL AUTO_INCREMENT COMMENT '菜单ID',
-  `MENU_NAME` varchar(50) DEFAULT NULL COMMENT '菜单名称',
-  `MENU_PARENT_ID` int(11) DEFAULT NULL COMMENT '上级菜单ID',
-  `MENU_URL` varchar(100) DEFAULT NULL COMMENT '菜单URL',
-  `MENU_SORT` int(11) DEFAULT NULL COMMENT '排序号',
-  `IS_DEL` int(11) DEFAULT NULL COMMENT '1 删除 0 未删除',
-  `CREATE_TIME` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `UPDATE_TIME` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`MENU_ID`)
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '菜单ID',
+  `menu_name` varchar(50) DEFAULT NULL COMMENT '菜单名称',
+  `parent_id` int(11) DEFAULT NULL COMMENT '上级菜单ID',
+  `menu_url` varchar(100) DEFAULT NULL COMMENT '菜单URL',
+  `sort` int(11) DEFAULT NULL COMMENT '排序号',
+  `is_del` int(11) DEFAULT NULL COMMENT '1 删除 0 未删除',
+  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='菜单表';
 
 -- ----------------------------
@@ -214,30 +40,32 @@ CREATE TABLE `auth_menu` (
 -- ----------------------------
 DROP TABLE IF EXISTS `auth_role`;
 CREATE TABLE `auth_role` (
-  `ROLE_ID` int(11) NOT NULL COMMENT '角色id',
-  `ROLE_NAME` varchar(20) DEFAULT NULL COMMENT '角色名称(系统管理员，审核组长，认证组员，财务组长 ，财务组员，催收组长，催收组员, 渠道组长，渠道专员，今日到期组长，今日到期组长 ,渠道商组长）,渠道商',
-  `IS_DEL` int(11) DEFAULT '0' COMMENT '删除 0:不删除  1:删除',
-  `CREATE_TIME` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `UPDATE_TIME` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  PRIMARY KEY (`ROLE_ID`)
+  `id` bigint(20) NOT NULL COMMENT '角色id',
+  `role_code` varchar(11) DEFAULT NULL COMMENT '角色code',
+  `role_name` varchar(20) DEFAULT NULL COMMENT '角色名称',
+  `is_del` int(11) DEFAULT '0' COMMENT '删除 0:不删除  1:删除',
+  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色表';
 
 -- ----------------------------
 -- Records of auth_role
 -- ----------------------------
+INSERT INTO `auth_role` VALUES ('1', 'ROLE_ADMIN', '超级管理员', '0', '2019-11-08 15:16:25', '2019-11-18 13:41:32');
 
 -- ----------------------------
 -- Table structure for auth_role_menu
 -- ----------------------------
 DROP TABLE IF EXISTS `auth_role_menu`;
 CREATE TABLE `auth_role_menu` (
-  `ROLE_MENU_ID` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
-  `ROLE_ID` int(11) NOT NULL COMMENT '角色ID',
-  `MENU_ID` int(11) NOT NULL COMMENT '菜单ID',
-  `CREATE_TIME` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `UPDATE_TIME` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`ROLE_MENU_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='角色菜单表';
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `role_id` bigint(20) NOT NULL COMMENT '角色ID',
+  `menu_id` bigint(20) NOT NULL COMMENT '菜单ID',
+  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色菜单表';
 
 -- ----------------------------
 -- Records of auth_role_menu
@@ -248,14 +76,14 @@ CREATE TABLE `auth_role_menu` (
 -- ----------------------------
 DROP TABLE IF EXISTS `auth_user_role`;
 CREATE TABLE `auth_user_role` (
-  `ADMIN_SHIP_ID` int(11) NOT NULL AUTO_INCREMENT COMMENT '关系id',
-  `ADMIN_USER_ID` int(11) DEFAULT NULL COMMENT '用户id',
-  `ROLE_ID` int(11) DEFAULT NULL COMMENT '角色id',
-  `IS_DEL` int(11) DEFAULT '0' COMMENT '删除 0:不删除  1:删除',
-  `CREATE_TIME` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `UPDATE_TIME` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  PRIMARY KEY (`ADMIN_SHIP_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='用户和角色关系表';
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '关系id',
+  `user_id` bigint(20) DEFAULT NULL COMMENT '用户id',
+  `role_id` bigint(20) DEFAULT NULL COMMENT '角色id',
+  `is_del` bigint(20) DEFAULT '0' COMMENT '删除 0:不删除  1:删除',
+  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户和角色关系表';
 
 -- ----------------------------
 -- Records of auth_user_role
@@ -266,17 +94,17 @@ CREATE TABLE `auth_user_role` (
 -- ----------------------------
 DROP TABLE IF EXISTS `cd_city`;
 CREATE TABLE `cd_city` (
-  `CODE` varchar(100) NOT NULL,
-  `FULL_NAME` varchar(100) DEFAULT NULL,
-  `SHORT_NAME` varchar(100) DEFAULT NULL,
-  `PY` varchar(100) DEFAULT NULL,
-  `PROV_CODE` varchar(100) DEFAULT NULL,
-  `CREATE_DATE` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `UPDATE_DATE` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `CREATE_USER` int(11) DEFAULT NULL,
-  `UPDATE_USER` int(11) DEFAULT NULL,
-  PRIMARY KEY (`CODE`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `code` varchar(100) NOT NULL COMMENT 'code',
+  `full_name` varchar(100) DEFAULT NULL COMMENT '全名',
+  `short_name` varchar(100) DEFAULT NULL COMMENT '短名',
+  `py` varchar(100) DEFAULT NULL COMMENT '全拼',
+  `prov_code` varchar(100) DEFAULT NULL COMMENT '省份code',
+  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `create_user` int(11) DEFAULT '0' COMMENT '创建人',
+  `update_user` int(11) DEFAULT '0' COMMENT '更新人',
+  PRIMARY KEY (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='城市表';
 
 -- ----------------------------
 -- Records of cd_city
@@ -621,41 +449,40 @@ INSERT INTO `cd_city` VALUES ('654300', '新疆维吾尔自治区阿勒泰地区
 INSERT INTO `cd_city` VALUES ('659000', '新疆维吾尔自治区省直辖行政单位', '省直辖行政单位 ', 'XJWWEZZQSZXXZDW', '650000', '2018-12-28 09:51:01', '2018-12-28 09:51:01', null, null);
 
 -- ----------------------------
--- Table structure for sys_excute_time_log
+-- Table structure for sys_execute_time_log
 -- ----------------------------
-DROP TABLE IF EXISTS `sys_excute_time_log`;
-CREATE TABLE `sys_excute_time_log` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `excute_time` int(11) DEFAULT NULL COMMENT '执行时间',
-  `excute_method` varchar(255) DEFAULT NULL COMMENT '执行方法',
+DROP TABLE IF EXISTS `sys_execute_time_log`;
+CREATE TABLE `sys_execute_time_log` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `execute_time` int(11) DEFAULT NULL COMMENT '执行时间',
+  `execute_method` varchar(255) DEFAULT NULL COMMENT '执行方法',
   `create_date` timestamp NULL DEFAULT NULL COMMENT '创建时间',
   `update_date` timestamp NULL DEFAULT NULL COMMENT '更新时间',
   `operate_time` timestamp NULL DEFAULT NULL COMMENT '操作时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10756 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='执行时间表';
 
 -- ----------------------------
--- Records of sys_excute_time_log
+-- Records of sys_execute_time_log
 -- ----------------------------
-INSERT INTO `sys_excute_time_log` VALUES ('10755', '103', 'cn.webapp.controller.zx.CacheDemoController.queryAllCity', '2019-11-02 13:18:52', '2019-11-02 13:18:52', '2019-11-02 13:18:52');
 
 -- ----------------------------
 -- Table structure for sys_tree_dict
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_tree_dict`;
 CREATE TABLE `sys_tree_dict` (
-  `DD_ID` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `DD_ITEM` varchar(50) DEFAULT NULL COMMENT '字典项,一组字典值的唯一标识',
-  `DD_TEXT` varchar(500) DEFAULT NULL COMMENT '字典展示文本',
-  `DD_VALUE` varchar(50) DEFAULT NULL COMMENT '字典值',
-  `DD_INDEX` int(11) DEFAULT '0' COMMENT '排序字段',
-  `PARENT_VALUE` varchar(50) DEFAULT NULL COMMENT '父级字典值',
-  `UPDATE_USER` int(11) DEFAULT NULL COMMENT '编辑人',
-  `UPDATE_DATE` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  `ISDEL` bit(1) DEFAULT b'0' COMMENT '删除标识',
-  PRIMARY KEY (`DD_ID`),
-  KEY `reportIndex` (`DD_ITEM`,`DD_VALUE`,`ISDEL`)
-) ENGINE=InnoDB AUTO_INCREMENT=34587 DEFAULT CHARSET=utf8 COMMENT='树状字典表';
+  `dd_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `dd_item` varchar(50) DEFAULT NULL COMMENT '字典项,一组字典值的唯一标识',
+  `dd_text` varchar(500) DEFAULT NULL COMMENT '字典展示文本',
+  `dd_value` varchar(50) DEFAULT NULL COMMENT '字典值',
+  `dd_index` int(11) DEFAULT '0' COMMENT '排序字段',
+  `parent_value` varchar(50) DEFAULT NULL COMMENT '父级字典值',
+  `update_user` int(11) DEFAULT NULL COMMENT '编辑人',
+  `update_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `is_del` bit(1) DEFAULT b'0' COMMENT '删除标识',
+  PRIMARY KEY (`dd_id`),
+  KEY `reportIndex` (`dd_item`,`dd_value`,`is_del`)
+) ENGINE=InnoDB AUTO_INCREMENT=1040 DEFAULT CHARSET=utf8 COMMENT='树状字典表';
 
 -- ----------------------------
 -- Records of sys_tree_dict
@@ -692,25 +519,8 @@ CREATE TABLE `sys_user` (
   `create_date` timestamp NULL DEFAULT NULL COMMENT '创建时间',
   `update_date` timestamp NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='系统用户表';
 
 -- ----------------------------
 -- Records of sys_user
--- ----------------------------
-
--- ----------------------------
--- Table structure for user_data
--- ----------------------------
-DROP TABLE IF EXISTS `user_data`;
-CREATE TABLE `user_data` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `name` varchar(20) DEFAULT NULL COMMENT '姓名',
-  `phone` varchar(20) NOT NULL COMMENT '手机号',
-  `id_card` varchar(30) DEFAULT NULL COMMENT '身份证号',
-  `address` varchar(50) DEFAULT NULL COMMENT '地址',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of user_data
 -- ----------------------------
