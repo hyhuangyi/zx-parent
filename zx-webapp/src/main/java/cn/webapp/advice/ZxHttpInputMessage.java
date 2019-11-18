@@ -41,7 +41,7 @@ public class ZxHttpInputMessage implements HttpInputMessage {
                 log.error("privateKey is null");
                 throw new ZkException("privateKey is null");
             }
-            String res  = RSAUtils.privateDecrypt(content, RSAUtils.getPrivateKey(privateKey));
+            String res  = RSAUtils.decryptByPrivateKey(content, privateKey);
             this.body = new ByteArrayInputStream(res.getBytes());
         }else {
             this.body = new ByteArrayInputStream(content.getBytes());

@@ -51,17 +51,17 @@ public class ZxResponseBodyAdvice implements ResponseBodyAdvice<Object> {
         }
         /*是否加密 服务端这里私钥加密,客户端公钥解密*/
         if (methodParameter.getMethod().isAnnotationPresent(Encrypt.class) && secretKeyConfig.isOpen()) {//是
-            String privateKey = secretKeyConfig.getPrivateKey();
+            String publicKey = secretKeyConfig.getPublicKey();
             try {
-                if (StringUtils.isEmpty(privateKey)) {
+                if (StringUtils.isEmpty(publicKey)) {
                     throw new NullPointerException("私钥不能为空");
                 }
                 String result;
                 if(o instanceof ResultDO){
                     ResultDO r=(ResultDO)o;
-                    result =RSAUtils.privateEncrypt(JSON.toJSONString(r.getData()), RSAUtils.getPrivateKey(privateKey));
+                    result = RSAUtils.encryptByPublicKey(JSON.toJSONString(r.getData()), publicKey);
                 }else {
-                    result=RSAUtils.privateEncrypt(JSON.toJSONString(o), RSAUtils.getPrivateKey(privateKey));
+                    result=RSAUtils.encryptByPublicKey(JSON.toJSONString(o), publicKey);
                 }
                 ResultDO res= new ResultDO(requestId,"200","成功",result);
                 log.info("返回参数={}", JSONObject.toJSON(res));
