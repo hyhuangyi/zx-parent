@@ -1,6 +1,5 @@
 package cn.webapp.configuration;
 
-import cn.common.exception.UserException;
 import cn.common.exception.ValidException;
 import cn.common.exception.ZXException;
 import cn.common.pojo.base.ResultDO;
