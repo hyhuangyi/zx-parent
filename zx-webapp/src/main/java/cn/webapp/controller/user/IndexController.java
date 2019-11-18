@@ -3,6 +3,8 @@ package cn.webapp.controller.user;
 import cn.biz.group.ZxFirst;
 import cn.biz.po.CdCity;
 import cn.common.pojo.servlet.ServletContextHolder;
+import cn.webapp.aop.annotation.Decrypt;
+import cn.webapp.aop.annotation.Encrypt;
 import cn.webapp.aop.annotation.TimeCount;
 import cn.webapp.aop.annotation.ValidatedRequest;
 import cn.webapp.domain.Server;
@@ -64,5 +66,24 @@ public class IndexController {
         map.put("ass", SecurityContextHolder.getContext().getAuthentication());
         map.put("token",ServletContextHolder.getToken());
         return map;
+    }
+
+    @Decrypt
+    @ApiOperation("对传过来的加密参数解密")
+    @PostMapping("/comm/decryption")
+    @ResponseBody
+    public CdCity Decryption(@RequestBody CdCity city){
+        return city;
+    }
+
+    @Encrypt
+    @ApiOperation("对返回值进行加密")
+    @GetMapping("/comm/encryption")
+    @ResponseBody
+    public CdCity encryption(){
+        CdCity city = new CdCity();
+        city.setCode("10000");
+        city.setFullName("杭州");
+        return city;
     }
 }
