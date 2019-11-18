@@ -1,4 +1,4 @@
-package cn.webapp.socket;
+package cn.common.practice.socket;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

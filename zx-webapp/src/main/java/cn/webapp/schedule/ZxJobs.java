@@ -13,7 +13,7 @@ import java.util.Date;
  **/
 //关闭定时任务
 //@Component
-public class JobsTest {
+public class ZxJobs {
     //日志
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
