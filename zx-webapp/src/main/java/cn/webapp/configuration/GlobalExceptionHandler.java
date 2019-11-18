@@ -17,7 +17,6 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
@@ -83,17 +82,6 @@ public class GlobalExceptionHandler {
         return new ResultDO("0",e.getMessage());
     }
 
-    /**
-     * 用户相关异常
-     * @param e
-     * @return
-     */
-    @ExceptionHandler
-    @ResponseBody
-    public ResultDO handle(UserException e){
-        logger.error(e.getMessage(),e);
-        return new ResultDO("0",e.getMessage());
-    }
     /**
      * 其他异常
      * @param e
