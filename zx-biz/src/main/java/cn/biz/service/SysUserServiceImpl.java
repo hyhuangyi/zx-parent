@@ -1,9 +1,14 @@
 package cn.biz.service;
 
+import cn.biz.dto.UserListDTO;
 import cn.biz.mapper.SysUserMapper;
+import cn.biz.po.AuthRole;
 import cn.biz.po.SysUser;
+import cn.biz.vo.UserListVO;
 import cn.common.exception.ZxException;
 import cn.common.util.comm.RegexUtils;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -59,7 +64,25 @@ public class SysUserServiceImpl implements ISysUserService {
         return true;
     }
 
+    /**
+     * 用户列表
+     * @param dto
+     * @return
+     */
+    @Override
+    public IPage<SysUser> getUserList(UserListDTO dto) {
+        Page<SysUser> page=new Page(dto.getCurrent(),dto.getSize());
+        page.setRecords(sysUserMapper.getUserList(dto,page));
+        return page;
+    }
 
-
-
+    /**
+     * 获取角色信息
+     * @param id
+     * @return
+     */
+    @Override
+    public UserListVO getUserInfo(String id) {
+      return sysUserMapper.getUserInfo(id);
+    }
 }

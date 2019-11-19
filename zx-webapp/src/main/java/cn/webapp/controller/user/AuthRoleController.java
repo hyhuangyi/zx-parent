@@ -20,35 +20,36 @@ import java.util.List;
 @Api(description = "角色权限相关api")
 @RestController
 @Validated
+@RequestMapping("/role")
 public class AuthRoleController {
     @Autowired
     private IAuthRoleService authRoleService;
     @ApiOperation("角色列表")
-    @GetMapping("/role/list")
+    @GetMapping("/list")
     public IPage<AuthRole> roleList(@ModelAttribute @Valid RoleListDTO dto){
         return authRoleService.getRoleList(dto);
     }
 
     @ApiOperation("角色菜单,新增|编辑角色的时候需要获取")
-    @GetMapping("/role/menus")
+    @GetMapping("/menus")
     public List<MenuVO> menuList(){
         return authRoleService.getAllMenus();
     }
 
     @ApiOperation("添加|编辑角色 id为空添加，id不为空编辑")
-    @PostMapping("/role/save")
+    @PostMapping("/save")
     public boolean saveRole(@ModelAttribute @Valid AddRoleDTO dto){
         return authRoleService.saveRole(dto);
     }
 
     @ApiOperation("查询角色")
-    @GetMapping("/role/query")
+    @GetMapping("/query")
     public RoleVO selectRole(@ApiParam("主键id") @RequestParam @NotEmpty(message = "id不能为空") String id){
         return authRoleService.selectRole(id);
     }
 
     @ApiOperation("删除角色")
-    @PostMapping("/role/del")
+    @PostMapping("/del")
     public boolean delRole(@ApiParam("主键id") @RequestParam  @NotEmpty(message = "id不能为空") String id){
         return authRoleService.delRole(id);
     }

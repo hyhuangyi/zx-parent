@@ -516,6 +516,7 @@ CREATE TABLE `sys_user` (
   `password` varchar(100) DEFAULT NULL COMMENT '密码',
   `phone` varchar(13) DEFAULT NULL COMMENT '电话',
   `email` varchar(50) DEFAULT NULL COMMENT '邮箱',
+  `status` int(11) DEFAULT '0' COMMENT '状态 0启用 1禁用',
   `create_date` timestamp NULL DEFAULT NULL COMMENT '创建时间',
   `update_date` timestamp NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`)

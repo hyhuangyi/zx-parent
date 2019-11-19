@@ -3,13 +3,48 @@
 <mapper namespace="cn.biz.mapper.SysUserMapper">
     <select id="getUserByName" resultType="cn.biz.po.SysUser">
     SELECT *from sys_user where username=#{username}
-  </select>
+   </select>
 
     <select id="getUserByPhone" resultType="cn.biz.po.SysUser">
     SELECT *from sys_user where phone=#{phone}
-  </select>
+   </select>
 
     <select id="getUserByEmail" resultType="cn.biz.po.SysUser">
     SELECT *from sys_user where email=#{email}
-  </select>
+   </select>
+
+    <select id="getUserList" resultType="cn.biz.vo.UserListVO">
+        select a.*,GROUP_CONCAT(c.role_name) as roleNames,GROUP_CONCAT(c.id) as roleIds from
+        sys_user a
+        left join auth_user_role b on a.id=b.user_id
+        left join auth_role c on c.id=b.role_id
+        <if test="dto.phone!=null and dto.phone!=''">
+            and a.phone like concat("%",#{dto.phone},"%")
+        </if>
+        <if test="dto.name!=null and dto.name!=''">
+            and a.username like concat("%",#{dto.name},"%")
+        </if>
+        <if test="dto.status!=null and dto.status!=''">
+            and a.status =#{dto.status}
+        </if>
+        <if test="dto.startDate!=null and dto.startDate!='' and (dto.endDate==null or dto.endDate=='')">
+            and date(a.create_date)=#{dto.startDate}
+        </if>
+        <if test="dto.endDate!=null and dto.endDate!='' and (dto.startDate==null or dto.startDate=='')">
+            and date(a.create_date)=#{dto.endDate}
+        </if>
+        <if test="dto.startDate!=null and dto.startDate!='' and dto.endDate!=null and dto.endDate!=''">
+            and date(a.create_date) between #{dto.startDate} and #{dto.endDate}
+        </if>
+        group by a.id
+        ORDER BY a.create_date desc
+    </select>
+
+    <select id="getUserInfo" resultType="cn.biz.vo.UserListVO">
+        select a.*,GROUP_CONCAT(c.role_name) as roleNames,GROUP_CONCAT(c.id) as roleIds from
+        sys_user a
+        left join auth_user_role b on a.id=b.user_id
+        left join auth_role c on c.id=b.role_id
+        where a.id=#{id}
+    </select>
 </mapper>

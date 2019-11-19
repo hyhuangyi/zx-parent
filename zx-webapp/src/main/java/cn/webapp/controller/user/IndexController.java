@@ -7,13 +7,11 @@ import cn.webapp.aop.annotation.Decrypt;
 import cn.webapp.aop.annotation.Encrypt;
 import cn.webapp.aop.annotation.TimeCount;
 import cn.webapp.aop.annotation.ValidatedRequest;
-import cn.common.pojo.monitor.Server;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -29,14 +27,6 @@ import java.util.Map;
 @Controller
 public class IndexController {
 
-    @ApiOperation("服务监控")
-    @GetMapping("/comm/monitor")
-    public String monitor(Model model)throws Exception{
-        Server server=new Server();
-        server.copyTo();
-        model.addAttribute("/comm/server", server);
-        return "server";
-    }
     @ApiOperation("爱情树")
     @RequestMapping(value = "/comm/aqs",method = RequestMethod.GET)
     public String aqs(){
