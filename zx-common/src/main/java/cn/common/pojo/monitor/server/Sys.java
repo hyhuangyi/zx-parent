@@ -1,4 +1,4 @@
-package cn.webapp.domain.server;
+package cn.common.pojo.monitor.server;
 
 /**
  * 系统相关信息

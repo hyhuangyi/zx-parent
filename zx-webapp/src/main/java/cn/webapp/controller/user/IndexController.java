@@ -7,7 +7,7 @@ import cn.webapp.aop.annotation.Decrypt;
 import cn.webapp.aop.annotation.Encrypt;
 import cn.webapp.aop.annotation.TimeCount;
 import cn.webapp.aop.annotation.ValidatedRequest;
-import cn.webapp.domain.Server;
+import cn.common.pojo.monitor.Server;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;

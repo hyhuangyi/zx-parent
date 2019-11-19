@@ -1,4 +1,4 @@
-package cn.webapp.domain.server;
+package cn.common.pojo.monitor.server;
 
 
 /**

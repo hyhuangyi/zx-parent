@@ -1,7 +1,7 @@
-package cn.webapp.domain;
+package cn.common.pojo.monitor;
 
 import cn.common.util.ip.IpUtils;
-import cn.webapp.domain.server.*;
+import cn.common.pojo.monitor.server.*;
 import oshi.SystemInfo;
 import oshi.hardware.CentralProcessor;
 import oshi.hardware.CentralProcessor.TickType;
