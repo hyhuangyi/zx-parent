@@ -1,13 +1,11 @@
 package cn.webapp.controller.zx;
 
-import cn.webapp.configuration.RabbitMQConfig;
+import cn.common.consts.MqConst;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.amqp.core.Message;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,31 +15,21 @@ import org.springframework.web.bind.annotation.RestController;
  **/
 @Api(description = "rabbitMq")
 @RestController
+@Slf4j
 public class RabbitMqController {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
     @RequestMapping(value = "/comm/rabbitMq",method = RequestMethod.POST)
     @ApiOperation(value = "rabbitMq测试")
-    public Object sendMessage() {
+    public Boolean sendMessage() {
         new Thread(() -> {
-            for (int i = 0; i < 20; i++) {
-                rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.ROUTING_KEY, i);
+            for (int i = 0; i < 50; i++) {
+                rabbitTemplate.convertAndSend(MqConst.EXCHANGE_NAME, MqConst.ROUTING_KEY, i);
             }
         }).start();
-        return "ok";
+        log.info("全部完成");
+        return true;
     }
 }
-@Component
-class Consumer {
 
-//    @RabbitListener(queues = RabbitMQConfig.QUEUE_NAME)
-    public void consumeMessage(Message message) {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        System.out.println(message);
-    }
-}

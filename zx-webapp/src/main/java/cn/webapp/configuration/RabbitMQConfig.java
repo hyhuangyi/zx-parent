@@ -1,10 +1,10 @@
 package cn.webapp.configuration;
 
+import cn.common.consts.MqConst;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
-import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
@@ -14,28 +14,25 @@ import org.springframework.context.annotation.Configuration;
 /**
  * Created by huangYi on 2018/9/12
  **/
-//@Configuration
+@Configuration
 public class RabbitMQConfig {
-    public final static String QUEUE_NAME = "spring-boot-queue";
-    public final static String EXCHANGE_NAME = "spring-boot-exchange";
-    public final static String ROUTING_KEY = "spring-boot-key";
 
     // 创建队列
     @Bean
     public Queue queue() {
-        return new Queue(QUEUE_NAME);
+        return new Queue(MqConst.QUEUE_NAME);
     }
 
     // 创建一个 topic 类型的交换器
     @Bean
     public TopicExchange exchange() {
-        return new TopicExchange(EXCHANGE_NAME);
+        return new TopicExchange(MqConst.EXCHANGE_NAME);
     }
 
     // 使用路由键（routingKey）把队列（Queue）绑定到交换器（Exchange）
     @Bean
     public Binding binding(Queue queue, TopicExchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange).with(ROUTING_KEY);
+        return BindingBuilder.bind(queue).to(exchange).with(MqConst.ROUTING_KEY);
     }
 
     /**
