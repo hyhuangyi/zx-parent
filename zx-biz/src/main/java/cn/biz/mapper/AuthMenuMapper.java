@@ -1,8 +1,11 @@
 package cn.biz.mapper;
 
 import cn.biz.po.AuthMenu;
+import cn.biz.vo.MenuVO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * 菜单表 Mapper 接口
@@ -11,5 +14,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface AuthMenuMapper extends BaseMapper<AuthMenu> {
-
+    List<MenuVO> getAllMenus();
 }
