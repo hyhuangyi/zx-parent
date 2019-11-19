@@ -16,7 +16,7 @@ public class MenuVO implements Serializable {
     @ApiModelProperty(value = "菜单名称")
     private String menuName;
     @ApiModelProperty(value = "上级菜单ID")
-    private Integer parentId;
+    private Long parentId;
     @ApiModelProperty(value = "菜单URL")
     private String menuUrl;
     @ApiModelProperty("子菜单")
