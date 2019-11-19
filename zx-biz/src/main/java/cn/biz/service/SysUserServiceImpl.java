@@ -1,6 +1,6 @@
 package cn.biz.service;
 
-import cn.biz.dto.AddUserDTO;
+import cn.biz.dto.SaveUserDTO;
 import cn.biz.dto.UserListDTO;
 import cn.biz.mapper.AuthUserRoleMapper;
 import cn.biz.mapper.SysUserMapper;
@@ -40,7 +40,7 @@ public class SysUserServiceImpl implements ISysUserService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean saveUser(AddUserDTO dto) {
+    public boolean saveUser(SaveUserDTO dto) {
         if(dto.getRoles().size()==0){
             throw new ZxException("角色不能为空");
         }

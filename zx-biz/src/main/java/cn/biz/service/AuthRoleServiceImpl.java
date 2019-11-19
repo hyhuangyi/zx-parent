@@ -1,6 +1,6 @@
 package cn.biz.service;
 
-import cn.biz.dto.AddRoleDTO;
+import cn.biz.dto.SaveRoleDTO;
 import cn.biz.dto.RoleListDTO;
 import cn.biz.mapper.AuthMenuMapper;
 import cn.biz.mapper.AuthRoleMapper;
@@ -90,7 +90,7 @@ public class AuthRoleServiceImpl implements IAuthRoleService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean saveRole(AddRoleDTO dto) {
+    public boolean saveRole(SaveRoleDTO dto) {
         String str=dto.getMenuList();
         if(StringUtils.isEmpty(str)){
             throw new ZxException("菜单权限集合不能为空");

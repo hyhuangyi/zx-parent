@@ -1,6 +1,6 @@
 package cn.biz.service;
 
-import cn.biz.dto.AddRoleDTO;
+import cn.biz.dto.SaveRoleDTO;
 import cn.biz.dto.RoleListDTO;
 import cn.biz.po.AuthRole;
 import cn.biz.vo.MenuVO;
@@ -14,7 +14,7 @@ public interface IAuthRoleService {
     //所有菜单列表
     List<MenuVO> getAllMenus();
     //新增||编辑角色
-    boolean saveRole(AddRoleDTO dto);
+    boolean saveRole(SaveRoleDTO dto);
     //查询角色信息
     RoleVO selectRole(String roleId);
     //删除角色

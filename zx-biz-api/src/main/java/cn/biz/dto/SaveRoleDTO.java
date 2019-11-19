@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import javax.validation.constraints.NotEmpty;
 @Data
-public class AddRoleDTO {
+public class SaveRoleDTO {
     @ApiModelProperty(value = "角色主键 新增不需要传，编辑需要传")
     private String id;
     @ApiModelProperty("角色名称")

@@ -1,6 +1,6 @@
 package cn.webapp.controller.user;
 
-import cn.biz.dto.AddRoleDTO;
+import cn.biz.dto.SaveRoleDTO;
 import cn.biz.dto.RoleListDTO;
 import cn.biz.po.AuthRole;
 import cn.biz.service.IAuthRoleService;
@@ -38,7 +38,7 @@ public class AuthRoleController {
 
     @ApiOperation("添加||编辑角色 id为空添加，id不为空编辑")
     @PostMapping("/save")
-    public boolean saveRole(@ModelAttribute @Valid AddRoleDTO dto){
+    public boolean saveRole(@ModelAttribute @Valid SaveRoleDTO dto){
         return authRoleService.saveRole(dto);
     }
 

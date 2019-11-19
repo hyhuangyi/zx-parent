@@ -1,8 +1,7 @@
 package cn.webapp.controller.user;
 
-import cn.biz.dto.AddUserDTO;
+import cn.biz.dto.SaveUserDTO;
 import cn.biz.dto.UserListDTO;
-import cn.biz.group.ZxSecond;
 import cn.biz.po.SysUser;
 import cn.biz.service.ISysUserService;
 import cn.biz.vo.UserListVO;
@@ -39,7 +38,7 @@ public class UserController {
     @ApiOperation("新增||编辑 用户 id为空新增，id不为空编辑")
     @RequestMapping(value = "/save",method = RequestMethod.POST)
     @ValidatedRequest
-    public Boolean add(@Valid@ModelAttribute AddUserDTO user, BindingResult result){
+    public Boolean add(@Valid@ModelAttribute SaveUserDTO user, BindingResult result){
         return userService.saveUser(user);
     }
 

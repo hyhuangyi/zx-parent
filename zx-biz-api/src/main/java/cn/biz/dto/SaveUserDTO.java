@@ -6,7 +6,7 @@ import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @Data
-public class AddUserDTO {
+public class SaveUserDTO {
     @ApiModelProperty("用户id 编辑传")
     private String id;
     @ApiModelProperty("用户名")
