@@ -36,17 +36,12 @@ public class UserController {
       return  userService.getUserInfo(id);
     }
 
-    @ApiOperation("新增用户")
-    @RequestMapping(value = "/add",method = RequestMethod.POST)
+    @ApiOperation("新增||编辑 用户")
+    @RequestMapping(value = "/save",method = RequestMethod.POST)
     @ValidatedRequest
     public Boolean add(@Valid@ModelAttribute AddUserDTO user, BindingResult result){
-        return userService.addUser(user);
+        return userService.saveUser(user);
     }
 
-    @ApiOperation("编辑用户")
-    @RequestMapping(value = "/update",method = RequestMethod.POST)
-    @ValidatedRequest
-    public Boolean update(@Validated({ZxSecond.class})@ModelAttribute AddUserDTO user, BindingResult result){
-        return userService.updateUser(user);
-    }
+
 }

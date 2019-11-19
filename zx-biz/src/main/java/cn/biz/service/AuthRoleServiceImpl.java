@@ -115,14 +115,15 @@ public class AuthRoleServiceImpl implements IAuthRoleService {
             if(one==null){
                 throw new ZxException("该角色不存在");
             }
-            authRole.setId(one.getId());
             if(!one.getRoleName().equals(dto.getRoleName())){
                 Integer count= roleMapper.selectCount(new QueryWrapper<AuthRole>().eq("role_name",dto.getRoleName()).eq("is_del",0));
                 if(count!=0){
                     throw new ZxException("角色已存在！");
                 }
-                roleMapper.updateById(authRole);
+
             }
+            authRole.setId(one.getId());
+            roleMapper.updateById(authRole);
             roleMenuMapper.delete(new QueryWrapper<AuthRoleMenu>().eq("role_id",dto.getId()));
         }
         //角色权限操作
