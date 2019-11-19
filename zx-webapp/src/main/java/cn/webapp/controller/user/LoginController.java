@@ -3,6 +3,7 @@ package cn.webapp.controller.user;
 import cn.biz.po.SysUser;
 import cn.biz.service.ISysUserService;
 import cn.common.pojo.base.MyUserDetails;
+import cn.common.pojo.base.Token;
 import cn.common.pojo.servlet.ServletContextHolder;
 import cn.common.util.jwt.JwtUtil;
 import cn.webapp.aop.annotation.OperateLog;
@@ -39,20 +40,21 @@ public class LoginController {
     @RequestMapping(value = "/comm/login",method = RequestMethod.POST)
     @ValidatedRequest
     @OperateLog(operation = "#{#user.username}用户登入")
-    public Boolean login(@Valid@ModelAttribute(value="user") SysUser user, BindingResult result, HttpServletResponse response){
+    public String login(@Valid@ModelAttribute(value="user") SysUser user, BindingResult result, HttpServletResponse response){
         //验证
         Authentication authentication= authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
         //通过后将authentication放入SecurityContextHolder里
         SecurityContextHolder.getContext().setAuthentication(authentication);
         MyUserDetails userDetail=(MyUserDetails) authentication.getPrincipal();
-        ServletContextHolder.setToken(userDetail.getToken());
+        Token token=userDetail.getToken();
+        ServletContextHolder.setToken(token);
         //生成token str
-        String json=JSON.toJSONString(userDetail.getToken());
-        String token= JwtUtil.getToken(json);
-        response.addHeader(JwtUtil.AUTHORIZATION,token);
+        String json=JSON.toJSONString(token);
+        String tokenStr= JwtUtil.getToken(json);
+        response.addHeader(JwtUtil.AUTHORIZATION,tokenStr);
         //存入redis
         JwtUtil.saveTokenInfo(userDetail.getToken());
-        return true;
+        return tokenStr;
     }
 
     @ApiOperation("注册")
