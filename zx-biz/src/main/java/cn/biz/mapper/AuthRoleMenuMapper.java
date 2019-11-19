@@ -4,6 +4,8 @@ import cn.biz.po.AuthRoleMenu;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * 角色菜单表 Mapper 接口
  * @author huangy
@@ -11,6 +13,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface AuthRoleMenuMapper extends BaseMapper<AuthRoleMenu> {
-
+    void insertBatchRoleMenu(List<AuthRoleMenu> list);
 }
 

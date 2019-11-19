@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 /**
@@ -18,6 +19,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(value="AuthRoleMenu对象", description="角色菜单表")
+@NoArgsConstructor
 public class AuthRoleMenu implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -38,5 +40,8 @@ public class AuthRoleMenu implements Serializable {
     @ApiModelProperty(value = "更新时间")
     private LocalDateTime updateTime;
 
-
+    public AuthRoleMenu(Long roleId, Long menuId) {
+        this.roleId = roleId;
+        this.menuId = menuId;
+    }
 }

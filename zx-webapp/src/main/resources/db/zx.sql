@@ -40,8 +40,8 @@ CREATE TABLE `auth_menu` (
 -- ----------------------------
 DROP TABLE IF EXISTS `auth_role`;
 CREATE TABLE `auth_role` (
-  `id` bigint(20) NOT NULL COMMENT '角色id',
-  `role_code` varchar(11) DEFAULT NULL COMMENT '角色code',
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '角色id',
+  `role_code` varchar(50) DEFAULT NULL COMMENT '角色code',
   `role_name` varchar(20) DEFAULT NULL COMMENT '角色名称',
   `is_del` int(11) DEFAULT '0' COMMENT '删除 0:不删除  1:删除',
   `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
