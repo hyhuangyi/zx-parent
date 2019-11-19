@@ -2,6 +2,7 @@ package cn.webapp.controller.user;
 
 import cn.biz.dto.AddUserDTO;
 import cn.biz.dto.UserListDTO;
+import cn.biz.group.ZxSecond;
 import cn.biz.po.SysUser;
 import cn.biz.service.ISysUserService;
 import cn.biz.vo.UserListVO;
@@ -40,5 +41,12 @@ public class UserController {
     @ValidatedRequest
     public Boolean add(@Valid@ModelAttribute AddUserDTO user, BindingResult result){
         return userService.addUser(user);
+    }
+
+    @ApiOperation("编辑用户")
+    @RequestMapping(value = "/update",method = RequestMethod.POST)
+    @ValidatedRequest
+    public Boolean update(@Validated({ZxSecond.class})@ModelAttribute AddUserDTO user, BindingResult result){
+        return userService.updateUser(user);
     }
 }

@@ -11,6 +11,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 public interface ISysUserService {
     //新增
     boolean addUser(AddUserDTO dto);
+    //编辑用户
+    boolean updateUser(AddUserDTO dto);
     //user列表
     IPage<SysUser> getUserList(UserListDTO dto);
     //获取用户信息
