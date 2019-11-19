@@ -511,7 +511,7 @@ INSERT INTO `sys_tree_dict` VALUES ('1039', 'sxlx', '其他', '17', '6', '2', '0
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_user`;
 CREATE TABLE `sys_user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `username` varchar(50) DEFAULT NULL COMMENT '用户名',
   `password` varchar(100) DEFAULT NULL COMMENT '密码',
   `phone` varchar(13) DEFAULT NULL COMMENT '电话',

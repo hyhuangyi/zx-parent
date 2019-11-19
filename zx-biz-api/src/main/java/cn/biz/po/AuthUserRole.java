@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 /**
@@ -18,6 +19,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(value="AuthUserRole对象", description="用户和角色关系表")
+@NoArgsConstructor
 public class AuthUserRole implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -41,5 +43,8 @@ public class AuthUserRole implements Serializable {
     @ApiModelProperty(value = "修改时间")
     private LocalDateTime updateTime;
 
-
+    public AuthUserRole(Long userId, Long roleId) {
+        this.userId = userId;
+        this.roleId = roleId;
+    }
 }

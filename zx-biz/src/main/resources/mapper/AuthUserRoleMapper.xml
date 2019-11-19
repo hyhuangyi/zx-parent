@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.biz.mapper.AuthUserRoleMapper">
-
+    <insert id="insertBatchUserRole" parameterType="java.util.List">
+        insert into auth_user_role(role_id,user_id,update_time,create_time)
+        values
+        <foreach collection="list" item="itm" separator=",">
+            (#{itm.roleId}, #{itm.userId},now(),now())
+        </foreach>
+    </insert>
 </mapper>

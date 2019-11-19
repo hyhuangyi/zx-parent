@@ -1,18 +1,22 @@
 package cn.biz.service;
 
+import cn.biz.dto.AddUserDTO;
 import cn.biz.dto.UserListDTO;
+import cn.biz.mapper.AuthUserRoleMapper;
 import cn.biz.mapper.SysUserMapper;
-import cn.biz.po.AuthRole;
+import cn.biz.po.AuthUserRole;
 import cn.biz.po.SysUser;
 import cn.biz.vo.UserListVO;
 import cn.common.exception.ZxException;
 import cn.common.util.comm.RegexUtils;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.apache.commons.lang3.StringUtils;
+import com.beust.jcommander.internal.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -24,43 +28,43 @@ public class SysUserServiceImpl implements ISysUserService {
 
     @Autowired
     private SysUserMapper sysUserMapper;
+    @Autowired
+    private AuthUserRoleMapper userRoleMapper;
 
     private static BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     /**
-     * 注册
-     * @param sysUser
+     * 添加用户
      * @return
      */
     @Override
-    public boolean register(SysUser sysUser) {
-        if(StringUtils.isEmpty(sysUser.getEmail())){
-            throw new ZxException("邮箱不能为空");
+    @Transactional(rollbackFor = Exception.class)
+    public boolean addUser(AddUserDTO dto) {
+        if(dto.getRoles().size()==0){
+            throw new ZxException("角色不能为空");
         }
-        if(StringUtils.isEmpty(sysUser.getPhone())){
-            throw new ZxException("手机号码不能为空");
-        }
-        if(!RegexUtils.checkEmail(sysUser.getEmail())){
+        if(!RegexUtils.checkEmail(dto.getEmail())){
             throw new ZxException("邮箱格式不正确！");
         }
-        if(!RegexUtils.checkMobile(sysUser.getPhone())){
+        if(!RegexUtils.checkMobile(dto.getPhone())){
             throw new ZxException("手机格式不正确");
         }
-        List<SysUser> list1=sysUserMapper.getUserByEmail(sysUser.getEmail());
-        List<SysUser> list2=sysUserMapper.getUserByPhone(sysUser.getPhone());
-        List<SysUser> list3=sysUserMapper.getUserByName(sysUser.getUsername());
-        if(list1.size()>=1){
-            throw new ZxException("邮箱已被注册");
+        Integer count=sysUserMapper.selectUserCount(dto.getUsername(),dto.getPhone());
+        if(count!=0){
+            throw new ZxException("该用户已存在");
         }
-        if(list2.size()>=1){
-            throw new ZxException("手机号码已被注册");
-        }
-        if(list3.size()>=1){
-            throw new ZxException("用户名已被注册");
-        }
-        sysUser.setPassword(passwordEncoder.encode(sysUser.getPassword()));
+        SysUser sysUser=new SysUser();
+        sysUser.setPhone(dto.getPhone());
+        sysUser.setEmail(dto.getEmail());
+        sysUser.setUsername(dto.getUsername());
+        sysUser.setPassword(passwordEncoder.encode("123456"));
         sysUser.setCreateDate(LocalDateTime.now());
         sysUser.setUpdateDate(LocalDateTime.now());
         sysUserMapper.insert(sysUser);
+        List<AuthUserRole> addList= Lists.newArrayList();
+        for(String str:dto.getRoles()){
+            addList.add(new AuthUserRole(sysUser.getId(),Long.valueOf(str)));
+        }
+        userRoleMapper.insertBatchUserRole(addList);
         return true;
     }
 

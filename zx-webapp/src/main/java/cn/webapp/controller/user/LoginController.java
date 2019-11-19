@@ -27,7 +27,7 @@ import javax.validation.Valid;
 /**
  * Created by huangYi on 2018/9/5
  **/
-@Api(description = "登陆注册")
+@Api(description = "登陆")
 @RestController
 public class LoginController {
 
@@ -55,12 +55,5 @@ public class LoginController {
         //存入redis
         JwtUtil.saveTokenInfo(userDetail.getToken());
         return tokenStr;
-    }
-
-    @ApiOperation("注册")
-    @RequestMapping(value = "/comm/register",method = RequestMethod.POST)
-    @ValidatedRequest
-    public Boolean register(@Valid@ModelAttribute(value = "user") SysUser user,BindingResult result){
-       return userService.register(user);
     }
 }

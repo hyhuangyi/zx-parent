@@ -29,7 +29,7 @@ public class ValidationAspect {
                 BindingResult result = (BindingResult) arg;
                 if (result.hasErrors()){
                     FieldError fieldError = result.getFieldError();
-                    String message=fieldError.getField() + fieldError.getDefaultMessage();
+                    String message=fieldError.getDefaultMessage();
                     logger.error(message);
                     throw new ValidException(message);
                 }
