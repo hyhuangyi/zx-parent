@@ -1,6 +1,6 @@
 package cn.common.util.algorithm;
 
-import cn.common.exception.ZXException;
+import cn.common.exception.ZxException;
 import cn.common.util.math.NumberUtil;
 
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ public class SplitRedPacket {
 
         if(money < count*MINMONEY || money > count* MAXMONEY){
             System.out.println("不可拆分");
-            throw new ZXException("数据不可拆分");
+            throw new ZxException("数据不可拆分");
         }
         // 先预留出 count 份 minS ， 其余的做随机
         double moreMoney= NumberUtil.sub(money, NumberUtil.IintegerMul(count,MINMONEY));

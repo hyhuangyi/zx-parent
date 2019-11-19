@@ -1,6 +1,6 @@
 package cn.webapp.advice;
 
-import cn.common.exception.ZXException;
+import cn.common.exception.ZxException;
 import cn.common.pojo.base.ResultDO;
 import cn.common.util.encrypt.RSAUtils;
 import cn.webapp.aop.annotation.Encrypt;
@@ -67,7 +67,7 @@ public class ZxResponseBodyAdvice implements ResponseBodyAdvice<Object> {
                 log.info("返回参数={}", JSONObject.toJSON(res));
                 return res;
             } catch (Exception e) {
-                throw new ZXException("加密错误");
+                throw new ZxException("加密错误");
             }
         }else{//否
             if (o instanceof ResultDO) {

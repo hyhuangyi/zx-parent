@@ -1,7 +1,7 @@
 package cn.biz.listener;
 
 import cn.biz.event.ZxListenerEvent;
-import cn.common.exception.ZXException;
+import cn.common.exception.ZxException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -21,7 +21,7 @@ public class ZxListener {
     public void doTest(ZxListenerEvent listener){
         log.info(Thread.currentThread().getName()+"name="+listener.getName() +";age="+listener.getAge());
         if(1==1){
-            throw new ZXException("假装异常");
+            throw new ZxException("假装异常");
         }
     }
 }

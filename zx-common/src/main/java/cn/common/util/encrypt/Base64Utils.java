@@ -1,6 +1,6 @@
 package cn.common.util.encrypt;
 
-import cn.common.exception.ZXException;
+import cn.common.exception.ZxException;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -90,7 +90,7 @@ public class Base64Utils {
         File file = new File(targetPath);
         try {
             if (file.exists()) {
-                throw new  ZXException("文件已经存在!");
+                throw new ZxException("文件已经存在!");
             } else {
                 boolean createNewFile = file.createNewFile();
                 if (createNewFile) {
@@ -105,7 +105,7 @@ public class Base64Utils {
             out.close();
             logger.info("文件保存成功！");
         } catch (Exception e) {
-            throw new ZXException("文件base64编码转换失败");
+            throw new ZxException("文件base64编码转换失败");
         }
         return targetPath;
     }
@@ -119,7 +119,7 @@ public class Base64Utils {
             return new String(Base64.encodeBase64(value),"UTF-8");
         } catch (Exception e) {
             logger.error("字符串base64编码转换失败！" + e);
-            throw new ZXException("字符串base64编码转换失败");
+            throw new ZxException("字符串base64编码转换失败");
         }
     }
 

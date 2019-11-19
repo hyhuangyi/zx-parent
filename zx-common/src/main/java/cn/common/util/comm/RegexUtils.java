@@ -1,6 +1,6 @@
 package cn.common.util.comm;
 
-import cn.common.exception.ZXException;
+import cn.common.exception.ZxException;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -192,7 +192,7 @@ public class RegexUtils {
      */
     public static String desensitization(String phone){
         if(phone.length()<11){
-            throw new ZXException("手机号尾数不能小于11位");
+            throw new ZxException("手机号尾数不能小于11位");
         }
         return phone.replaceAll("(\\d{3})\\d{4}(\\d{4})","$1****$2");
     }

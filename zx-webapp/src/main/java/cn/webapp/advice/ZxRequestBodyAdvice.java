@@ -1,6 +1,6 @@
 package cn.webapp.advice;
 
-import cn.common.exception.ZXException;
+import cn.common.exception.ZxException;
 import cn.webapp.aop.annotation.Decrypt;
 import cn.webapp.configuration.bean.SecretKeyConfig;
 import com.alibaba.fastjson.JSONObject;
@@ -45,7 +45,7 @@ public class ZxRequestBodyAdvice implements RequestBodyAdvice {
                 return new ZxHttpInputMessage(httpInputMessage,secretKeyConfig.getPrivateKey());
             } catch (Exception e) {
                 log.error(e.getMessage(),e);
-               throw new ZXException("解密异常");
+               throw new ZxException("解密异常");
             }
         }
         return httpInputMessage;

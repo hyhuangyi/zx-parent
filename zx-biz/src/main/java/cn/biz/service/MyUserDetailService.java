@@ -2,7 +2,7 @@ package cn.biz.service;
 
 import cn.biz.mapper.SysUserMapper;
 import cn.biz.po.SysUser;
-import cn.common.exception.ZXException;
+import cn.common.exception.ZxException;
 import cn.common.pojo.base.MyUserDetails;
 import cn.common.pojo.base.Token;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,7 @@ public class MyUserDetailService implements UserDetailsService {
         log.info("用户名："+userName);
         List<SysUser> sysUsers=sysUserMapper.getUserByName(userName);
         if (CollectionUtils.isEmpty(sysUsers)) {
-            throw new ZXException("用户不存在");
+            throw new ZxException("用户不存在");
         }
         SysUser sysUser=sysUsers.get(0);
         Token token=new Token();

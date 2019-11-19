@@ -1,7 +1,7 @@
 package cn.webapp.configuration;
 
 import cn.common.exception.ValidException;
-import cn.common.exception.ZXException;
+import cn.common.exception.ZxException;
 import cn.common.pojo.base.ResultDO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,7 +52,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler
     @ResponseBody
-    public ResultDO handle(ZXException e){
+    public ResultDO handle(ZxException e){
         logger.error("控制层捕获ZX异常 GlobalBangerException,[{}]", e.getCause());
         return new ResultDO("0",e.getMessage());
     }

@@ -5,7 +5,7 @@ import cn.afterturn.easypoi.excel.ExcelImportUtil;
 import cn.afterturn.easypoi.excel.entity.ExportParams;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import cn.afterturn.easypoi.excel.entity.enmus.ExcelType;
-import cn.common.exception.ZXException;
+import cn.common.exception.ZxException;
 import cn.common.util.string.StringUtils;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.web.multipart.MultipartFile;
@@ -103,7 +103,7 @@ public class EasyPoiUtil {
             outputStream=response.getOutputStream();
             workbook.write(outputStream);
         } catch (IOException e) {
-            throw new ZXException(e.getMessage());
+            throw new ZxException(e.getMessage());
         }finally {
             if(outputStream!=null){
                 try {
@@ -135,10 +135,10 @@ public class EasyPoiUtil {
         try {
             list = ExcelImportUtil.importExcel(new File(filePath), pojoClass, params);
         }catch (NoSuchElementException e){
-            throw new ZXException("模板不能为空");
+            throw new ZxException("模板不能为空");
         } catch (Exception e) {
             e.printStackTrace();
-            throw new ZXException(e.getMessage());
+            throw new ZxException(e.getMessage());
         }
         return list;
     }
@@ -163,9 +163,9 @@ public class EasyPoiUtil {
         try {
             list = ExcelImportUtil.importExcel(file.getInputStream(), pojoClass, params);
         }catch (NoSuchElementException e){
-            throw new ZXException("excel文件不能为空");
+            throw new ZxException("excel文件不能为空");
         } catch (Exception e) {
-            throw new ZXException(e.getMessage());
+            throw new ZxException(e.getMessage());
         }
         return list;
     }

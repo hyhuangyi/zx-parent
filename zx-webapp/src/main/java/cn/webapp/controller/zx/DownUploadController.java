@@ -1,6 +1,6 @@
 package cn.webapp.controller.zx;
 
-import cn.common.exception.ZXException;
+import cn.common.exception.ZxException;
 import cn.common.pojo.base.ResultDO;
 import cn.common.util.oss.AliOssUtil;
 import cn.webapp.aop.annotation.OperateLog;
@@ -77,7 +77,7 @@ public class DownUploadController {
     @PostMapping("/upload")
     public void upload(@RequestParam("file") MultipartFile file, RedirectAttributes result) {
         if (file.isEmpty()) {
-            throw new ZXException("文件不能为空");
+            throw new ZxException("文件不能为空");
         }
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
         String path = "D:" + File.separator + format.format(new Date());
@@ -101,7 +101,7 @@ public class DownUploadController {
     public ResultDO upload(@ApiParam(value = "文件", required = true) @RequestParam MultipartFile multipartFile) {
         String str = "";
         if (multipartFile.isEmpty()) {
-            throw new ZXException("文件不能为空");
+            throw new ZxException("文件不能为空");
         }
         str = AliOssUtil.fileUpload(multipartFile, "banner");
         if (StringUtils.isNotBlank(str)) {
@@ -150,7 +150,7 @@ public class DownUploadController {
                 response.getOutputStream().write(buffer, 0, bytesRead);
             }
         } catch (IOException e) {
-            throw  new ZXException("下载异常");
+            throw  new ZxException("下载异常");
         } finally {
             try {
                 if(is!=null){
@@ -158,7 +158,7 @@ public class DownUploadController {
                 }
                 response.getOutputStream().close();
             }catch (Exception e){
-                throw new ZXException("流关闭异常");
+                throw new ZxException("流关闭异常");
             }
         }
     }

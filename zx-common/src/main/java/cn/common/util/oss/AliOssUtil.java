@@ -1,6 +1,6 @@
 package cn.common.util.oss;
 
-import cn.common.exception.ZXException;
+import cn.common.exception.ZxException;
 import cn.common.util.generate.IdGenUtils;
 import cn.common.util.string.StringUtils;
 import com.aliyun.oss.OSSClient;
@@ -201,7 +201,7 @@ public class AliOssUtil {
                 swapStream.write(ch);
             }
         } catch (Exception var3) {
-            throw new ZXException("流转换异常");
+            throw new ZxException("流转换异常");
         }
         return swapStream;
     }
