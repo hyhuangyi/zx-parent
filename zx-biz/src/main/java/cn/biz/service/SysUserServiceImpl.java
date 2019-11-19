@@ -35,7 +35,7 @@ public class SysUserServiceImpl implements ISysUserService {
 
     private static BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     /**
-     * 添加用户
+     * 新增||编辑用户
      * @return
      */
     @Override

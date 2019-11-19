@@ -36,7 +36,7 @@ public class AuthRoleController {
         return authRoleService.getAllMenus();
     }
 
-    @ApiOperation("添加|编辑角色 id为空添加，id不为空编辑")
+    @ApiOperation("添加||编辑角色 id为空添加，id不为空编辑")
     @PostMapping("/save")
     public boolean saveRole(@ModelAttribute @Valid AddRoleDTO dto){
         return authRoleService.saveRole(dto);

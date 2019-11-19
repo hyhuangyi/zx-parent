@@ -36,7 +36,7 @@ public class UserController {
       return  userService.getUserInfo(id);
     }
 
-    @ApiOperation("新增||编辑 用户")
+    @ApiOperation("新增||编辑 用户 id为空新增，id不为空编辑")
     @RequestMapping(value = "/save",method = RequestMethod.POST)
     @ValidatedRequest
     public Boolean add(@Valid@ModelAttribute AddUserDTO user, BindingResult result){
