@@ -11,8 +11,8 @@ import javax.validation.constraints.Max;
 @Data
 public class PagingQuest {
     @ApiModelProperty(value = "第几页 默认1")
-    private Integer current =1;
+    private Long current =1L;
     @ApiModelProperty(value = "每页记录数 默认10")
-    @Max(value=10000)
-    private Integer size=10 ;
+    @Max(value=10000L)
+    private Long size=10L;
 }

@@ -1,8 +1,12 @@
 package cn.biz.mapper;
 
+import cn.biz.dto.RoleListDTO;
 import cn.biz.po.AuthRole;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+import java.util.List;
 
 /**
  * 角色表 Mapper 接口
@@ -11,5 +15,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface AuthRoleMapper extends BaseMapper<AuthRole> {
-
+    List<AuthRole> getRoleList(@Param("dto")RoleListDTO dto, Page page);
 }

@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.biz.mapper.AuthRoleMapper">
+    <select id="getRoleList" resultType="cn.biz.po.AuthRole">
+        select * from
+        auth_role a
+        where a.is_del=0
+        <if test="dto.roleName!=null and dto.roleName!=''">
+            and a.role_name like concat("%",#{dto.roleName},"%")
+        </if>
+        <if test="dto.startDate!=null and dto.startDate!='' and (dto.endDate==null or dto.endDate=='')">
+            and date(a.create_time)=#{dto.startDate}
+        </if>
+        <if test="dto.endDate!=null and dto.endDate!='' and (dto.startDate==null or dto.startDate=='')">
+            and date(a.create_time)=#{dto.endDate}
+        </if>
+        <if test="dto.startDate!=null and dto.startDate!='' and dto.endDate!=null and dto.endDate!=''">
+            and date(a.create_time) between #{dto.startDate} and #{dto.endDate}
+        </if>
+        ORDER BY a.create_time desc
+    </select>
 
 </mapper>
