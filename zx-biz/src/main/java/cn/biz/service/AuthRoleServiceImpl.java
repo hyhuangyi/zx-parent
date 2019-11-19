@@ -94,7 +94,7 @@ public class AuthRoleServiceImpl implements IAuthRoleService {
         List<AuthRoleMenu> addList= Lists.newArrayList();
         AuthRole authRole=new AuthRole();
         authRole.setRoleName(dto.getRoleName());
-        authRole.setRoleCode("ROLE_"+PinYinUtil.getPingYin(dto.getRoleName()));
+        authRole.setRoleCode("ROLE_"+PinYinUtil.getPinYinInitialLetter(dto.getRoleName()).toUpperCase());
         authRole.setUpdateTime(LocalDateTime.now());
         if(StringUtils.isBlank(dto.getId())){
            Integer count= roleMapper.selectCount(new QueryWrapper<AuthRole>().eq("role_name",dto.getRoleName()).eq("is_del",0));
