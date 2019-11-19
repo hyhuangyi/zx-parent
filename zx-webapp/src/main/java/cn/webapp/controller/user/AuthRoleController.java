@@ -5,16 +5,16 @@ import cn.biz.dto.RoleListDTO;
 import cn.biz.po.AuthRole;
 import cn.biz.service.IAuthRoleService;
 import cn.biz.vo.MenuVO;
+import cn.biz.vo.RoleVO;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @Api(description = "角色权限相关api")
@@ -39,6 +39,18 @@ public class AuthRoleController {
     @PostMapping("/role/save")
     public boolean saveRole(@ModelAttribute @Valid AddRoleDTO dto){
         return authRoleService.saveRole(dto);
+    }
+
+    @ApiOperation("查询角色")
+    @GetMapping("/role/query")
+    public RoleVO selectRole(@ApiParam("主键id") @RequestParam @NotEmpty(message = "id不能为空") String id){
+        return authRoleService.selectRole(id);
+    }
+
+    @ApiOperation("删除角色")
+    @PostMapping("/role/del")
+    public boolean delRole(@ApiParam("主键id") @RequestParam  @NotEmpty(message = "id不能为空") String id){
+        return authRoleService.delRole(id);
     }
 
 }
