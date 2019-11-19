@@ -32,6 +32,9 @@ public class MyUserDetailService implements UserDetailsService {
             throw new ZxException("用户不存在");
         }
         SysUser sysUser=sysUsers.get(0);
+        if("1".equals(sysUser.getStatus())){
+            throw new ZxException("用户被禁用");
+        }
         Token token=new Token();
         token.setEmail(sysUser.getEmail());
         token.setPhone(sysUser.getPhone());
