@@ -32,7 +32,7 @@ public class MyUserDetailService implements UserDetailsService {
             throw new ZxException("用户不存在");
         }
         SysUser sysUser=sysUsers.get(0);
-        if("1".equals(sysUser.getStatus())){
+        if(sysUser.getStatus()==1){
             throw new ZxException("用户被禁用");
         }
         Token token=new Token();
