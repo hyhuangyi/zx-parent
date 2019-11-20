@@ -35,7 +35,7 @@ public class SysUser implements Serializable {
     private String password;
 
     @ApiModelProperty(value = "状态 0启用 1禁用")
-    private String status;
+    private Integer status;
 
     @ApiModelProperty(value = "电话")
     private String phone;

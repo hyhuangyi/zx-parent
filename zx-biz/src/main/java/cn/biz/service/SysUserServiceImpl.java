@@ -2,11 +2,13 @@ package cn.biz.service;
 
 import cn.biz.dto.SaveUserDTO;
 import cn.biz.dto.UserListDTO;
+import cn.biz.dto.UserStatusDTO;
 import cn.biz.mapper.AuthUserRoleMapper;
 import cn.biz.mapper.SysUserMapper;
 import cn.biz.po.AuthUserRole;
 import cn.biz.po.SysUser;
 import cn.biz.vo.UserListVO;
+import cn.common.consts.UserConst;
 import cn.common.exception.ZxException;
 import cn.common.util.comm.RegexUtils;
 import cn.common.util.string.StringUtils;
@@ -18,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -57,7 +58,7 @@ public class SysUserServiceImpl implements ISysUserService {
         sysUser.setUpdateDate(LocalDateTime.now());
 
         if(StringUtils.isBlank(dto.getId())){//新增
-            sysUser.setPassword(passwordEncoder.encode("123456"));
+            sysUser.setPassword(passwordEncoder.encode(UserConst.DEFAULT_PASSWORD));
             sysUser.setCreateDate(LocalDateTime.now());
             if(sysUserMapper.selectUserCount(dto.getUsername(),dto.getPhone())>0){
                 throw new ZxException("该用户已存在");
@@ -108,5 +109,80 @@ public class SysUserServiceImpl implements ISysUserService {
     @Override
     public UserListVO getUserInfo(String id) {
       return sysUserMapper.getUserInfo(id);
+    }
+
+    /**
+     * 删除用户
+     * @param id
+     * @return
+     */
+    @Override
+    public boolean delUser(String id) {
+        if("0".equals(id)){
+            throw new ZxException("超级管理员不能删除");
+        }
+        sysUserMapper.deleteById(id);
+        userRoleMapper.delete(new QueryWrapper<AuthUserRole>().eq("user_id",id).eq("is_del",0));
+        return true;
+    }
+
+    /**
+     * 重置密码
+     * @param id
+     * @return
+     */
+    @Override
+    public boolean reset(String id) {
+        SysUser sysUser=new SysUser();
+        sysUser.setId(Long.valueOf(id));
+        sysUser.setUpdateDate(LocalDateTime.now());
+        sysUser.setPassword(passwordEncoder.encode(UserConst.DEFAULT_PASSWORD));
+        sysUserMapper.updateById(sysUser);
+        return true;
+    }
+
+    /**
+     * 启用禁用
+     * @param dto
+     * @return
+     */
+    @Override
+    public boolean changeStatus(UserStatusDTO dto) {
+        if(dto.getUserId()==0){
+            throw new ZxException("超级管理员不能禁用");
+        }
+        SysUser sysUser=new SysUser();
+        sysUser.setId(dto.getUserId());
+        sysUser.setStatus(dto.getStatus());
+        sysUser.setUpdateDate(LocalDateTime.now());
+        sysUserMapper.updateById(sysUser);
+        return true;
+    }
+
+    /**
+     * 修改密码
+     * @param id
+     * @param old
+     * @param news
+     * @return
+     */
+    @Override
+    public boolean change(String id, String old, String news) {
+       SysUser sysUser= sysUserMapper.selectById(id);
+        if(sysUser==null){
+            throw new ZxException("账号异常");
+        }
+        if(!passwordEncoder.matches(old,sysUser.getPassword())){
+            throw new ZxException("原始密码不正确");
+        }
+
+        if(old.equals(news)){
+            throw new ZxException("新密码与旧密码不能相同");
+        }
+        SysUser one =new SysUser();
+        one.setId(Long.valueOf(id));
+        one.setPassword(passwordEncoder.encode(news));
+        sysUserMapper.updateById(one);
+        return true;
     }
 }

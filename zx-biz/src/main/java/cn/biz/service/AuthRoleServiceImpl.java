@@ -162,7 +162,7 @@ public class AuthRoleServiceImpl implements IAuthRoleService {
     @Transactional(rollbackFor = Exception.class)
     public boolean delRole(String roleId) {
         if("0".equals(roleId)){
-            throw new ZxException("超级管理员不能删除");
+            throw new ZxException("超级管理角色不能删除");
         }
         AuthRole role= roleMapper.selectById(roleId);
         if(role==null) {

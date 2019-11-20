@@ -33,8 +33,6 @@ public class LoginController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
-    @Autowired
-    private ISysUserService userService;
 
     @ApiOperation("登陆")
     @RequestMapping(value = "/comm/login",method = RequestMethod.POST)
