@@ -7,6 +7,7 @@ import cn.biz.po.SysUser;
 import cn.biz.service.ISysUserService;
 import cn.biz.vo.UserListVO;
 import cn.common.exception.ZxException;
+import cn.webapp.aop.annotation.TimeCount;
 import cn.webapp.aop.annotation.ValidatedRequest;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.annotations.Api;
@@ -29,12 +30,14 @@ public class UserController {
 
     @ApiOperation("用户列表")
     @GetMapping("/list")
+    @TimeCount
     public IPage<SysUser> roleList(@ModelAttribute @Valid UserListDTO dto){
         return userService.getUserList(dto);
     }
 
     @ApiOperation("用户详情")
     @GetMapping("/info/{id}")
+    @TimeCount
     public UserListVO info(@PathVariable("id") String id){
       return  userService.getUserInfo(id);
     }
@@ -42,18 +45,21 @@ public class UserController {
     @ApiOperation("新增||编辑 用户 id为空新增，id不为空编辑")
     @RequestMapping(value = "/save",method = RequestMethod.POST)
     @ValidatedRequest
+    @TimeCount
     public Boolean add(@Valid@ModelAttribute SaveUserDTO user, BindingResult result){
         return userService.saveUser(user);
     }
 
     @ApiOperation("删除用户")
     @PostMapping("/del")
+    @TimeCount
     public boolean delUser(@ApiParam("主键id") @RequestParam  @NotEmpty(message = "id不能为空") String id){
         return userService.delUser(id);
     }
 
     @ApiOperation("重置密码")
     @PostMapping("/reset")
+    @TimeCount
     public boolean reset(@ApiParam("主键id") @RequestParam  @NotEmpty(message = "id不能为空") String id){
         return userService.reset(id);
     }
@@ -61,11 +67,13 @@ public class UserController {
     @ApiOperation("启用 0||禁用 1")
     @PostMapping("/state")
     @ValidatedRequest
+    @TimeCount
     public boolean reset(@Validated@ModelAttribute UserStatusDTO dto,BindingResult result){
         return userService.changeStatus(dto);
     }
     @ApiOperation("修改密码")
     @PostMapping("/change/psw")
+    @TimeCount
     public boolean change(@ApiParam("主键id") @RequestParam  @NotEmpty(message = "id不能为空") String id,
                           @ApiParam("旧密码") @RequestParam  @NotEmpty(message = "旧密码不能为空") String old,
                           @ApiParam("新密码") @RequestParam  @NotEmpty(message = "新密码不能为空") String news,
@@ -75,5 +83,4 @@ public class UserController {
         }
         return userService.change(id,old,news);
     }
-
 }
