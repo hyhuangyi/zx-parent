@@ -1,12 +1,12 @@
 package cn.webapp.controller.user;
 
 import cn.biz.po.SysUser;
-import cn.biz.service.ISysUserService;
 import cn.common.pojo.base.MyUserDetails;
 import cn.common.pojo.base.Token;
 import cn.common.pojo.servlet.ServletContextHolder;
 import cn.common.util.jwt.JwtUtil;
 import cn.webapp.aop.annotation.OperateLog;
+import cn.webapp.aop.annotation.TimeCount;
 import cn.webapp.aop.annotation.ValidatedRequest;
 import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.Api;
@@ -38,6 +38,7 @@ public class LoginController {
     @RequestMapping(value = "/comm/login",method = RequestMethod.POST)
     @ValidatedRequest
     @OperateLog(operation = "#{#user.username}用户登入")
+    @TimeCount
     public String login(@Valid@ModelAttribute(value="user") SysUser user, BindingResult result, HttpServletResponse response){
         //验证
         Authentication authentication= authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
