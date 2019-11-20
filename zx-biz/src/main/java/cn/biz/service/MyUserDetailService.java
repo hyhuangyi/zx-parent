@@ -1,5 +1,6 @@
 package cn.biz.service;
 
+import cn.biz.mapper.AuthUserRoleMapper;
 import cn.biz.mapper.SysUserMapper;
 import cn.biz.po.SysUser;
 import cn.common.exception.ZxException;
@@ -24,6 +25,8 @@ public class MyUserDetailService implements UserDetailsService {
 
     @Autowired
     private SysUserMapper sysUserMapper;
+    @Autowired
+    private AuthUserRoleMapper userRoleMapper;
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         log.info("用户名："+userName);
@@ -35,7 +38,11 @@ public class MyUserDetailService implements UserDetailsService {
         if(sysUser.getStatus()==1){
             throw new ZxException("用户被禁用");
         }
+        List<String> list=userRoleMapper.getRoleCodeByUserId(sysUser.getId());
+        String[] roles = list.toArray(new String[list.size()]);
         Token token=new Token();
+        token.setRoles(roles);
+        token.setUserId(sysUser.getId());
         token.setEmail(sysUser.getEmail());
         token.setPhone(sysUser.getPhone());
         token.setUsername(sysUser.getUsername());

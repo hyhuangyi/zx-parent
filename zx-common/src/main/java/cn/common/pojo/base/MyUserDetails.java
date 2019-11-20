@@ -17,13 +17,10 @@ public class MyUserDetails implements UserDetails {
 
     public MyUserDetails(Token token) {
         this.token = token;
-        //暂且写死
-        authorities.add(new SimpleGrantedAuthority("ROLE_admin"));
-        authorities.add(new SimpleGrantedAuthority("ROLE_zx"));
-//        //插入权限
-//        for(String role:token.getRoles()){
-//            authorities.add(new SimpleGrantedAuthority(role));
-//        }
+        //插入权限
+        for(String role:token.getRoles()){
+            authorities.add(new SimpleGrantedAuthority(role));
+        }
     }
 
     public void setPassword(String password) {
