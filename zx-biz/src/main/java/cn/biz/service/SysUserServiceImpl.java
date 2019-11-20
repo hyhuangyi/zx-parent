@@ -15,6 +15,7 @@ import cn.common.consts.UserConst;
 import cn.common.exception.ZxException;
 import cn.common.pojo.base.MyUserDetails;
 import cn.common.pojo.base.Token;
+import cn.common.pojo.monitor.Server;
 import cn.common.pojo.servlet.ServletContextHolder;
 import cn.common.util.comm.RegexUtils;
 import cn.common.util.jwt.JwtUtil;
@@ -53,6 +54,11 @@ public class SysUserServiceImpl implements ISysUserService {
 
     private static BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+    /**
+     * 登录
+     * @param user
+     * @return
+     */
     @Override
     public ZxToken login(SysUser user) {
         //验证
@@ -233,5 +239,15 @@ public class SysUserServiceImpl implements ISysUserService {
         one.setPassword(passwordEncoder.encode(news));
         sysUserMapper.updateById(one);
         return true;
+    }
+    /**
+     * 监控信息
+     * @return
+     */
+    @Override
+    public Server monitorIfo(){
+        Server server=new Server();
+        server.getMonitorInfo();
+        return server;
     }
 }

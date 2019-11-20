@@ -4,12 +4,12 @@ import cn.biz.po.SysUser;
 import cn.biz.service.ISysUserService;
 import cn.common.exception.ZxException;
 import cn.common.pojo.base.Token;
+import cn.common.pojo.monitor.Server;
 import cn.common.pojo.servlet.ServletContextHolder;
 import cn.common.util.jwt.JwtUtil;
 import cn.common.util.redis.RedisUtil;
 import cn.webapp.aop.annotation.OperateLog;
 import cn.webapp.aop.annotation.TimeCount;
-import cn.webapp.aop.annotation.ValidatedRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 /**
  * Created by huangYi on 2018/9/5
  **/
-@Api(description = "登陆||退出")
+@Api(description = "登陆/出||系统监控")
 @RestController
 public class LoginController {
 
@@ -49,4 +49,12 @@ public class LoginController {
         SecurityContextHolder.clearContext();
         return true;
     }
+
+    @TimeCount
+    @ApiOperation("监控")
+    @GetMapping("/comm/monitor")
+    public Server monitor(){
+      return  sysUserService.monitorIfo();
+    }
+
 }
