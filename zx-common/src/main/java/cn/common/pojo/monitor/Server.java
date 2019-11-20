@@ -22,7 +22,7 @@ import java.util.Properties;
 @Data
 public class Server {
 
-    private static final int OSHI_WAIT_SECOND = 1000;
+    private static final int OSHI_WAIT_MS= 1000;
     //cpu
     private  Cpu cpu = new Cpu();
     //内存
@@ -51,7 +51,7 @@ public class Server {
     private void setCpuInfo(CentralProcessor processor) {
         // CPU信息
         long[] prevTicks = processor.getSystemCpuLoadTicks();
-        Util.sleep(OSHI_WAIT_SECOND);
+        Util.sleep(OSHI_WAIT_MS);
         long[] ticks = processor.getSystemCpuLoadTicks();
         long nice = ticks[TickType.NICE.getIndex()] - prevTicks[TickType.NICE.getIndex()];
         long irq = ticks[TickType.IRQ.getIndex()] - prevTicks[TickType.IRQ.getIndex()];
