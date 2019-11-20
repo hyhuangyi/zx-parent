@@ -47,25 +47,25 @@ public class UserController {
     }
 
     @ApiOperation("删除用户")
-    @PostMapping("/user/del")
+    @PostMapping("/del")
     public boolean delUser(@ApiParam("主键id") @RequestParam  @NotEmpty(message = "id不能为空") String id){
         return userService.delUser(id);
     }
 
     @ApiOperation("重置密码")
-    @PostMapping("/user/reset")
+    @PostMapping("/reset")
     public boolean reset(@ApiParam("主键id") @RequestParam  @NotEmpty(message = "id不能为空") String id){
         return userService.reset(id);
     }
 
     @ApiOperation("启用 0||禁用 1")
-    @PostMapping("/user/state")
+    @PostMapping("/state")
     @ValidatedRequest
     public boolean reset(@Validated@ModelAttribute UserStatusDTO dto,BindingResult result){
         return userService.changeStatus(dto);
     }
     @ApiOperation("修改密码")
-    @PostMapping("/user/change/psw")
+    @PostMapping("/change/psw")
     public boolean change(@ApiParam("主键id") @RequestParam  @NotEmpty(message = "id不能为空") String id,
                           @ApiParam("旧密码") @RequestParam  @NotEmpty(message = "旧密码不能为空") String old,
                           @ApiParam("新密码") @RequestParam  @NotEmpty(message = "新密码不能为空") String news,
