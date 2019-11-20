@@ -39,20 +39,20 @@ public class LoginController {
     @ValidatedRequest
     @OperateLog(operation = "#{#user.username}用户登入")
     @TimeCount
-    public String login(@Valid@ModelAttribute(value="user") SysUser user, BindingResult result, HttpServletResponse response){
+    public Token login(@Valid@ModelAttribute(value="user") SysUser user, BindingResult result, HttpServletResponse response){
         //验证
         Authentication authentication= authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
         //通过后将authentication放入SecurityContextHolder里
         SecurityContextHolder.getContext().setAuthentication(authentication);
         MyUserDetails userDetail=(MyUserDetails) authentication.getPrincipal();
         Token token=userDetail.getToken();
-        ServletContextHolder.setToken(token);
         //生成token str
         String json=JSON.toJSONString(token);
         String tokenStr= JwtUtil.getToken(json);
-        response.addHeader(JwtUtil.AUTHORIZATION,tokenStr);
         //存入redis
-        JwtUtil.saveTokenInfo(userDetail.getToken());
-        return tokenStr;
+        JwtUtil.saveTokenInfo(token);
+        token.setToken(tokenStr);
+        ServletContextHolder.setToken(token);
+        return token;
     }
 }
