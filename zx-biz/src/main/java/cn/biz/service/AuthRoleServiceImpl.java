@@ -176,4 +176,20 @@ public class AuthRoleServiceImpl implements IAuthRoleService {
        roleMenuMapper.delete(new QueryWrapper<AuthRoleMenu>().eq("role_id",roleId));
        return true;
     }
+
+    /**
+     * 获取用户菜单
+     */
+    @Override
+    public List<MenuVO> getUserMenus(String roleIds) {
+        List<MenuVO> list=menuMapper.getUserMenus(roleIds);
+        List<MenuVO> menus=Lists.newArrayList();
+        for(MenuVO m:list){
+            if(0==m.getParentId()){
+                getChild(m,list);
+                menus.add(m);
+            }
+        }
+        return menus;
+    }
 }

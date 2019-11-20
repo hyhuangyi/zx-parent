@@ -19,4 +19,6 @@ public interface IAuthRoleService {
     RoleVO selectRole(String roleId);
     //删除角色
     boolean delRole(String roleId);
+    //获取用户菜单
+    List<MenuVO> getUserMenus(String roleIds);
 }

@@ -8,4 +8,13 @@
             (#{itm.roleId}, #{itm.userId},now(),now())
         </foreach>
     </insert>
+    <select id="getRoleList" resultType="cn.biz.vo.UserRoleVO">
+        SELECT
+          a.role_id as roleId,
+          b.role_name as roleName
+        FROM
+            auth_user_role a
+        LEFT JOIN auth_role b ON a.role_id = b.id
+        where a.user_id=#{userId}
+    </select>
 </mapper>

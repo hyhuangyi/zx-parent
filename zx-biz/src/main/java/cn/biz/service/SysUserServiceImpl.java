@@ -7,16 +7,29 @@ import cn.biz.mapper.AuthUserRoleMapper;
 import cn.biz.mapper.SysUserMapper;
 import cn.biz.po.AuthUserRole;
 import cn.biz.po.SysUser;
+import cn.biz.vo.MenuVO;
 import cn.biz.vo.UserListVO;
+import cn.biz.vo.UserRoleVO;
+import cn.biz.vo.ZxToken;
 import cn.common.consts.UserConst;
 import cn.common.exception.ZxException;
+import cn.common.pojo.base.MyUserDetails;
+import cn.common.pojo.base.Token;
+import cn.common.pojo.servlet.ServletContextHolder;
 import cn.common.util.comm.RegexUtils;
+import cn.common.util.jwt.JwtUtil;
 import cn.common.util.string.StringUtils;
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.beust.jcommander.internal.Lists;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,11 +43,47 @@ import java.util.List;
 public class SysUserServiceImpl implements ISysUserService {
 
     @Autowired
+    private AuthenticationManager authenticationManager;
+    @Autowired
     private SysUserMapper sysUserMapper;
     @Autowired
     private AuthUserRoleMapper userRoleMapper;
+    @Autowired
+    private IAuthRoleService authRoleService;
 
     private static BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    @Override
+    public ZxToken login(SysUser user) {
+        //验证
+        Authentication authentication= authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+        //通过后将authentication放入SecurityContextHolder里
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        MyUserDetails userDetail=(MyUserDetails) authentication.getPrincipal();
+        Token token=userDetail.getToken();
+        //生成token str
+        String json= JSON.toJSONString(token);
+        String tokenStr= JwtUtil.getToken(json);
+        //存入redis
+        JwtUtil.saveTokenInfo(token);
+        token.setToken(tokenStr);
+        ServletContextHolder.setToken(token);
+        List<UserRoleVO> roleList=userRoleMapper.getRoleList(token.getUserId());
+        if(roleList.size()==0){
+            throw new ZxException("该用户未分配角色");
+        }
+        String ids="";
+        for(UserRoleVO r:roleList){
+            ids+=r.getRoleId()+",";
+        }
+        List<MenuVO> menusList=authRoleService.getUserMenus(ids.substring(0,ids.lastIndexOf(",")));
+        ZxToken zxToken=new ZxToken();
+        BeanUtils.copyProperties(token,zxToken);
+        zxToken.setRoleList(roleList);
+        zxToken.setMenuVOList(menusList);
+        return zxToken;
+    }
+
     /**
      * 新增||编辑用户
      * @return

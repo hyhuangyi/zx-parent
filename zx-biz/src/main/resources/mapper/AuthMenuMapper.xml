@@ -4,4 +4,20 @@
     <select id="getAllMenus" resultType="cn.biz.vo.MenuVO">
       select *from auth_menu where is_del=0 order by sort asc
     </select>
+    <select id="getUserMenus" resultType="cn.biz.vo.MenuVO">
+        SELECT
+            a.id,
+            a.menu_name,
+            a.menu_url,
+            a.parent_id
+        FROM
+            auth_menu a
+        LEFT JOIN auth_role_menu b ON a.id = b.menu_id
+        WHERE
+            b.role_id IN (${roleIds})
+        GROUP BY
+            a.id
+        ORDER BY
+            a.sort asc
+    </select>
 </mapper>

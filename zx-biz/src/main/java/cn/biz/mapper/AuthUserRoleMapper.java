@@ -1,6 +1,7 @@
 package cn.biz.mapper;
 
 import cn.biz.po.AuthUserRole;
+import cn.biz.vo.UserRoleVO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
@@ -18,4 +19,6 @@ public interface AuthUserRoleMapper extends BaseMapper<AuthUserRole> {
 
     @Select("SELECT b.role_code FROM auth_user_role a LEFT JOIN auth_role b ON a.role_id = b.id WHERE a.user_id = #{userId}")
     List<String>getRoleCodeByUserId(Long userId);
+
+    List<UserRoleVO> getRoleList(Long userId);
 }

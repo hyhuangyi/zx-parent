@@ -4,6 +4,7 @@ import cn.biz.dto.UserListDTO;
 import cn.biz.dto.UserStatusDTO;
 import cn.biz.po.SysUser;
 import cn.biz.vo.UserListVO;
+import cn.biz.vo.ZxToken;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 
 
@@ -11,6 +12,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
  * 用户相关
  **/
 public interface ISysUserService {
+    ZxToken login(SysUser user);
     //新增||编辑
     boolean saveUser(SaveUserDTO dto);
     //user列表

@@ -3,6 +3,7 @@ package cn.biz.mapper;
 import cn.biz.po.AuthMenu;
 import cn.biz.vo.MenuVO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,4 +16,5 @@ import java.util.List;
 @Repository
 public interface AuthMenuMapper extends BaseMapper<AuthMenu> {
     List<MenuVO> getAllMenus();
+    List<MenuVO> getUserMenus(@Param("roleIds") String roleIdS);
 }
