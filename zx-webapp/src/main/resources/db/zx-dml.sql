@@ -1,110 +1,63 @@
-/*
-Navicat MySQL Data Transfer
 
-Source Server         : aliyun-zx
-Source Server Version : 50728
-Source Host           : 47.110.13.117:3306
-Source Database       : zx
 
-Target Server Type    : MYSQL
-Target Server Version : 50728
-File Encoding         : 65001
-
-Date: 2019-11-18 21:26:41
-*/
-
-SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for auth_menu
+-- Records of sys_user
 -- ----------------------------
-DROP TABLE IF EXISTS `auth_menu`;
-CREATE TABLE `auth_menu` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '菜单ID',
-  `menu_name` varchar(50) DEFAULT NULL COMMENT '菜单名称',
-  `parent_id` int(11) DEFAULT NULL COMMENT '上级菜单ID',
-  `menu_url` varchar(100) DEFAULT NULL COMMENT '菜单URL',
-  `sort` int(11) DEFAULT NULL COMMENT '排序号',
-  `is_del` int(11) DEFAULT NULL COMMENT '1 删除 0 未删除',
-  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='菜单表';
-
--- ----------------------------
--- Records of auth_menu
--- ----------------------------
-
--- ----------------------------
--- Table structure for auth_role
--- ----------------------------
-DROP TABLE IF EXISTS `auth_role`;
-CREATE TABLE `auth_role` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '角色id',
-  `role_code` varchar(50) DEFAULT NULL COMMENT '角色code',
-  `role_name` varchar(20) DEFAULT NULL COMMENT '角色名称',
-  `is_del` int(11) DEFAULT '0' COMMENT '删除 0:不删除  1:删除',
-  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色表';
+INSERT INTO `sys_user` VALUES ('0', 'admin', '$2a$10$ISho47dej24FwG6qWGdZTuiArGdZqcMj4ZBwIM25LpwOpxQzjAfz6', '18705621249', '597505910@qq.com', '0', '2019-11-19 10:45:41', '2019-11-20 10:39:23');
 
 -- ----------------------------
 -- Records of auth_role
 -- ----------------------------
-INSERT INTO `auth_role` VALUES ('1', 'ROLE_ADMIN', '超级管理员', '0', '2019-11-08 15:16:25', '2019-11-18 13:41:32');
-
--- ----------------------------
--- Table structure for auth_role_menu
--- ----------------------------
-DROP TABLE IF EXISTS `auth_role_menu`;
-CREATE TABLE `auth_role_menu` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
-  `role_id` bigint(20) NOT NULL COMMENT '角色ID',
-  `menu_id` bigint(20) NOT NULL COMMENT '菜单ID',
-  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色菜单表';
-
--- ----------------------------
--- Records of auth_role_menu
--- ----------------------------
-
--- ----------------------------
--- Table structure for auth_user_role
--- ----------------------------
-DROP TABLE IF EXISTS `auth_user_role`;
-CREATE TABLE `auth_user_role` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '关系id',
-  `user_id` bigint(20) DEFAULT NULL COMMENT '用户id',
-  `role_id` bigint(20) DEFAULT NULL COMMENT '角色id',
-  `is_del` bigint(20) DEFAULT '0' COMMENT '删除 0:不删除  1:删除',
-  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户和角色关系表';
+INSERT INTO `auth_role` VALUES ('0', 'ROLE_ADMIN', '超级管理员', '0', '2019-11-19 18:12:57', '2019-11-20 10:50:09');
 
 -- ----------------------------
 -- Records of auth_user_role
 -- ----------------------------
+INSERT INTO `auth_user_role` VALUES ('1', '0', '0', '0', '2019-11-19 19:01:21', '2019-11-20 10:55:14');
 
 -- ----------------------------
--- Table structure for cd_city
+-- Records of auth_menu
 -- ----------------------------
-DROP TABLE IF EXISTS `cd_city`;
-CREATE TABLE `cd_city` (
-  `code` varchar(100) NOT NULL COMMENT 'code',
-  `full_name` varchar(100) DEFAULT NULL COMMENT '全名',
-  `short_name` varchar(100) DEFAULT NULL COMMENT '短名',
-  `py` varchar(100) DEFAULT NULL COMMENT '全拼',
-  `prov_code` varchar(100) DEFAULT NULL COMMENT '省份code',
-  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  `create_user` int(11) DEFAULT '0' COMMENT '创建人',
-  `update_user` int(11) DEFAULT '0' COMMENT '更新人',
-  PRIMARY KEY (`code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='城市表';
+INSERT INTO `auth_menu` VALUES ('1', '用户管理', '0', null, '1', '0', '2019-11-19 13:53:04', '2019-11-19 14:07:26');
+INSERT INTO `auth_menu` VALUES ('2', '用户列表', '1', null, '1', '0', '2019-11-19 13:53:35', '2019-11-19 14:08:00');
+INSERT INTO `auth_menu` VALUES ('3', '角色列表', '1', null, '2', '0', '2019-11-19 14:07:49', '2019-11-19 14:08:11');
+INSERT INTO `auth_menu` VALUES ('4', '订单管理', '0', null, '2', '0', '2019-11-19 14:14:39', '2019-11-19 14:14:39');
+INSERT INTO `auth_menu` VALUES ('5', '逾期订单', '4', null, '2', '0', '2019-11-19 14:15:08', '2019-11-19 14:15:36');
+INSERT INTO `auth_menu` VALUES ('6', '结清订单', '4', null, '1', '0', '2019-11-19 14:15:35', '2019-11-19 14:15:38');
+
+-- ----------------------------
+-- Records of auth_role_menu
+-- ----------------------------
+INSERT INTO `auth_role_menu` VALUES ('1', '0', '1', '2019-11-19 18:36:54', '2019-11-20 10:54:28');
+INSERT INTO `auth_role_menu` VALUES ('2', '0', '2', '2019-11-19 18:36:54', '2019-11-20 10:54:28');
+INSERT INTO `auth_role_menu` VALUES ('3', '0', '3', '2019-11-19 18:36:54', '2019-11-20 10:54:29');
+INSERT INTO `auth_role_menu` VALUES ('4', '0', '4', '2019-11-19 18:36:54', '2019-11-20 10:54:32');
+INSERT INTO `auth_role_menu` VALUES ('5', '0', '5', '2019-11-19 18:36:54', '2019-11-20 10:54:34');
+INSERT INTO `auth_role_menu` VALUES ('6', '0', '6', '2019-11-19 18:36:54', '2019-11-20 10:54:35');
+
+-- ----------------------------
+-- Records of sys_tree_dict
+-- ----------------------------
+INSERT INTO `sys_tree_dict` VALUES ('1022', 'sxlx', '授信类型', '-999', '-999', '0', '0', '2019-04-19 18:15:20', '\0');
+INSERT INTO `sys_tree_dict` VALUES ('1023', 'sxlx', '抵押', '1', '1', '0', '0', '2019-04-19 18:15:20', '\0');
+INSERT INTO `sys_tree_dict` VALUES ('1024', 'sxlx', '质押', '2', '2', '0', '0', '2019-04-19 18:15:20', '\0');
+INSERT INTO `sys_tree_dict` VALUES ('1025', 'sxlx', '信用', '3', '3', '0', '0', '2019-04-19 18:15:20', '\0');
+INSERT INTO `sys_tree_dict` VALUES ('1026', 'sxlx', '担保', '4', '4', '0', '0', '2019-04-19 18:15:20', '\0');
+INSERT INTO `sys_tree_dict` VALUES ('1027', 'sxlx', '自然人持有的不动产', '5', '1', '1', '0', '2019-04-19 18:15:20', '\0');
+INSERT INTO `sys_tree_dict` VALUES ('1028', 'sxlx', '商品住宅', '6', '2', '1', '0', '2019-04-19 18:15:20', '\0');
+INSERT INTO `sys_tree_dict` VALUES ('1029', 'sxlx', '公司法人持有的不动产', '7', '3', '1', '0', '2019-04-19 18:15:20', '\0');
+INSERT INTO `sys_tree_dict` VALUES ('1030', 'sxlx', '标准厂房', '8', '4', '1', '0', '2019-04-19 18:15:20', '\0');
+INSERT INTO `sys_tree_dict` VALUES ('1031', 'sxlx', '机器设备', '9', '5', '1', '0', '2019-04-19 18:15:20', '\0');
+INSERT INTO `sys_tree_dict` VALUES ('1032', 'sxlx', '车辆', '10', '6', '1', '0', '2019-04-19 18:15:20', '\0');
+INSERT INTO `sys_tree_dict` VALUES ('1033', 'sxlx', '其他', '11', '7', '1', '0', '2019-04-19 18:15:20', '\0');
+INSERT INTO `sys_tree_dict` VALUES ('1034', 'sxlx', '存贷', '12', '1', '2', '0', '2019-04-19 18:15:20', '\0');
+INSERT INTO `sys_tree_dict` VALUES ('1035', 'sxlx', '国债', '13', '2', '2', '0', '2019-04-19 18:15:20', '\0');
+INSERT INTO `sys_tree_dict` VALUES ('1036', 'sxlx', '保证基金', '14', '3', '2', '0', '2019-04-19 18:15:20', '\0');
+INSERT INTO `sys_tree_dict` VALUES ('1037', 'sxlx', '银行承兑汇票', '15', '4', '2', '0', '2019-04-19 18:15:20', '\0');
+INSERT INTO `sys_tree_dict` VALUES ('1038', 'sxlx', '标准仓单', '16', '5', '2', '0', '2019-04-19 18:15:20', '\0');
+INSERT INTO `sys_tree_dict` VALUES ('1039', 'sxlx', '其他', '17', '6', '2', '0', '2019-04-19 18:16:13', '\0');
+
 
 -- ----------------------------
 -- Records of cd_city
@@ -447,82 +400,3 @@ INSERT INTO `cd_city` VALUES ('654000', '新疆维吾尔自治区伊犁哈萨克
 INSERT INTO `cd_city` VALUES ('654200', '新疆维吾尔自治区塔城地区', '塔城地 区', 'XJWWEZZQTCDQ', '650000', '2018-12-28 09:51:01', '2019-11-19 10:42:42', '0', '0');
 INSERT INTO `cd_city` VALUES ('654300', '新疆维吾尔自治区阿勒泰地区', '阿勒泰地 区', 'XJWWEZZQALTDQ', '650000', '2018-12-28 09:51:01', '2019-11-19 10:42:42', '0', '0');
 INSERT INTO `cd_city` VALUES ('659000', '新疆维吾尔自治区省直辖行政单位', '省直辖行政单位 ', 'XJWWEZZQSZXXZDW', '650000', '2018-12-28 09:51:01', '2019-11-19 10:42:42', '0', '0');
-
--- ----------------------------
--- Table structure for sys_execute_time_log
--- ----------------------------
-DROP TABLE IF EXISTS `sys_execute_time_log`;
-CREATE TABLE `sys_execute_time_log` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `execute_time` int(11) DEFAULT NULL COMMENT '执行时间',
-  `execute_method` varchar(255) DEFAULT NULL COMMENT '执行方法',
-  `create_date` timestamp NULL DEFAULT NULL COMMENT '创建时间',
-  `update_date` timestamp NULL DEFAULT NULL COMMENT '更新时间',
-  `operate_time` timestamp NULL DEFAULT NULL COMMENT '操作时间',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='执行时间表';
-
--- ----------------------------
--- Records of sys_execute_time_log
--- ----------------------------
-
--- ----------------------------
--- Table structure for sys_tree_dict
--- ----------------------------
-DROP TABLE IF EXISTS `sys_tree_dict`;
-CREATE TABLE `sys_tree_dict` (
-  `dd_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `dd_item` varchar(50) DEFAULT NULL COMMENT '字典项,一组字典值的唯一标识',
-  `dd_text` varchar(500) DEFAULT NULL COMMENT '字典展示文本',
-  `dd_value` varchar(50) DEFAULT NULL COMMENT '字典值',
-  `dd_index` int(11) DEFAULT '0' COMMENT '排序字段',
-  `parent_value` varchar(50) DEFAULT NULL COMMENT '父级字典值',
-  `update_user` int(11) DEFAULT NULL COMMENT '编辑人',
-  `update_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  `is_del` bit(1) DEFAULT b'0' COMMENT '删除标识',
-  PRIMARY KEY (`dd_id`),
-  KEY `reportIndex` (`dd_item`,`dd_value`,`is_del`)
-) ENGINE=InnoDB AUTO_INCREMENT=1040 DEFAULT CHARSET=utf8 COMMENT='树状字典表';
-
--- ----------------------------
--- Records of sys_tree_dict
--- ----------------------------
-INSERT INTO `sys_tree_dict` VALUES ('1022', 'sxlx', '授信类型', '-999', '-999', '0', '0', '2019-04-19 18:15:20', '\0');
-INSERT INTO `sys_tree_dict` VALUES ('1023', 'sxlx', '抵押', '1', '1', '0', '0', '2019-04-19 18:15:20', '\0');
-INSERT INTO `sys_tree_dict` VALUES ('1024', 'sxlx', '质押', '2', '2', '0', '0', '2019-04-19 18:15:20', '\0');
-INSERT INTO `sys_tree_dict` VALUES ('1025', 'sxlx', '信用', '3', '3', '0', '0', '2019-04-19 18:15:20', '\0');
-INSERT INTO `sys_tree_dict` VALUES ('1026', 'sxlx', '担保', '4', '4', '0', '0', '2019-04-19 18:15:20', '\0');
-INSERT INTO `sys_tree_dict` VALUES ('1027', 'sxlx', '自然人持有的不动产', '5', '1', '1', '0', '2019-04-19 18:15:20', '\0');
-INSERT INTO `sys_tree_dict` VALUES ('1028', 'sxlx', '商品住宅', '6', '2', '1', '0', '2019-04-19 18:15:20', '\0');
-INSERT INTO `sys_tree_dict` VALUES ('1029', 'sxlx', '公司法人持有的不动产', '7', '3', '1', '0', '2019-04-19 18:15:20', '\0');
-INSERT INTO `sys_tree_dict` VALUES ('1030', 'sxlx', '标准厂房', '8', '4', '1', '0', '2019-04-19 18:15:20', '\0');
-INSERT INTO `sys_tree_dict` VALUES ('1031', 'sxlx', '机器设备', '9', '5', '1', '0', '2019-04-19 18:15:20', '\0');
-INSERT INTO `sys_tree_dict` VALUES ('1032', 'sxlx', '车辆', '10', '6', '1', '0', '2019-04-19 18:15:20', '\0');
-INSERT INTO `sys_tree_dict` VALUES ('1033', 'sxlx', '其他', '11', '7', '1', '0', '2019-04-19 18:15:20', '\0');
-INSERT INTO `sys_tree_dict` VALUES ('1034', 'sxlx', '存贷', '12', '1', '2', '0', '2019-04-19 18:15:20', '\0');
-INSERT INTO `sys_tree_dict` VALUES ('1035', 'sxlx', '国债', '13', '2', '2', '0', '2019-04-19 18:15:20', '\0');
-INSERT INTO `sys_tree_dict` VALUES ('1036', 'sxlx', '保证基金', '14', '3', '2', '0', '2019-04-19 18:15:20', '\0');
-INSERT INTO `sys_tree_dict` VALUES ('1037', 'sxlx', '银行承兑汇票', '15', '4', '2', '0', '2019-04-19 18:15:20', '\0');
-INSERT INTO `sys_tree_dict` VALUES ('1038', 'sxlx', '标准仓单', '16', '5', '2', '0', '2019-04-19 18:15:20', '\0');
-INSERT INTO `sys_tree_dict` VALUES ('1039', 'sxlx', '其他', '17', '6', '2', '0', '2019-04-19 18:16:13', '\0');
-
--- ----------------------------
--- Table structure for sys_user
--- ----------------------------
-DROP TABLE IF EXISTS `sys_user`;
-CREATE TABLE `sys_user` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `username` varchar(50) DEFAULT NULL COMMENT '用户名',
-  `password` varchar(100) DEFAULT NULL COMMENT '密码',
-  `phone` varchar(13) DEFAULT NULL COMMENT '电话',
-  `email` varchar(50) DEFAULT NULL COMMENT '邮箱',
-  `status` int(11) DEFAULT '0' COMMENT '状态 0启用 1禁用',
-  `create_date` timestamp NULL DEFAULT NULL COMMENT '创建时间',
-  `update_date` timestamp NULL DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='系统用户表';
-
--- ----------------------------
--- Records of sys_user
--- ----------------------------
-INSERT INTO `sys_user` VALUES ('0', 'admin', '$2a$10$mUsiyht1tmbtatjF2z3Jc.Pf2DFKoiWIG0D67nlYm4q.MMOPHsVeS', '18705621249', '597505910@qq.com', '2019-11-19 10:45:41', '2019-11-19 10:45:41');
