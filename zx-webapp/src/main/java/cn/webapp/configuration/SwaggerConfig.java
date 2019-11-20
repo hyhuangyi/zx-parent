@@ -1,5 +1,6 @@
 package cn.webapp.configuration;
 
+import cn.common.consts.RedisConst;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -32,7 +33,7 @@ public class SwaggerConfig {
     @Bean
     public Docket zxApi() {
         ParameterBuilder aParameterBuilder = new ParameterBuilder();
-        aParameterBuilder.name("authorization").defaultValue("token").description("验证TOKEN").modelRef(new ModelRef("string")).parameterType("header").required(false).build();
+        aParameterBuilder.name(RedisConst.AUTHORIZATION).defaultValue("").description("请求token").modelRef(new ModelRef("string")).parameterType("header").required(false).build();
         List<Parameter> aParameters = new ArrayList<Parameter>();
         aParameters.add(aParameterBuilder.build());
         return new Docket(DocumentationType.SWAGGER_2)
@@ -51,7 +52,7 @@ public class SwaggerConfig {
     @Bean
     public Docket userApi() {
         ParameterBuilder aParameterBuilder = new ParameterBuilder();
-        aParameterBuilder.name("authorization").defaultValue("token").description("验证TOKEN").modelRef(new ModelRef("string")).parameterType("header").required(false).build();
+        aParameterBuilder.name(RedisConst.AUTHORIZATION).defaultValue("").description("请求token").modelRef(new ModelRef("string")).parameterType("header").required(false).build();
         List<Parameter> aParameters = new ArrayList<Parameter>();
         aParameters.add(aParameterBuilder.build());
         return new Docket(DocumentationType.SWAGGER_2)
@@ -70,7 +71,7 @@ public class SwaggerConfig {
     @Bean
     public Docket bizApi() {
         ParameterBuilder aParameterBuilder = new ParameterBuilder();
-        aParameterBuilder.name("authorization").defaultValue("token").description("验证TOKEN").modelRef(new ModelRef("string")).parameterType("header").required(false).build();
+        aParameterBuilder.name(RedisConst.AUTHORIZATION).defaultValue("").description("请求token").modelRef(new ModelRef("string")).parameterType("header").required(false).build();
         List<Parameter> aParameters = new ArrayList<Parameter>();
         aParameters.add(aParameterBuilder.build());
         return new Docket(DocumentationType.SWAGGER_2)
