@@ -1,5 +1,6 @@
 package cn.webapp.listener;
 
+import cn.common.consts.RedisConst;
 import cn.common.pojo.base.MyUserDetails;
 import cn.common.pojo.base.Token;
 import cn.common.util.jwt.JwtUtil;
@@ -34,9 +35,9 @@ public class AuthenticationSuccessListener implements ApplicationListener<Authen
             //踢掉上个用户
             RedisUtil.del(oldTokenId);
             //记录被踢用户
-            RedisUtil.set(JwtUtil.kickOutKey(token),0,JwtUtil.EXPIRATIONTIME/1000);
+            RedisUtil.set(RedisConst.KIT_OUT_KEY+oldTokenId,0, RedisConst.EXPIRATION_TIME /1000);
         }
         //登录成功存入redis 单位秒
-        RedisUtil.set(logSuccessKey,tokenId,JwtUtil.EXPIRATIONTIME/1000);
+        RedisUtil.set(logSuccessKey,tokenId,RedisConst.EXPIRATION_TIME/1000);
     }
 }

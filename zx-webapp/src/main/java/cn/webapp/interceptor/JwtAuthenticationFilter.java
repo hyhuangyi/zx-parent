@@ -1,5 +1,6 @@
 package cn.webapp.interceptor;
 
+import cn.common.consts.RedisConst;
 import cn.common.pojo.base.MyUserDetails;
 import cn.common.pojo.base.Token;
 import cn.common.pojo.base.CommonErrorCode;
@@ -32,7 +33,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(httpServletRequest, httpServletResponse);
             return;
         }
-        String tokenStr = httpServletRequest.getHeader(JwtUtil.AUTHORIZATION);
+        String tokenStr = httpServletRequest.getHeader(RedisConst.AUTHORIZATION);
         //tokenStr==null 不需要过滤直接传给下一个过滤器
         if (tokenStr == null) {
             filterChain.doFilter(httpServletRequest, httpServletResponse);
@@ -57,7 +58,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 ServletContextHolder.setToken(token);
                 //刷新token
                 String newToken=JwtUtil.refreshToken(token);
-                httpServletResponse.setHeader(JwtUtil.AUTHORIZATION, newToken);
+                httpServletResponse.setHeader(RedisConst.AUTHORIZATION, newToken);
             } else {
                 //判断此token是否被T下线的
                 if (JwtUtil.isKickOut(token)) {//是,提示账号在其他设备登录

@@ -1,27 +1,17 @@
 package cn.common.util.jwt;
 
+import cn.common.consts.RedisConst;
 import cn.common.pojo.base.MyUserDetails;
 import cn.common.pojo.base.Token;
 import cn.common.util.redis.RedisUtil;
 import com.alibaba.fastjson.JSONObject;
 import io.jsonwebtoken.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.Date;
 
 /**
  * Created by huangYi on 2018/8/26
  **/
 public class JwtUtil {
-    //token heard头
-    public static final String AUTHORIZATION = "authorization";
-    //签名key
-    public static final String SIGNINGKEY = "springBoot-demo";
-    //过期时间 2小时 以毫秒计算
-    public static final long EXPIRATIONTIME = 7200 * 1000L;
-
-    private static final Logger logger = LoggerFactory.getLogger(JwtUtil.class);
 
     /**
      * 生成/刷新 token str
@@ -31,8 +21,8 @@ public class JwtUtil {
     public static String getToken(String username) {
         return Jwts.builder()
                 .setSubject(username)
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATIONTIME))
-                .signWith(SignatureAlgorithm.HS512, SIGNINGKEY)
+                .setExpiration(new Date(System.currentTimeMillis() + RedisConst.EXPIRATION_TIME))
+                .signWith(SignatureAlgorithm.HS512, RedisConst.JWT_SIGNING_KEY)
                 .compact();
     }
 
@@ -41,7 +31,7 @@ public class JwtUtil {
         // 解析 Token
         Claims claims = Jwts.parser()
                 // 验签
-                .setSigningKey(SIGNINGKEY)
+                .setSigningKey(RedisConst.JWT_SIGNING_KEY)
                 .parseClaimsJws(token)
                 .getBody();
         return claims;
@@ -50,7 +40,7 @@ public class JwtUtil {
     /*获取redis token key*/
     public static String tokenKey(Token token){
         /*uuid的值每次登录都不一样 互踢需要下面2个key配合*/
-        return "token:pc:"+token.getUuid()+":"+token.getPhone();
+        return RedisConst.TOKEN_KEY+token.getUuid()+":"+token.getPhone();
     }
 
     /**
@@ -59,7 +49,7 @@ public class JwtUtil {
      * @return
      */
     public static String loginSuccessKey(Token token){
-        return "token:pc:loginSuccess:"+token.getPhone();
+        return RedisConst.LOGIN_SUCCESS+token.getPhone();
     }
 
     /**
@@ -69,7 +59,7 @@ public class JwtUtil {
      */
     public static String kickOutKey(Token token){
         String tokenId = tokenKey(token);
-        return "kitOut:"+tokenId;
+        return RedisConst.KIT_OUT_KEY +tokenId;
     }
 
     /**
@@ -136,7 +126,7 @@ public class JwtUtil {
      */
     public static void saveTokenInfo(Token token){
         //防止并发时token过期，手动增加一点延迟
-        RedisUtil.set(tokenKey(token),JSONObject.toJSONString(token),EXPIRATIONTIME/1000+60L);
+        RedisUtil.set(tokenKey(token),JSONObject.toJSONString(token),RedisConst.EXPIRATION_TIME/1000+60L);
     }
 
 }

@@ -61,7 +61,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ResultDO handle(BadCredentialsException e){
         logger.error("坏的凭证",e);
-        return new ResultDO("0","坏的凭证");
+        return new ResultDO("0","用户名或密码错误");
     }
 
     @ExceptionHandler
