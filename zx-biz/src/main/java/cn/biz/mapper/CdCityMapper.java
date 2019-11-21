@@ -18,8 +18,6 @@ public interface CdCityMapper extends BaseMapper<CdCity> {
     @Cacheable(value = "city",keyGenerator = "keyGenerator")
     List<CdCity> queryAllCity();
 
-    CdCity getCity(String code);
-
     /*直接用注解写sql
      *cacheNames/value 指定缓存名字
      * key   缓存数据使用的key 默认使用方法参数的值

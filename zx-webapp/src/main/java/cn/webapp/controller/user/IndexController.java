@@ -1,14 +1,19 @@
 package cn.webapp.controller.user;
 
 import cn.biz.group.ZxFirst;
+import cn.biz.mapper.CdCityMapper;
 import cn.biz.po.CdCity;
 import cn.biz.service.ISysUserService;
 import cn.common.pojo.monitor.Server;
 import cn.common.pojo.servlet.ServletContextHolder;
+import cn.common.util.string.StringUtils;
 import cn.webapp.aop.annotation.Decrypt;
 import cn.webapp.aop.annotation.Encrypt;
 import cn.webapp.aop.annotation.TimeCount;
 import cn.webapp.aop.annotation.ValidatedRequest;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +26,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,6 +38,8 @@ import java.util.Map;
 public class IndexController {
     @Autowired
     private ISysUserService sysUserService;
+    @Autowired
+    private CdCityMapper cityMapper;
 
     @ApiOperation("爱情树")
     @RequestMapping(value = "/comm/html/aqs", method = RequestMethod.GET)
@@ -90,4 +98,13 @@ public class IndexController {
         city.setFullName("杭州");
         return city;
     }
+
+    @GetMapping("/comm/city/list")
+    @ApiOperation("城市分页列表")
+    @ResponseBody
+    public IPage<CdCity> list(@RequestParam(required = false,defaultValue = "1") long current,@RequestParam(required = false,defaultValue = "10")long size,String name){
+        Page page=new Page(current,size);
+        return cityMapper.selectPage(page, StringUtils.isBlank(name) ?new QueryWrapper<>():new QueryWrapper<CdCity>().like("short_name",name));
+    }
+
 }
