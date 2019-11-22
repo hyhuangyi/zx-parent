@@ -24,12 +24,14 @@ CREATE TABLE `auth_menu` (
   `menu_name` varchar(50) DEFAULT NULL COMMENT '菜单名称',
   `parent_id` int(11) DEFAULT NULL COMMENT '上级菜单ID',
   `menu_url` varchar(100) DEFAULT NULL COMMENT '菜单URL',
+  `icon` varchar(255) DEFAULT NULL COMMENT '图标',
   `sort` int(11) DEFAULT NULL COMMENT '排序号',
-  `is_del` int(11) DEFAULT NULL COMMENT '1 删除 0 未删除',
+  `is_del` int(11) DEFAULT '0' COMMENT '1 删除 0 未删除',
   `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='菜单表';
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COMMENT='菜单表';
+
 
 -- ----------------------------
 -- Table structure for auth_role
