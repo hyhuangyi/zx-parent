@@ -2,6 +2,7 @@ package cn.webapp.controller.user;
 
 import cn.biz.po.SysUser;
 import cn.biz.service.ISysUserService;
+import cn.biz.vo.ZxToken;
 import cn.common.exception.ZxException;
 import cn.common.pojo.base.Token;
 import cn.common.pojo.monitor.Server;
@@ -30,7 +31,7 @@ public class LoginController {
     @RequestMapping(value = "/comm/login",method = RequestMethod.POST)
     @OperateLog(operation = "#{#user.username}用户登入")
     @TimeCount
-    public Token login(@ModelAttribute SysUser user){
+    public ZxToken login(@ModelAttribute SysUser user){
         if(StringUtils.isBlank(user.getUsername())||StringUtils.isBlank(user.getPassword())){
             throw new ZxException("用户名或密码不能为空");
         }
