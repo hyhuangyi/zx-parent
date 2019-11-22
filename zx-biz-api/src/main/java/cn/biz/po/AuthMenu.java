@@ -38,6 +38,9 @@ public class AuthMenu implements Serializable {
     @ApiModelProperty(value = "排序号")
     private Integer sort;
 
+    @ApiModelProperty(value = "菜单图标")
+    private String icon;
+
     @ApiModelProperty(value = "1 删除 0 未删除")
     private Integer isDel;
 

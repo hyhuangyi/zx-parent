@@ -9,12 +9,13 @@
             a.id,
             a.menu_name,
             a.menu_url,
-            a.parent_id
+            a.parent_id,
+            a.icon
         FROM
             auth_menu a
         LEFT JOIN auth_role_menu b ON a.id = b.menu_id
         WHERE
-            b.role_id IN (${roleIds})
+            b.role_id IN (${roleIds}) and a.is_del=0
         GROUP BY
             a.id
         ORDER BY

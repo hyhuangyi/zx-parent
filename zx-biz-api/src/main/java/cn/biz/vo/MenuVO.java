@@ -19,6 +19,8 @@ public class MenuVO implements Serializable {
     private Long parentId;
     @ApiModelProperty(value = "菜单URL")
     private String menuUrl;
+    @ApiModelProperty(value = "菜单图标")
+    private String icon;
     @ApiModelProperty("子菜单")
     private List<MenuVO> subMenu= Lists.newArrayList();
 }
