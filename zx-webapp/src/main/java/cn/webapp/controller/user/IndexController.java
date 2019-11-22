@@ -3,9 +3,7 @@ package cn.webapp.controller.user;
 import cn.biz.group.ZxFirst;
 import cn.biz.mapper.CdCityMapper;
 import cn.biz.po.CdCity;
-import cn.biz.service.IAuthRoleService;
 import cn.biz.service.ISysUserService;
-import cn.biz.vo.MenuVO;
 import cn.common.pojo.monitor.Server;
 import cn.common.pojo.servlet.ServletContextHolder;
 import cn.common.util.string.StringUtils;
@@ -28,7 +26,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -40,8 +37,6 @@ import java.util.Map;
 public class IndexController {
     @Autowired
     private ISysUserService sysUserService;
-    @Autowired
-    private IAuthRoleService roleService;
     @Autowired
     private CdCityMapper cityMapper;
 
@@ -109,11 +104,5 @@ public class IndexController {
     public IPage<CdCity> list(@RequestParam(required = false,defaultValue = "1") long current,@RequestParam(required = false,defaultValue = "10")long size,String name){
         Page page=new Page(current,size);
         return cityMapper.selectPage(page, StringUtils.isBlank(name) ?new QueryWrapper<>():new QueryWrapper<CdCity>().like("short_name",name));
-    }
-    @ApiOperation("角色菜单,新增|编辑角色的时候需要获取")
-    @GetMapping("/comm/menus")
-    @ResponseBody
-    public List<MenuVO> menuList(){
-        return roleService.getAllMenus();
     }
 }
