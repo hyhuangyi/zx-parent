@@ -46,6 +46,14 @@ INSERT INTO `auth_role_menu` VALUES ('3', '0', '3', '2019-11-19 18:36:54', '2019
 INSERT INTO `auth_role_menu` VALUES ('4', '0', '4', '2019-11-19 18:36:54', '2019-11-20 10:54:32');
 INSERT INTO `auth_role_menu` VALUES ('5', '0', '5', '2019-11-19 18:36:54', '2019-11-20 10:54:34');
 INSERT INTO `auth_role_menu` VALUES ('6', '0', '6', '2019-11-19 18:36:54', '2019-11-20 10:54:35');
+INSERT INTO `auth_role_menu` VALUES ('7', '0', '7', '2019-11-22 22:23:31', '2019-11-22 22:23:36');
+INSERT INTO `auth_role_menu` VALUES ('8', '0', '8', '2019-11-22 22:23:42', '2019-11-22 22:23:42');
+INSERT INTO `auth_role_menu` VALUES ('9', '0', '9', '2019-11-22 22:23:52', '2019-11-22 22:23:52');
+INSERT INTO `auth_role_menu` VALUES ('10', '0', '10', '2019-11-22 22:24:03', '2019-11-22 22:24:03');
+INSERT INTO `auth_role_menu` VALUES ('11', '0', '11', '2019-11-22 22:24:08', '2019-11-22 22:24:08');
+INSERT INTO `auth_role_menu` VALUES ('12', '0', '12', '2019-11-22 22:24:14', '2019-11-22 22:24:14');
+INSERT INTO `auth_role_menu` VALUES ('13', '0', '13', '2019-11-22 22:24:23', '2019-11-22 22:24:23');
+INSERT INTO `auth_role_menu` VALUES ('14', '0', '14', '2019-11-22 22:24:29', '2019-11-22 22:24:29');
 
 -- ----------------------------
 -- Records of sys_tree_dict
