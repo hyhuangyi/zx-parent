@@ -1,6 +1,3 @@
-
-
-
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
@@ -23,7 +20,7 @@ INSERT INTO `auth_user_role` VALUES ('1', '0', '0', '0', '2019-11-19 19:01:21', 
 -- Records of auth_menu
 -- ----------------------------
 INSERT INTO `auth_menu` VALUES ('1', '系统首页', '0', 'dashboard', 'el-icon-lx-home', '1', '0', '2019-11-22 11:41:42', '2019-11-22 14:54:48');
-INSERT INTO `auth_menu` VALUES ('2', '城市列表', '0', 'table', 'el-icon-lx-cascades', '2', '0', '2019-11-22 11:44:25', '2019-11-22 11:44:54');
+INSERT INTO `auth_menu` VALUES ('2', '城市列表', '0', 'table', 'el-icon-lx-cascades', '2', '0', '2019-11-22 11:44:25', '2019-11-22 17:52:34');
 INSERT INTO `auth_menu` VALUES ('3', 'tab选项卡', '0', 'tabs', 'el-icon-lx-copy', '3', '0', '2019-11-22 11:45:12', '2019-11-22 11:45:24');
 INSERT INTO `auth_menu` VALUES ('4', '表单相关', '0', 'form', 'el-icon-lx-calendar', '4', '0', '2019-11-22 11:45:28', '2019-11-22 11:47:35');
 INSERT INTO `auth_menu` VALUES ('5', 'schart图表', '0', 'charts', 'el-icon-pie-chart', '5', '0', '2019-11-22 11:47:45', '2019-11-22 11:48:05');
@@ -31,11 +28,11 @@ INSERT INTO `auth_menu` VALUES ('6', '国际化功能', '0', 'i18n', 'el-icon-lx
 INSERT INTO `auth_menu` VALUES ('7', '系统工具', '0', 'sys', 'el-icon-s-tools', '7', '0', '2019-11-22 11:48:48', '2019-11-22 11:49:13');
 INSERT INTO `auth_menu` VALUES ('8', '接口文档', '7', 'swagger', 'el-icon-lx-read', '1', '0', '2019-11-22 11:49:29', '2019-11-22 11:50:15');
 INSERT INTO `auth_menu` VALUES ('9', '数据监控', '7', 'druid', 'el-icon-s-platform', '2', '0', '2019-11-22 11:49:44', '2019-11-22 11:50:16');
-INSERT INTO `auth_menu` VALUES ('10', '基本表单', '4', 'form', null, '1', '0', '2019-11-22 11:50:49', '2019-11-22 11:50:49');
-INSERT INTO `auth_menu` VALUES ('11', '三级菜单', '4', 'form-three', null, '2', '0', '2019-11-22 11:51:12', '2019-11-22 11:51:20');
-INSERT INTO `auth_menu` VALUES ('12', '富文本编辑器', '11', 'editor', null, '1', '0', '2019-11-22 11:51:32', '2019-11-22 11:51:53');
-INSERT INTO `auth_menu` VALUES ('13', 'markdown编辑器', '11', 'markdown', null, '2', '0', '2019-11-22 11:51:34', '2019-11-22 11:51:54');
-INSERT INTO `auth_menu` VALUES ('14', '文件上传', '4', 'upload', null, '3', '0', '2019-11-22 11:52:36', '2019-11-22 11:52:42');
+INSERT INTO `auth_menu` VALUES ('10', '基本表单', '4', 'form', 'el-icon-s-grid', '1', '0', '2019-11-22 11:50:49', '2019-11-23 15:38:52');
+INSERT INTO `auth_menu` VALUES ('11', '三级菜单', '4', 'form-three', 'el-icon-connection', '2', '0', '2019-11-22 11:51:12', '2019-11-23 16:11:54');
+INSERT INTO `auth_menu` VALUES ('12', '富文本编辑器', '11', 'editor', 'el-icon-notebook-1', '1', '0', '2019-11-22 11:51:32', '2019-11-23 15:39:30');
+INSERT INTO `auth_menu` VALUES ('13', 'markdown编辑器', '11', 'markdown', 'el-icon-notebook-2', '2', '0', '2019-11-22 11:51:34', '2019-11-23 15:39:51');
+INSERT INTO `auth_menu` VALUES ('14', '文件上传', '4', 'upload', 'el-icon-upload', '3', '0', '2019-11-22 11:52:36', '2019-11-23 15:38:25');
 
 -- ----------------------------
 -- Records of auth_role_menu
