@@ -17,9 +17,9 @@ public class CrossDomainInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) {
         String originHeader = httpServletRequest.getHeader("Origin");
         httpServletResponse.setHeader("Access-Control-Allow-Origin", originHeader);
-        httpServletResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS, DELETE");
+        httpServletResponse.setHeader("Access-Control-Allow-Methods", "*");
         httpServletResponse.setHeader("Access-Control-Max-Age", "3600");
-        httpServletResponse.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Orgin,XMLHttpRequest,Accept,Authorization,authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With");
+        httpServletResponse.setHeader("Access-Control-Allow-Headers", "*");
 //        需要注意的是，如果要发送Cookie，Access-Control-Allow-Origin就不能设为星号，必须指定明确的、与请求网页一致的域名
         httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
         httpServletResponse.setHeader("Access-Control-Expose-Headers", "Accept-Ranges, Content-Encoding, Content-Length, Content-Range" + "," + "authorization"+","+"captcha");

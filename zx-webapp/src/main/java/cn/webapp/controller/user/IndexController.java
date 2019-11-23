@@ -65,7 +65,7 @@ public class IndexController {
     /**
      * 权限必须要有前缀ROLE_
      */
-    @PreAuthorize("hasRole('ROLE_admin')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @ApiOperation("@Valid@ModelAttribute注解测试(分组) ")
     @GetMapping("/valid")
     @ResponseBody
@@ -98,9 +98,10 @@ public class IndexController {
         return city;
     }
 
-    @GetMapping("/comm/city/list")
+    @GetMapping("/city/list")
     @ApiOperation("城市分页列表")
     @ResponseBody
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public IPage<CdCity> list(@RequestParam(required = false,defaultValue = "1") long current,@RequestParam(required = false,defaultValue = "10")long size,String name){
         Page page=new Page(current,size);
         return cityMapper.selectPage(page, StringUtils.isBlank(name) ?new QueryWrapper<>():new QueryWrapper<CdCity>().like("short_name",name));
