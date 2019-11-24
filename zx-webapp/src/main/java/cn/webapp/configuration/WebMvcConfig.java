@@ -1,5 +1,6 @@
 package cn.webapp.configuration;
 
+import cn.common.consts.RedisConst;
 import cn.webapp.interceptor.CrossDomainInterceptor;
 import cn.webapp.interceptor.MyInterceptor;
 import cn.webapp.interceptor.RequestLogFilter;
@@ -44,8 +45,8 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(myInterceptor).addPathPatterns("/**");
         registry.addInterceptor(crossDomainInterceptor).addPathPatterns("/**");
+        registry.addInterceptor(myInterceptor).addPathPatterns("/**");
     }
 //
 //    /*跨域问题 springboot*/
@@ -57,6 +58,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 //        config.addAllowedOrigin("*");
 //        config.addAllowedHeader("*");
 //        config.addAllowedMethod("*");
+//        config.addExposedHeader(RedisConst.AUTHORIZATION);
 //        config.setMaxAge(3600L);
 //        source.registerCorsConfiguration("/**", config);
 //        FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
