@@ -1,9 +1,7 @@
 package cn.webapp.configuration;
 
 import cn.common.consts.RedisConst;
-import cn.webapp.interceptor.CrossDomainInterceptor;
-import cn.webapp.interceptor.MyInterceptor;
-import cn.webapp.interceptor.RequestLogFilter;
+import cn.webapp.interceptor.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -17,8 +15,6 @@ import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-
 import java.nio.charset.Charset;
 import java.util.List;
 
@@ -34,7 +30,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
     @Autowired
     private MyInterceptor myInterceptor;
     @Autowired
-    private CrossDomainInterceptor crossDomainInterceptor;
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     /**
      * 自定义拦截器  拦截器需要注册，过滤器可以通过@WebFilter或者下面的注释掉的Filter注册
@@ -45,41 +41,52 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(crossDomainInterceptor).addPathPatterns("/**");
         registry.addInterceptor(myInterceptor).addPathPatterns("/**");
     }
-//
-//    /*跨域问题 springboot*/
-//    @Bean
-//    public FilterRegistrationBean corsFilter() {
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        CorsConfiguration config = new CorsConfiguration();
-//        config.setAllowCredentials(true);
-//        config.addAllowedOrigin("*");
-//        config.addAllowedHeader("*");
-//        config.addAllowedMethod("*");
-//        config.addExposedHeader(RedisConst.AUTHORIZATION);
-//        config.setMaxAge(3600L);
-//        source.registerCorsConfiguration("/**", config);
-//        FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
-//        bean.setOrder(1);
-//        return bean;
-//    }
+
+    /*跨域问题 springboot*/
+    @Bean
+    public FilterRegistrationBean corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.addAllowedOrigin("*");
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("*");
+        config.addExposedHeader(RedisConst.AUTHORIZATION);
+        config.setMaxAge(3600L);
+        source.registerCorsConfiguration("/**", config);
+        FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
+        bean.setOrder(1);
+        return bean;
+    }
 
     /**
-     * 自定义过滤器
+     * 防止自动注入
      * @return
      */
-//    @Bean
-//    public FilterRegistrationBean RequestLogFilter(){
-//        //新建过滤器注册类
-//        FilterRegistrationBean filterRegistrationBean=new FilterRegistrationBean();
-//        // 添加我们写好的过滤器
-//        filterRegistrationBean.setFilter(new RequestLogFilter());
-//        // 设置过滤器的URL模式
-//        filterRegistrationBean.addUrlPatterns("/*");
-//        return  filterRegistrationBean;
-//    }
+    @Bean
+    public FilterRegistrationBean unJwtAuthFilter() {
+        FilterRegistrationBean registration = new FilterRegistrationBean(jwtAuthenticationFilter);
+        registration.setEnabled(false);
+        return registration;
+    }
+
+    /**
+     * 过滤器 注入
+     * @return
+     */
+    @Bean
+    public FilterRegistrationBean jwtAuthFilter(){
+        //新建过滤器注册类
+        FilterRegistrationBean filterRegistrationBean=new FilterRegistrationBean();
+        // 添加我们写好的过滤器
+        filterRegistrationBean.setFilter(jwtAuthenticationFilter);
+        // 设置过滤器的URL模式
+        filterRegistrationBean.addUrlPatterns("/*");
+        filterRegistrationBean.setOrder(2);
+        return  filterRegistrationBean;
+    }
 
     /**
      * 配置静态访问资源

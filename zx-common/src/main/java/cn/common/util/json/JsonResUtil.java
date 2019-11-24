@@ -29,7 +29,7 @@ public class JsonResUtil {
         objectMapper.setDateFormat(dateFormat);
     }
 
-    //方法一 返回的是对象
+    //方法一
     public static void renderJson(ResultDO obj) {
         HttpServletResponse response = BaseServletContextHolder.setResponseContext(ContextType.JSON_TYPE, new String[0]);
         if (StringUtils.isNotEmpty(obj.getCode())) {
@@ -45,6 +45,12 @@ public class JsonResUtil {
         BaseServletContextHolder.setResponseContext(response, ContextType.JSON_TYPE, new String[0]);
         ServletOutputStream outputStream = null;
         try {
+            response.setCharacterEncoding("UTF-8");
+            response.setHeader("Content-Type", "application/json");
+            response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1
+            response.setHeader("Pragma", "no-cache"); // HTTP 1.0
+            response.setHeader("Access-Control-Allow-Origin", "*");
+            response.setDateHeader("Expires", 0); // Proxies.
             outputStream = response.getOutputStream();
             JsonGenerator jsonGenerator = objectMapper.getFactory().createGenerator(outputStream, JsonEncoding.UTF8);
             jsonGenerator.writeObject(obj);
@@ -69,6 +75,7 @@ public class JsonResUtil {
         response.setHeader("Content-Type", "application/json");
         response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1
         response.setHeader("Pragma", "no-cache"); // HTTP 1.0
+        response.setHeader("Access-Control-Allow-Origin", "*");
         response.setDateHeader("Expires", 0); // Proxies.
         try{
             writer = response.getWriter();

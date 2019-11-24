@@ -32,6 +32,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
     private JwtAuthenticationEntryPoint unauthorizedHandler;
     @Autowired
     private MyUserDetailService userDetailsService;
+    @Autowired
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
     @Override
@@ -61,10 +63,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
         //  2018/9/5  新增对 /img /js /css 不拦截
         web.ignoring().antMatchers("/druid/**","/img/**","/js/**","/css/**","/comm/**", "/swagger/**", "/webjars/**", "/swagger-resources/**", "/swagger-ui.html");
     }
-    @Bean
-    public JwtAuthenticationFilter authenticationTokenFilterBean() {
-        return new JwtAuthenticationFilter();
-    }
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
@@ -90,9 +88,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
         //添加JwtAuthenticationFilter 将JwtAuthenticationFilter放在UsernamePasswordAuthenticationFilter之前
         //若new JwtAuthenticationFilter()方式 并且JwtAuthenticationFilter未注入容器,只会对为未忽略路径过滤1次，对忽略路径不起作用
         //若new JwtAuthenticationFilter()方式 并且JwtAuthenticationFilter注入容器,会对为未忽略路径过滤2次（容器一次，spring Security一次），对忽略路径过滤1次（容器一次）
-        //若authenticationTokenFilterBean()方式,bean注入了容器，对未忽略文件过滤1次，对忽略文件过滤1次（加入Security的自定义过滤器 是注入过容器的,是同一个bean  并且继承OncePerRequestFilter，所以只执行一次）
+        //若bean 注入方式,bean注入了容器，对未忽略文件过滤1次，对忽略文件过滤1次（加入Security的自定义过滤器 是注入过容器的,是同一个bean  并且继承OncePerRequestFilter，所以只执行一次）
         //filter注入几次执行几次
-        httpSecurity.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         // 禁用缓存
         httpSecurity.headers().cacheControl();
