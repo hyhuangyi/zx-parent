@@ -50,7 +50,7 @@ public class OperateLogAspect {
             String action = executeTemplate(operation, joinPoint,method);
             String userName= ServletContextHolder.getToken().getUsername();
             Long userId= ServletContextHolder.getToken().getUserId();
-            String url=ServletContextHolder.getRequest().getRequestURL().toString();
+            String url=ServletContextHolder.getRequest().getRequestURI();
             String ip=IpUtil.getIpAddress(ServletContextHolder.getRequest());
             String methodName=method.getDeclaringClass().getName()+"."+method.getName();
             saveLog(ip,url,userId,userName,methodName,action,module);

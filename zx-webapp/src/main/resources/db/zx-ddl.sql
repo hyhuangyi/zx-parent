@@ -138,3 +138,20 @@ CREATE TABLE `sys_user` (
   `update_date` timestamp NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='系统用户表';
+
+-- ----------------------------
+-- Table structure for sys_operate_log
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_operate_log`;
+CREATE TABLE `sys_operate_log` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `operate_ip` varchar(50) DEFAULT NULL COMMENT 'ip',
+  `operate_url` varchar(255) DEFAULT NULL COMMENT 'api url',
+  `operate_user_id` bigint(20) DEFAULT NULL COMMENT '用户id',
+  `operate_user_name` varchar(50) DEFAULT NULL COMMENT '用户姓名',
+  `operate_method` varchar(255) DEFAULT NULL COMMENT '方法',
+  `operate_action` varchar(255) DEFAULT NULL COMMENT '操作内容',
+  `operate_module` varchar(50) DEFAULT NULL COMMENT '模块',
+  `operate_time` datetime DEFAULT NULL COMMENT '操作时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='操作日志';
