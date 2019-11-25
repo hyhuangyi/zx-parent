@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.Writer;
@@ -18,7 +19,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 public class JsonResUtil {
-    private static Logger logger = LoggerFactory.getLogger("JsonResUtil");
+    private static Logger logger = LoggerFactory.getLogger(JsonResUtil.class);
     private static final String JSON_DATE_FORMAT = "yyyy-MM-dd hh:mm:ss";
     private static ObjectMapper objectMapper = new ObjectMapper();
 
@@ -32,25 +33,20 @@ public class JsonResUtil {
     //方法一
     public static void renderJson(ResultDO obj) {
         HttpServletResponse response = BaseServletContextHolder.setResponseContext(ContextType.JSON_TYPE, new String[0]);
+        HttpServletRequest request=BaseServletContextHolder.getRequest();
         if (StringUtils.isNotEmpty(obj.getCode())) {
             response.setStatus(Integer.valueOf(200));
         } else {
             response.setStatus(500);
         }
-
-        renderJson(response, obj);
+        renderJson(request,response, obj);
     }
 
-    public static void renderJson(HttpServletResponse response, Object obj) {
+    public static void renderJson(HttpServletRequest request,HttpServletResponse response, Object obj) {
         BaseServletContextHolder.setResponseContext(response, ContextType.JSON_TYPE, new String[0]);
         ServletOutputStream outputStream = null;
         try {
-            response.setCharacterEncoding("UTF-8");
-            response.setHeader("Content-Type", "application/json");
-            response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1
-            response.setHeader("Pragma", "no-cache"); // HTTP 1.0
-            response.setHeader("Access-Control-Allow-Origin", "*");
-            response.setDateHeader("Expires", 0); // Proxies.
+            setResponse(request,response);
             outputStream = response.getOutputStream();
             JsonGenerator jsonGenerator = objectMapper.getFactory().createGenerator(outputStream, JsonEncoding.UTF8);
             jsonGenerator.writeObject(obj);
@@ -70,13 +66,9 @@ public class JsonResUtil {
     //方法二
     public static void ajaxJsonResponse(ResultDO obj) throws IOException  {
         HttpServletResponse response = BaseServletContextHolder.setResponseContext(ContextType.JSON_TYPE, new String[0]);
+        HttpServletRequest request=BaseServletContextHolder.getRequest();
         Writer writer = null;
-        response.setCharacterEncoding("UTF-8");
-        response.setHeader("Content-Type", "application/json");
-        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1
-        response.setHeader("Pragma", "no-cache"); // HTTP 1.0
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setDateHeader("Expires", 0); // Proxies.
+        setResponse(request,response);
         try{
             writer = response.getWriter();
             String json = JSONObject.toJSONString(obj);
@@ -87,6 +79,17 @@ public class JsonResUtil {
                 writer.close();
             }
         }
+    }
+
+    private static void setResponse(HttpServletRequest request,HttpServletResponse response){
+        String originHeader = request.getHeader("Origin");
+        response.setCharacterEncoding("UTF-8");
+        response.setHeader("Content-Type", "application/json");
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1
+        response.setHeader("Pragma", "no-cache"); // HTTP 1.0
+        response.setHeader("Access-Control-Allow-Origin", originHeader);
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+        response.setDateHeader("Expires", 0); // Proxies.
     }
 }
 

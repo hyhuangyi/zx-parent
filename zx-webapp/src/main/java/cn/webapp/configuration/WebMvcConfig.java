@@ -31,6 +31,8 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
     private MyInterceptor myInterceptor;
     @Autowired
     private JwtAuthenticationFilter jwtAuthenticationFilter;
+    @Autowired
+    private CrossDomainInterceptor crossDomainInterceptor;
 
     /**
      * 自定义拦截器  拦截器需要注册，过滤器可以通过@WebFilter或者下面的注释掉的Filter注册
@@ -41,25 +43,26 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(crossDomainInterceptor).addPathPatterns("/**");
         registry.addInterceptor(myInterceptor).addPathPatterns("/**");
     }
 
-    /*跨域问题 springboot*/
-    @Bean
-    public FilterRegistrationBean corsFilter() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true);
-        config.addAllowedOrigin("*");
-        config.addAllowedHeader("*");
-        config.addAllowedMethod("*");
-        config.addExposedHeader(RedisConst.AUTHORIZATION);
-        config.setMaxAge(3600L);
-        source.registerCorsConfiguration("/**", config);
-        FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
-        bean.setOrder(1);
-        return bean;
-    }
+//    /*跨域问题 springboot*/
+//    @Bean
+//    public FilterRegistrationBean corsFilter() {
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        CorsConfiguration config = new CorsConfiguration();
+//        config.setAllowCredentials(true);
+//        config.addAllowedOrigin("*");
+//        config.addAllowedHeader("*");
+//        config.addAllowedMethod("*");
+//        config.addExposedHeader(RedisConst.AUTHORIZATION);
+//        config.setMaxAge(3600L);
+//        source.registerCorsConfiguration("/**", config);
+//        FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
+//        bean.setOrder(1);
+//        return bean;
+//    }
 
     /**
      * 防止自动注入
