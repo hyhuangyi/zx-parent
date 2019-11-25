@@ -18,6 +18,11 @@ import java.io.Writer;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
+/**
+ * filter中全局异常不会生效，需要通过流将异常或者结果写到前端,
+ * 这里的request和response 配合了BaseServletContextHolder，
+ * 能拿到request和response 前提BaseServletContextHolder在这之前set值了 prepare方法
+ */
 public class JsonResUtil {
     private static Logger logger = LoggerFactory.getLogger(JsonResUtil.class);
     private static final String JSON_DATE_FORMAT = "yyyy-MM-dd hh:mm:ss";
