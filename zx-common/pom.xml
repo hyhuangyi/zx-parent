@@ -343,6 +343,12 @@
             <artifactId>oshi-core</artifactId>
             <version>3.4.4</version>
         </dependency>
+        <!--hutool-->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.0.6</version>
+        </dependency>
     </dependencies>
 
 </project>
