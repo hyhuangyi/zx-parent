@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
  * 跨域设置
  */
 @Component
-public class CrossDomainInterceptor implements HandlerInterceptor {
+public class CrossInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) {

@@ -19,7 +19,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 /**
- * filter中全局异常不会生效，需要通过流将异常或者结果写到前端,
+ * filter(过滤器)中全局异常不会生效（拦截器可以），需要通过流将异常或者结果写到前端,
  * 这里的request和response 配合了BaseServletContextHolder，
  * 能拿到request和response 前提BaseServletContextHolder在这之前set值了 prepare方法
  */

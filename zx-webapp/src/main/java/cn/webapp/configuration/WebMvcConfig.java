@@ -8,10 +8,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import cn.common.consts.RedisConst;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
@@ -32,7 +28,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
     @Autowired
     private JwtAuthenticationFilter jwtAuthenticationFilter;
     @Autowired
-    private CrossDomainInterceptor crossDomainInterceptor;
+    private CrossInterceptor crossInterceptor;
 
     /**
      * 自定义拦截器  拦截器需要注册，过滤器可以通过@WebFilter或者下面的注释掉的Filter注册
@@ -43,7 +39,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(crossDomainInterceptor).addPathPatterns("/**");
+        registry.addInterceptor(crossInterceptor).addPathPatterns("/**");
         registry.addInterceptor(myInterceptor).addPathPatterns("/**");
     }
 
