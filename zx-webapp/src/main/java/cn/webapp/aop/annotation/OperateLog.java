@@ -9,5 +9,6 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)// 定义该注解的生命周期  RUNTIME 运行期也保留该注解
 @Documented//表示是否将注解信息添加在java文档中
 public @interface OperateLog {
+    String moduleName() default "";
     String operation() default "";
 }

@@ -4,9 +4,4 @@
     <select id="queryAllCity" resultType="cn.biz.po.CdCity">
         SELECT *FROM cd_city ORDER BY CODE ASC
     </select>
-
-    <select id="getCity" resultType="cn.biz.po.CdCity">
-        SELECT *FROM cd_city WHERE CODE=#{code}
-    </select>
-
 </mapper>

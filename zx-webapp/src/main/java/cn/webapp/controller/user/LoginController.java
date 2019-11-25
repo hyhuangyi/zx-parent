@@ -3,6 +3,7 @@ package cn.webapp.controller.user;
 import cn.biz.po.SysUser;
 import cn.biz.service.ISysUserService;
 import cn.biz.vo.ZxToken;
+import cn.common.consts.LogModuleConst;
 import cn.common.exception.ZxException;
 import cn.common.pojo.base.Token;
 import cn.common.pojo.monitor.Server;
@@ -29,7 +30,7 @@ public class LoginController {
 
     @ApiOperation("登陆")
     @RequestMapping(value = "/comm/login",method = RequestMethod.POST)
-    @OperateLog(operation = "#{#user.username}用户登入")
+    @OperateLog(operation = "#{#user.username}用户登入",moduleName = LogModuleConst.USER_MODULE)
     @TimeCount
     public ZxToken login(@ModelAttribute SysUser user){
         if(StringUtils.isBlank(user.getUsername())||StringUtils.isBlank(user.getPassword())){

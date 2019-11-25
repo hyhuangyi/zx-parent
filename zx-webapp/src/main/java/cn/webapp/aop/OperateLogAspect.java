@@ -1,5 +1,7 @@
 package cn.webapp.aop;
 
+import cn.biz.mapper.SysOperateLogMapper;
+import cn.biz.po.SysOperateLog;
 import cn.common.util.ip.IpUtil;
 import cn.common.pojo.servlet.ServletContextHolder;
 import cn.webapp.aop.annotation.OperateLog;
@@ -8,8 +10,7 @@ import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
 import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.ExpressionParser;
@@ -17,8 +18,8 @@ import org.springframework.expression.common.TemplateParserContext;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.stereotype.Component;
-
 import java.lang.reflect.Method;
+import java.time.LocalDateTime;
 
 /**
  * Created by huangYi on 2018/8/14
@@ -31,8 +32,8 @@ import java.lang.reflect.Method;
 @Aspect
 @Component
 public class OperateLogAspect {
-
-    Logger logger = LoggerFactory.getLogger(this.getClass());
+    @Autowired
+    private SysOperateLogMapper logMapper;
 
     @Pointcut("@annotation(cn.webapp.aop.annotation.OperateLog)")
     public void pointCut(){}
@@ -45,13 +46,14 @@ public class OperateLogAspect {
         if(method!=null&&method.isAnnotationPresent(OperateLog.class)){
             OperateLog operateLog=method.getAnnotation(OperateLog.class);
             String operation=operateLog.operation();
+            String module=operateLog.moduleName();
             String action = executeTemplate(operation, joinPoint,method);
-            String operatorName="zx";
-           // String operatorName= ServletContextHolder.getToken().getUsername();
+            String userName= ServletContextHolder.getToken().getUsername();
+            Long userId= ServletContextHolder.getToken().getUserId();
+            String url=ServletContextHolder.getRequest().getRequestURL().toString();
             String ip=IpUtil.getIpAddress(ServletContextHolder.getRequest());
-            // TODO: 2019/7/3  暂作logger打印，可建表存库
-            logger.info("ip："+ip+",name："+operatorName+",action："+action+"----->"+method.getDeclaringClass().getName()+"类的"+method.getName()+"方法");
-
+            String methodName=method.getDeclaringClass().getName()+"."+method.getName();
+            saveLog(ip,url,userId,userName,methodName,action,module);
         }
     }
     /*解析注解中的描述信息*/
@@ -68,4 +70,21 @@ public class OperateLogAspect {
         }
         return parser.parseExpression(template, new TemplateParserContext()).getValue(context, String.class);
     }
+
+    /**
+     * 保存操作日志
+     */
+    private void saveLog(String ip,String url,Long userId,String userName,String method,String action,String module){
+        SysOperateLog log=new SysOperateLog();
+        log.setOperateIp(ip);
+        log.setOperateUrl(url);
+        log.setOperateUserId(userId);
+        log.setOperateUserName(userName);
+        log.setOperateMethod(method);
+        log.setOperateAction(action);
+        log.setOperateModule(module);
+        log.setOperateTime(LocalDateTime.now());
+        logMapper.insert(log);
+    }
+
 }

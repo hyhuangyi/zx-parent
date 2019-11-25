@@ -3,7 +3,6 @@ package cn.webapp.controller.zx;
 import cn.common.exception.ZxException;
 import cn.common.pojo.base.ResultDO;
 import cn.common.util.oss.AliOssUtil;
-import cn.webapp.aop.annotation.OperateLog;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -30,7 +29,6 @@ public class DownUploadController {
 
     @RequestMapping(value = "/down", method = RequestMethod.GET)
     @ApiOperation("下载文件")
-    @OperateLog(operation = "下载")
     public void download(String path, HttpServletRequest request, HttpServletResponse response) {
 
         FileInputStream fis = null;
