@@ -28,6 +28,7 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
+        //set request和response
         ServletContextHolder.prepare(null, httpServletRequest, httpServletResponse);
         //白名单 不需要过滤直接传给下一个过滤器
         if (passWhiteUrl(httpServletRequest)) {
