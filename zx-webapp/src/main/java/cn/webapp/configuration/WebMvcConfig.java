@@ -24,8 +24,6 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
     private static final Charset CHARSET = Charset.forName("UTF-8");
 
     @Autowired
-    private MyInterceptor myInterceptor;
-    @Autowired
     private JwtAuthenticationFilter jwtAuthenticationFilter;
     @Autowired
     private CrossInterceptor crossInterceptor;
@@ -40,7 +38,6 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(crossInterceptor).addPathPatterns("/**");
-        registry.addInterceptor(myInterceptor).addPathPatterns("/**");
     }
 
 //    /*跨域问题 springboot*/
