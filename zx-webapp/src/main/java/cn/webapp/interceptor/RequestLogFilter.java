@@ -18,7 +18,7 @@ import java.util.UUID;
  * Created by huangYi on 2018/8/18
  * 日志处理filter
  **/
-@WebFilter(urlPatterns = "/*")
+@WebFilter(urlPatterns = "/*",asyncSupported = true)
 public class RequestLogFilter extends OncePerRequestFilter {
 
     Logger logger= LoggerFactory.getLogger(this.getClass());
