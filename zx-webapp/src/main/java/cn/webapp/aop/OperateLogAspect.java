@@ -71,9 +71,7 @@ public class OperateLogAspect {
         return parser.parseExpression(template, new TemplateParserContext()).getValue(context, String.class);
     }
 
-    /**
-     * 保存操作日志
-     */
+     /*保存操作日志*/
     private void saveLog(String ip,String url,Long userId,String userName,String method,String action,String module){
         SysOperateLog log=new SysOperateLog();
         log.setOperateIp(ip);
