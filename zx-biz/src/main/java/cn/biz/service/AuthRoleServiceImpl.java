@@ -45,7 +45,7 @@ public class AuthRoleServiceImpl implements IAuthRoleService {
      */
     @Override
     public IPage<AuthRole> getRoleList(RoleListDTO dto) {
-        Page<AuthRole> page=new Page(dto.getCurrent(),dto.getSize());
+        Page<AuthRole> page=new Page<>(dto.getCurrent(),dto.getSize());
         page.setRecords(roleMapper.getRoleList(dto,page));
         return page;
     }

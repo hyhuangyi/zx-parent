@@ -151,7 +151,7 @@ public class SysUserServiceImpl implements ISysUserService {
      */
     @Override
     public IPage<SysUser> getUserList(UserListDTO dto) {
-        Page<SysUser> page=new Page(dto.getCurrent(),dto.getSize());
+        Page<SysUser> page=new Page<>(dto.getCurrent(),dto.getSize());
         page.setRecords(sysUserMapper.getUserList(dto,page));
         return page;
     }

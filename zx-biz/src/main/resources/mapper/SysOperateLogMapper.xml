@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.biz.mapper.SysOperateLogMapper">
-
+    <select id="getOperateLogList" resultType="cn.biz.po.SysOperateLog">
+        select *from sys_operate_log a
+        where 1=1
+        <if test="dto.module!=null and dto.module!=''">
+            and a.operate_module =#{dto.module}
+        </if>
+        <if test="dto.startDate!=null and dto.startDate!='' and (dto.endDate==null or dto.endDate=='')">
+            and date(a.operate_time)=#{dto.startDate}
+        </if>
+        <if test="dto.endDate!=null and dto.endDate!='' and (dto.startDate==null or dto.startDate=='')">
+            and date(a.operate_time)=#{dto.endDate}
+        </if>
+        <if test="dto.startDate!=null and dto.startDate!='' and dto.endDate!=null and dto.endDate!=''">
+            and date(a.operate_time) between #{dto.startDate} and #{dto.endDate}
+        </if>
+        ORDER BY a.operate_time desc
+    </select>
 </mapper>
