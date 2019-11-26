@@ -3,6 +3,7 @@ package cn.webapp.controller.biz;
 import cn.biz.mapper.CdCityMapper;
 import cn.biz.po.CdCity;
 import cn.common.util.string.StringUtils;
+import cn.webapp.aop.annotation.OperateLog;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -24,6 +25,7 @@ public class CityController {
     @GetMapping("/city/list")
     @ApiOperation("城市分页列表")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @OperateLog(operation = "查询城市列表",moduleName = "biz")
     public IPage<CdCity> list(@RequestParam(required = false,defaultValue = "1") long current, @RequestParam(required = false,defaultValue = "10")long size, String name){
         Page page=new Page(current,size);
         return cityMapper.selectPage(page, StringUtils.isBlank(name) ?new QueryWrapper<>():new QueryWrapper<CdCity>().like("short_name",name));

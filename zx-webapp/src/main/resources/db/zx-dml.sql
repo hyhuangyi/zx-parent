@@ -33,6 +33,7 @@ INSERT INTO `auth_menu` VALUES ('11', '三级菜单', '4', 'form-three', 'el-ico
 INSERT INTO `auth_menu` VALUES ('12', '富文本编辑器', '11', 'editor', 'el-icon-notebook-1', '1', '0', '2019-11-22 11:51:32', '2019-11-23 15:39:30');
 INSERT INTO `auth_menu` VALUES ('13', 'markdown编辑器', '11', 'markdown', 'el-icon-notebook-2', '2', '0', '2019-11-22 11:51:34', '2019-11-23 15:39:51');
 INSERT INTO `auth_menu` VALUES ('14', '文件上传', '4', 'upload', 'el-icon-upload', '3', '0', '2019-11-22 11:52:36', '2019-11-23 15:38:25');
+INSERT INTO `auth_menu` VALUES ('15', '操作日志', '7', 'operate', 'el-icon-document', '3', '0', '2019-11-22 11:52:36', '2019-11-23 15:38:25');
 
 -- ----------------------------
 -- Records of auth_role_menu
@@ -51,7 +52,7 @@ INSERT INTO `auth_role_menu` VALUES ('11', '0', '11', '2019-11-22 22:24:08', '20
 INSERT INTO `auth_role_menu` VALUES ('12', '0', '12', '2019-11-22 22:24:14', '2019-11-22 22:24:14');
 INSERT INTO `auth_role_menu` VALUES ('13', '0', '13', '2019-11-22 22:24:23', '2019-11-22 22:24:23');
 INSERT INTO `auth_role_menu` VALUES ('14', '0', '14', '2019-11-22 22:24:29', '2019-11-22 22:24:29');
-
+INSERT INTO `auth_role_menu` VALUES ('15', '0', '15', '2019-11-22 22:24:29', '2019-11-22 22:24:29');
 -- ----------------------------
 -- Records of sys_tree_dict
 -- ----------------------------
