@@ -1,5 +1,6 @@
 package cn.webapp.interceptor;
 
+import cn.common.pojo.servlet.ServletContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -34,5 +35,7 @@ public class CrossInterceptor implements HandlerInterceptor {
 
     @Override
     public void afterCompletion(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) {
+        //一个请求结束 清空
+        ServletContextHolder.clear();
     }
 }
