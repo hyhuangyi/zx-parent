@@ -1,5 +1,5 @@
 package cn.common.consts;
-
+//redis
 public class RedisConst {
     //被踢key
     public final static String KIT_OUT_KEY="kitOut:";
