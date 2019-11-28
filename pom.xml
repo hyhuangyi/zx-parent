@@ -38,24 +38,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <!--排除依赖-->
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-tomcat</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
-
-        <!-- 打包时<scope>可以放开,平时开发放开启动就会报错 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-tomcat</artifactId>
-            <!--provided表明该包只在编译和测试的时候用-->
-            <!--放开注释启动就报错 放开表示运行也使用内置tomcat-->
-            <!--<scope>provided</scope>-->
-        </dependency>
-
     </dependencies>
 
 </project>
