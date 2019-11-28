@@ -21,12 +21,6 @@
             <optional>true</optional>
             <scope>true</scope>
         </dependency>
-        <!--db2驱动-->
-        <dependency>
-            <groupId>cn.guoyukun.jdbc</groupId>
-            <artifactId>db2jcc</artifactId>
-            <version>1.4.2</version>
-        </dependency>
         <!--mysql驱动-->
         <dependency>
             <groupId>mysql</groupId>
@@ -348,6 +342,12 @@
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
             <version>5.0.6</version>
+        </dependency>
+        <!-- 配置文件自动映射 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 
