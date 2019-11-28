@@ -240,11 +240,6 @@
             <artifactId>aliyun-sdk-oss</artifactId>
             <version>2.4.0</version>
         </dependency>
-        <!--Actuator监控-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
         <!--httpmime -->
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
@@ -348,6 +343,17 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
+        </dependency>
+        <!--Actuator监控 有了admin-client可以去掉-->
+        <!--<dependency>-->
+        <!--<groupId>org.springframework.boot</groupId>-->
+        <!--<artifactId>spring-boot-starter-actuator</artifactId>-->
+        <!--</dependency>-->
+        <!-- admin-client-->
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-starter-client</artifactId>
+            <version>2.1.6</version>
         </dependency>
     </dependencies>
 

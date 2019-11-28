@@ -23,7 +23,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableCaching//开启缓存
 @EnableAsync//异步使@Async生效
 @EnableTransactionManagement//开启事务
-//开启自动加密
 @ImportResource("classpath:spring/*.xml")
 @MapperScan(basePackages = {"cn.biz.mapper"})
 @ComponentScan(basePackages={"cn.webapp","cn.common","cn.biz"})
