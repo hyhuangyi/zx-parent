@@ -31,7 +31,7 @@ public class UserController {
     @ApiOperation("用户列表")
     @GetMapping("/list")
     @TimeCount
-    public IPage<SysUser> roleList(@ModelAttribute @Valid UserListDTO dto){
+    public IPage<UserListVO> roleList(@ModelAttribute @Valid UserListDTO dto){
         return userService.getUserList(dto);
     }
 

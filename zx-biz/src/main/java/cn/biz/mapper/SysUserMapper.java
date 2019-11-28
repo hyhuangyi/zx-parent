@@ -22,6 +22,6 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
     List<SysUser> getUserByName(String userName);
     @Select("SELECT count(1) FROM `sys_user` where phone=#{phone} or username=#{username}")
     Integer selectUserCount(@Param("username") String username,@Param("phone") String phone);
-    List<SysUser> getUserList(@Param("dto") UserListDTO dto, Page page);
+    List<UserListVO> getUserList(@Param("dto") UserListDTO dto, Page page);
     UserListVO getUserInfo(String id);
 }

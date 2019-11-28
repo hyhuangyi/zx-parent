@@ -18,7 +18,7 @@ public interface ISysUserService {
     //新增||编辑
     boolean saveUser(SaveUserDTO dto);
     //user列表
-    IPage<SysUser> getUserList(UserListDTO dto);
+    IPage<UserListVO> getUserList(UserListDTO dto);
     //获取用户信息
     UserListVO getUserInfo(String id);
     //删除用户
