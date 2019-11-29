@@ -81,7 +81,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
      */
     private boolean passWhiteUrl(HttpServletRequest request) {
         String uri = request.getServletPath();
-        if (uri.startsWith("/comm") || uri.startsWith("/druid")) {
+        if (uri.startsWith("/comm") || uri.startsWith("/druid")||uri.startsWith("/actuator")) {
             return true;
         }
         return false;

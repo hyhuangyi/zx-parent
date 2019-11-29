@@ -345,10 +345,10 @@
             <optional>true</optional>
         </dependency>
         <!--Actuator监控 有了admin-client可以去掉-->
-        <!--<dependency>-->
-        <!--<groupId>org.springframework.boot</groupId>-->
-        <!--<artifactId>spring-boot-starter-actuator</artifactId>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
         <!-- admin-client-->
         <dependency>
             <groupId>de.codecentric</groupId>

@@ -36,8 +36,9 @@ public class ZxResponseBodyAdvice implements ResponseBodyAdvice<Object> {
 
     @Override
     public Object beforeBodyWrite(Object o, MethodParameter methodParameter, MediaType mediaType, Class<? extends HttpMessageConverter<?>> aClass, ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse) {
-        /*针对swagger请求不对其拦截*/
-        if (serverHttpRequest.getURI().getPath().contains("/swagger")) {
+        /*针对swagger actuator请求不对其拦截*/
+        String path=serverHttpRequest.getURI().getPath();
+        if (path.contains("/swagger")||path.contains("actuator")) {
             log.info("返回参数={}", JSONObject.toJSON(o));
             return o;
         }

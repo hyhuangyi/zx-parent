@@ -60,8 +60,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        //  2018/9/5  新增对 /img /js /css 不拦截
-        web.ignoring().antMatchers("/druid/**","/img/**","/js/**","/css/**","/comm/**", "/swagger/**", "/webjars/**", "/swagger-resources/**", "/swagger-ui.html");
+        web.ignoring().antMatchers("/actuator/**","/druid/**","/img/**","/js/**","/css/**","/comm/**", "/swagger/**", "/webjars/**", "/swagger-resources/**", "/swagger-ui.html");
     }
 
     @Override
