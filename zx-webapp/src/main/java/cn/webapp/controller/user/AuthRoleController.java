@@ -17,7 +17,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
-@Api(description = "角色权限相关api")
+@Api(tags = "角色权限相关api")
 @RestController
 @Validated
 @RequestMapping("/role")

@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * Created by huangYi on 2018/9/7
  **/
-@Api(description = "邮箱")
+@Api(tags = "邮箱")
 @Controller
 public class EmailController {
     @Value("${spring.mail.username}")

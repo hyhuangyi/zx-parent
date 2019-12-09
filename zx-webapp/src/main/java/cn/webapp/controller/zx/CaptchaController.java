@@ -18,7 +18,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Random;
 
-@Api(description = "获取验证码")
+@Api(tags = "获取验证码")
 @Controller
 @RequestMapping("/")
 public class CaptchaController {

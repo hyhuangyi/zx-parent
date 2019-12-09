@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 /**
  * Created by huangYi on 2018/9/5
  **/
-@Api(description = "登陆/出||系统监控")
+@Api(tags = "登陆/出||系统监控")
 @RestController
 public class LoginController {
 

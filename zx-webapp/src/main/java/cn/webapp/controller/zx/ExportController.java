@@ -22,7 +22,7 @@ import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-@Api(description = "导入导出")
+@Api(tags = "导入导出")
 @RequestMapping("/comm")
 @RestController
 public class ExportController extends BaseController {
