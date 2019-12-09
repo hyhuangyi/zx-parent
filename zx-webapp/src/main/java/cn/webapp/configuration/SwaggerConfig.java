@@ -58,7 +58,7 @@ public class SwaggerConfig {
         aParameters.add(aParameterBuilder.build());
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(zxApiInfo())
-                .groupName("a-user")
+                .groupName("user")
                 .genericModelSubstitutes(DeferredResult.class)
                 .useDefaultResponseMessages(false)
                 .globalOperationParameters(aParameters)
