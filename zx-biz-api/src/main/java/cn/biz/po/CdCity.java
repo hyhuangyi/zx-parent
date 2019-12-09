@@ -30,13 +30,13 @@ public class CdCity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @NotEmpty(message = "不能为空!")
+    @NotEmpty(message = "code值不能为空!")
     @Size(min=2,max=8,message = "大小在2-8之间")
     @ApiModelProperty(value = "code")
     @TableId(value = "code", type = IdType.AUTO)
     private String code;
 
-    @NotEmpty(message = "不能为空!",groups = {ZxFirst.class})
+    @NotEmpty(message = "全名不能为空!",groups = {ZxFirst.class})
     @ApiModelProperty(value = "全名")
     private String fullName;
 

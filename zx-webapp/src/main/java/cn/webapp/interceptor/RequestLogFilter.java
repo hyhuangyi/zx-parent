@@ -1,10 +1,8 @@
 package cn.webapp.interceptor;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.web.filter.OncePerRequestFilter;
-
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebFilter;
@@ -18,10 +16,9 @@ import java.util.UUID;
  * Created by huangYi on 2018/8/18
  * 日志处理filter
  **/
-@WebFilter(urlPatterns = "/*",asyncSupported = true)
+@WebFilter(urlPatterns = "/*", asyncSupported = true)
+@Slf4j
 public class RequestLogFilter extends OncePerRequestFilter {
-
-    Logger logger= LoggerFactory.getLogger(this.getClass());
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
@@ -29,22 +26,23 @@ public class RequestLogFilter extends OncePerRequestFilter {
         MDC.put("requestId", UUID.randomUUID().toString().replaceAll("-", "").toLowerCase().substring(0, 16));
         logReqParams(httpServletRequest, httpServletResponse);
         //不需要过滤直接传给下一个过滤器
-       filterChain.doFilter(httpServletRequest,httpServletResponse);
+        filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
 
     private void logReqParams(HttpServletRequest request, HttpServletResponse response) {
         StringBuffer sb = new StringBuffer();
-        this.logHeadParams(request,sb);
-        this.logParams(request,sb);
-        logger.info(sb.toString());
+        this.logHeadParams(request, sb);
+        this.logParams(request, sb);
+        log.info(sb.toString());
     }
 
     /**
      * 请求头信息
+     *
      * @param request
      * @param sb
      */
-    protected void logHeadParams(HttpServletRequest request,StringBuffer sb) {
+    protected void logHeadParams(HttpServletRequest request, StringBuffer sb) {
         sb.append("logRegHeaders:" + request.getRequestURI() + "\n");
         Enumeration<String> names = request.getHeaderNames();
         if (names != null) {
@@ -57,11 +55,12 @@ public class RequestLogFilter extends OncePerRequestFilter {
 
     /**
      * 路径与请求参数
+     *
      * @param request
      * @param sb
      */
-    protected void logParams(HttpServletRequest request,StringBuffer sb) {
-        sb.append("logReqURL:" +request.getRequestURL()+ "\n");
+    protected void logParams(HttpServletRequest request, StringBuffer sb) {
+        sb.append("logReqURL:" + request.getRequestURL() + "\n");
         sb.append("logReqParams:" + "\n");
         Enumeration<String> names = request.getParameterNames();
         if (names != null) {
