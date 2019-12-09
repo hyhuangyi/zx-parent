@@ -11,6 +11,7 @@ import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.schema.ModelRef;
 import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.Contact;
 import springfox.documentation.service.Parameter;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
@@ -92,9 +93,10 @@ public class SwaggerConfig {
      */
     private ApiInfo zxApiInfo() {
         return new ApiInfoBuilder()
-                .title("ZX----API接口列表")
-                .description("springBoot 2.1.9.RELEASE")
-                .version("1.0")//版本
+                .title("zx-parent=>API列表")
+                .description("springBoot-2.1.9.RELEASE")
+                .contact(new Contact("zx","http://47.110.13.117/#/dashboard","597505910@qq.com"))
+                .version("1.0")
                 .build();
     }
 }
