@@ -114,12 +114,6 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <!--dubbo服务端提供的api（测试dubbo建的）-->
-        <!--<dependency>-->
-        <!--<groupId>com.example</groupId>-->
-        <!--<artifactId>service-api</artifactId>-->
-        <!--<version>0.0.1-SNAPSHOT</version>-->
-        <!--</dependency>-->
     </dependencies>
 
 </project>
