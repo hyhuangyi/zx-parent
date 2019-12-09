@@ -1,10 +1,10 @@
 package cn.webapp.controller.zx;
 
 import cn.biz.dto.CaptchaDTO;
+import cn.common.exception.ZxException;
 import com.google.code.kaptcha.Producer;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.I0Itec.zkclient.exception.ZkException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
@@ -160,7 +160,7 @@ public class CaptchaController {
                 capStr = code = captchaProducer.createText();
                 bi = captchaProducer.createImage(capStr);
             } else {
-                throw new ZkException("验证码异常");
+                throw new ZxException("验证码异常");
             }
 //            session.setAttribute(Constants.KAPTCHA_SESSION_KEY, code);
 //            response.setHeader("captcha",code);

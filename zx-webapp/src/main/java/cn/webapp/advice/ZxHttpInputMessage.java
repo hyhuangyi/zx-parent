@@ -1,7 +1,7 @@
 package cn.webapp.advice;
 
+import cn.common.exception.ZxException;
 import cn.common.util.encrypt.RSAUtils;
-import org.I0Itec.zkclient.exception.ZkException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +39,7 @@ public class ZxHttpInputMessage implements HttpInputMessage {
         if (StringUtils.isNotEmpty(content)) {
             if (StringUtils.isEmpty(privateKey)) {
                 log.error("privateKey is null");
-                throw new ZkException("privateKey is null");
+                throw new ZxException("privateKey is null");
             }
             String res  = RSAUtils.decryptByPrivateKey(content, privateKey);
             this.body = new ByteArrayInputStream(res.getBytes());

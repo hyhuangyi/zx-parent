@@ -7,12 +7,12 @@ import cn.afterturn.easypoi.excel.entity.ImportParams;
 import cn.biz.vo.BlackList;
 import cn.biz.vo.BlackListExport;
 import cn.biz.vo.Demo;
+import cn.common.exception.ZxException;
 import cn.common.util.file.EasyPoiUtil;
 import cn.webapp.controller.BaseController;
 import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.I0Itec.zkclient.exception.ZkException;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -48,7 +48,7 @@ public class ExportController extends BaseController {
     @PostMapping(value = "/poi/import")
     public List<BlackList> poiExport(@RequestParam MultipartFile file){
         if(file.isEmpty()){
-            throw new ZkException("文件不能为空");
+            throw new ZxException("文件不能为空");
         }
         ImportParams params = new ImportParams();
         List<BlackList> list=null;
