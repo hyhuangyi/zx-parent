@@ -13,7 +13,7 @@ import java.util.concurrent.CountDownLatch;
 /**
  * Created by huangYi on 2019/6/29.
  **/
-@Api(description = "分布式锁测试")
+@Api(tags = "分布式锁测试")
 @Controller
 public class RedisLockController {
 

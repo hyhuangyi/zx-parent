@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * Created by huangYi on 2018/9/12
  **/
-@Api(description = "rabbitMq")
+@Api(tags = "rabbitMq")
 @RestController
 @Slf4j
 public class RabbitMqController {

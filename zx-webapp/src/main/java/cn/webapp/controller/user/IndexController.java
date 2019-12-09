@@ -26,7 +26,7 @@ import java.util.Map;
 /**
  * Created by huangYi on 2018/8/13
  **/
-@Api(description = "首页")
+@Api(tags = "首页")
 @Validated
 @Controller
 public class IndexController {

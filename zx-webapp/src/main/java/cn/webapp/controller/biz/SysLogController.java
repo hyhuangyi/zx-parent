@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Api(description = "日志相关")
+@Api(tags = "日志相关")
 @RestController
 public class SysLogController {
     @Autowired

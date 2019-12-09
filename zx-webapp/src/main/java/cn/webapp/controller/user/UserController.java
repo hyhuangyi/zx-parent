@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 
-@Api(description = "用户相关")
+@Api(tags = "用户相关")
 @Validated
 @RestController
 @RequestMapping("/user")

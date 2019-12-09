@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@Api(description = "数据字典")
+@Api(tags= "数据字典")
 public class SysTreeDictController {
     @Autowired
     private ISysTreeDictService sysTreeDictService;

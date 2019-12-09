@@ -21,7 +21,7 @@ import java.util.Date;
 /**
  * Created by huangYi on 2018/8/12
  **/
-@Api(description = "下载文件相关")
+@Api(tags = "下载文件相关")
 @RequestMapping("/comm")
 @RestController
 @Slf4j
