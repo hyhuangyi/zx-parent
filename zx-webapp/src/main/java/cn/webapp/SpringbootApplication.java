@@ -19,8 +19,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * Created by huangYi on 2018/3/7
  **/
 @SpringBootApplication
-
-
 @EnableScheduling//开启定时任务
 @EnableCaching//开启缓存
 @EnableAsync//异步使@Async生效
