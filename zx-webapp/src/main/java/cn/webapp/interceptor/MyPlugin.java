@@ -5,8 +5,6 @@ import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.plugin.*;
 import org.apache.ibatis.session.ResultHandler;
-
-import java.sql.Connection;
 import java.sql.Statement;
 import java.util.Properties;
 
