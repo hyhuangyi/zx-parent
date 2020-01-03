@@ -20,7 +20,7 @@ public class SysLogController {
 
     @ApiOperation("操作日志列表")
     @PostMapping("/operate/log/list")
-    @PreAuthorize("hasAuthority('log:view')")
+    @PreAuthorize("hasAuthority('log:list')")
     public IPage<SysOperateLog> getOperateLogList(@ModelAttribute OperateLogDTO dto){
         return sysLogService.getOperateLogList(dto);
     }

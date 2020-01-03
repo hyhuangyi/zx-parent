@@ -21,6 +21,8 @@ public class MenuVO implements Serializable {
     private String menuUrl;
     @ApiModelProperty(value = "菜单图标")
     private String icon;
+    @ApiModelProperty(value = "类型 0菜单 1按钮")
+    private Integer type;
     @ApiModelProperty("子菜单")
     private List<MenuVO> subMenu= Lists.newArrayList();
 }

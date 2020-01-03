@@ -3,7 +3,7 @@
 <mapper namespace="cn.biz.mapper.AuthMenuMapper">
 
     <select id="getAllMenus" resultType="cn.biz.vo.MenuVO">
-      select *from auth_menu where is_del=0 and type=0 order by sort asc
+      select *from auth_menu where is_del=0  order by sort asc
     </select>
 
     <select id="getUserMenus" resultType="cn.biz.vo.MenuVO">
@@ -12,7 +12,8 @@
             a.menu_name,
             a.menu_url,
             a.parent_id,
-            a.icon
+            a.icon,
+            a.type
         FROM
             auth_menu a
         LEFT JOIN auth_role_menu b ON a.id = b.menu_id
