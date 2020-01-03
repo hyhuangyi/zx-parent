@@ -33,7 +33,8 @@ INSERT INTO `auth_menu` VALUES ('11', '三级菜单', '4', 'form-three', '0', 'e
 INSERT INTO `auth_menu` VALUES ('12', '富文本编辑器', '11', 'editor', '0', 'el-icon-notebook-1', '1', '0', null, '2019-11-22 11:51:32', '2020-01-03 11:29:34');
 INSERT INTO `auth_menu` VALUES ('13', 'markdown编辑器', '11', 'markdown', '0', 'el-icon-notebook-2', '2', '0', null, '2019-11-22 11:51:34', '2020-01-03 11:29:34');
 INSERT INTO `auth_menu` VALUES ('14', '文件上传', '4', 'upload', '0', 'el-icon-upload', '3', '0', null, '2019-11-22 11:52:36', '2020-01-03 11:29:34');
-INSERT INTO `auth_menu` VALUES ('15', '操作日志', '7', 'operate', '0', 'el-icon-document', '3', '0', 'log:view', '2019-11-26 10:52:33', '2020-01-03 11:27:13');
+INSERT INTO `auth_menu` VALUES ('15', '操作日志', '7', 'operate', '0', 'el-icon-document', '3', '0', 'log:list', '2019-11-26 10:52:33', '2020-01-03 11:27:13');
+INSERT INTO `auth_menu` VALUES ('16', '删除日志', '15', null, '1', null, '1', '0', 'log:del', '2019-11-26 10:52:33', '2020-01-03 11:27:13');
 
 -- ----------------------------
 -- Records of auth_role_menu
