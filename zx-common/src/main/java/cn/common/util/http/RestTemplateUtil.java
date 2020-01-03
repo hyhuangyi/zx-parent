@@ -11,8 +11,8 @@ import org.springframework.web.client.RestTemplate;
 
 /**
  * RestTemplate 远程调用工具类
- * @author Logan
- * @createDate 2019-02-08
+ * post 请求参数用 MultiValueMap<String, Object> requestBody = new LinkedMultiValueMap<>()
+ * 或者json格式 @RequestBody接受
  *
  */
 public class RestTemplateUtil {
