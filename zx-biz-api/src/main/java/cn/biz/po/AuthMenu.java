@@ -46,6 +46,12 @@ public class AuthMenu implements Serializable {
     @ApiModelProperty(value = "1 删除 0 未删除")
     private Integer isDel;
 
+    @ApiModelProperty(value = "0菜单 1按钮")
+    private Integer type;
+
+    @ApiModelProperty(value = "权限标识")
+    private String permission;
+
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime createTime;
@@ -53,6 +59,5 @@ public class AuthMenu implements Serializable {
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "更新时间")
     private LocalDateTime updateTime;
-
 
 }

@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.biz.mapper.AuthMenuMapper">
+
     <select id="getAllMenus" resultType="cn.biz.vo.MenuVO">
-      select *from auth_menu where is_del=0 order by sort asc
+      select *from auth_menu where is_del=0 and type=0 order by sort asc
     </select>
+
     <select id="getUserMenus" resultType="cn.biz.vo.MenuVO">
         SELECT
             a.id,
@@ -15,10 +17,24 @@
             auth_menu a
         LEFT JOIN auth_role_menu b ON a.id = b.menu_id
         WHERE
-            b.role_id IN (${roleIds}) and a.is_del=0
+            b.role_id IN (${roleIds}) and a.is_del=0 and type=0
         GROUP BY
             a.id
         ORDER BY
             a.sort asc
+    </select>
+
+    <select id="getPermissions" resultType="string">
+        SELECT
+            a.permission
+        FROM
+            auth_menu a
+        LEFT JOIN auth_role_menu b ON a.id = b.menu_id
+        WHERE
+            a.permission IS NOT NULL
+        AND a.permission != ''
+        AND b.role_id IN (${roleIds})
+        GROUP BY
+            a.id
     </select>
 </mapper>

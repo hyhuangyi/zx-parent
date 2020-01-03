@@ -82,7 +82,8 @@ public class SysUserServiceImpl implements ISysUserService {
         for(UserRoleVO r:roleList){
             ids+=r.getRoleId()+",";
         }
-        List<MenuVO> menusList=authRoleService.getUserMenus(ids.substring(0,ids.lastIndexOf(",")));
+        String roleIds=ids.substring(0,ids.lastIndexOf(","));
+        List<MenuVO> menusList=authRoleService.getUserMenus(roleIds);
         ZxToken zxToken=new ZxToken();
         BeanUtils.copyProperties(token,zxToken);
         zxToken.setRoleList(roleList);

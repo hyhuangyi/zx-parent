@@ -45,6 +45,4 @@ public class AuthRole implements Serializable {
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "修改时间")
     private LocalDateTime updateTime;
-
-
 }

@@ -18,8 +18,13 @@ public class MyUserDetails implements UserDetails {
     public MyUserDetails(Token token) {
         this.token = token;
         //插入权限
+        //角色权限
         for(String role:token.getRoles()){
             authorities.add(new SimpleGrantedAuthority(role));
+        }
+        //操作权限
+        for(String permission:token.getPermissions()){
+            authorities.add(new SimpleGrantedAuthority(permission));
         }
     }
 

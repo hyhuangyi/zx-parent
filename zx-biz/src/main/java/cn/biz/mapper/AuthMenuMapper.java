@@ -17,4 +17,5 @@ import java.util.List;
 public interface AuthMenuMapper extends BaseMapper<AuthMenu> {
     List<MenuVO> getAllMenus();
     List<MenuVO> getUserMenus(@Param("roleIds") String roleIdS);
+    List<String> getPermissions(@Param("roleIds") String roleIdS);
 }

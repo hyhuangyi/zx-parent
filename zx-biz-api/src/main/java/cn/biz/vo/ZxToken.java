@@ -3,7 +3,6 @@ package cn.biz.vo;
 import cn.common.pojo.base.Token;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
 import java.util.List;
 
 @Data
