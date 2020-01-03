@@ -24,9 +24,11 @@ CREATE TABLE `auth_menu` (
   `menu_name` varchar(50) DEFAULT NULL COMMENT '菜单名称',
   `parent_id` int(11) DEFAULT NULL COMMENT '上级菜单ID',
   `menu_url` varchar(100) DEFAULT NULL COMMENT '菜单URL',
-  `icon` varchar(255) DEFAULT NULL COMMENT '图标',
+  `type` int(11) DEFAULT '0' COMMENT '0菜单 1按钮',
+  `icon` varchar(255) DEFAULT NULL,
   `sort` int(11) DEFAULT NULL COMMENT '排序号',
   `is_del` int(11) DEFAULT '0' COMMENT '1 删除 0 未删除',
+  `permission` varchar(50) DEFAULT NULL COMMENT '权限标识',
   `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`)

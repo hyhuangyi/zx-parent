@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +20,7 @@ public class SysLogController {
 
     @ApiOperation("操作日志列表")
     @PostMapping("/operate/log/list")
+    @PreAuthorize("hasAuthority('log:view')")
     public IPage<SysOperateLog> getOperateLogList(@ModelAttribute OperateLogDTO dto){
         return sysLogService.getOperateLogList(dto);
     }
