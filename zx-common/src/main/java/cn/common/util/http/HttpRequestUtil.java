@@ -90,7 +90,7 @@ public class HttpRequestUtil {
     /**
      * 表单上传文件
      */
-    public static String uploadFile(File postFile, String postUrl, Map<String,String> postParam){
+    public static String uploadFile(File postFile, String postUrl, Map postParam,Map headerMap){
         CloseableHttpResponse response=null;
         String result = "";
         try{
@@ -105,11 +105,15 @@ public class HttpRequestUtil {
             Set<String> keySet = postParam.keySet();
             for (String key : keySet) {
                 if(postParam.get(key)!=null){
-                    multipartEntity.addPart(key, new StringBody(postParam.get(key), ContentType.create("text/plain", "UTF-8")));
+                    multipartEntity.addPart(key, new StringBody(postParam.get(key).toString(), ContentType.create("text/plain", "UTF-8")));
                 }
             }
             HttpEntity reqEntity =  multipartEntity.build();
             httpPost.setEntity(reqEntity);
+            Header[] headers = getHeaders(headerMap);
+            if (headers.length != 0){
+                httpPost.setHeaders(headers);
+            }
             //发起请求   并返回请求的响应
             response = httpClient.execute(httpPost);
             HttpEntity entity = response.getEntity();
