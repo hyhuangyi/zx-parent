@@ -163,9 +163,9 @@ public class HttpRequestUtil {
     /**
      * 表单上传文件
      */
-    public static void uploadFile(MultipartFile file, String postUrl, Map postParam, Map headerMap, HttpServletResponse response){
-        CloseableHttpResponse closeableHttpResponse = null;
-        ServletOutputStream out = null;
+    public static String uploadFile(MultipartFile file, String postUrl, Map postParam, Map headerMap){
+        CloseableHttpResponse response = null;
+        String result = "";
         try{
             //把一个普通参数和文件上传给下面这个地址    是一个servlet
             HttpPost httpPost = new HttpPost(postUrl);
@@ -189,30 +189,25 @@ public class HttpRequestUtil {
                 httpPost.setHeaders(headers);
             }
             //发起请求   并返回请求的响应
-            closeableHttpResponse = httpClient.execute(httpPost);
-            Header encode = closeableHttpResponse.getFirstHeader("Content-Type");  //请求头，要返回content-type，以便前台知道如何处理
-            response.setHeader(encode.getName(), encode.getValue());
-
-            HttpEntity entity = closeableHttpResponse.getEntity();  //取出返回体
-            out = response.getOutputStream();
-            entity.writeTo(out);  //将返回体通过响应流写到前台
-            out.flush();
+            response = httpClient.execute(httpPost);
+            HttpEntity entity = response.getEntity();
+            result = EntityUtils.toString(entity, "utf-8");
+            EntityUtils.consume(entity);
         } catch (ClientProtocolException e1) {
             e1.printStackTrace();
         } catch (IOException e1) {
             e1.printStackTrace();
         } finally{
             try {
-                if (null != out) {
-                    out.close();
-                }
-                if(closeableHttpResponse!=null){
-                    closeableHttpResponse.close();
+
+                if(response!=null){
+                    response.close();
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+        return result;
     }
 
     /**
@@ -264,7 +259,7 @@ public class HttpRequestUtil {
      * @return
      */
     private static Header[] getHeaders(Map<String, String> headerMap) {
-        if (headerMap.isEmpty())
+        if (MapUtils.isEmpty(headerMap))
             return new Header[0];
         Header[] headers = new Header[headerMap.size()];
         int i = 0;
