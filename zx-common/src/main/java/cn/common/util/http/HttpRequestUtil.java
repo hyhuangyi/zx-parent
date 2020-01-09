@@ -34,12 +34,13 @@ import java.util.Set;
 
 public class HttpRequestUtil {
     private static CloseableHttpClient httpClient;
-
+    private static RequestConfig requestConfig;
     static {
         PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager();
         cm.setMaxTotal(100);
         cm.setDefaultMaxPerRoute(50);
         httpClient = HttpClients.custom().setConnectionManager(cm).build();
+        requestConfig=RequestConfig.custom().setConnectTimeout(30000).setConnectionRequestTimeout(30000).setSocketTimeout(30000).build();
     }
 
     /**
@@ -53,7 +54,6 @@ public class HttpRequestUtil {
         String result = "";
         try {
             HttpGet httpGet = new HttpGet(url+getQueryString(req));
-            RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(30000).setConnectionRequestTimeout(30000).setSocketTimeout(30000).build();
             httpGet.setConfig(requestConfig);
             httpGet.addHeader("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
             httpGet.setHeader("Accept", "*/*");
@@ -91,7 +91,6 @@ public class HttpRequestUtil {
         String result = "";
         try {
             HttpPost httpPost = new HttpPost(url);
-            RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(30000).setConnectionRequestTimeout(30000).setSocketTimeout(30000).build();
             httpPost.setConfig(requestConfig);
             httpPost.addHeader("Content-type", "application/json; charset=utf-8");
             httpPost.setHeader("Accept", "*/*");
@@ -130,10 +129,6 @@ public class HttpRequestUtil {
         String result = "";
         try {
             HttpPost httpPost = new HttpPost(url);
-            RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(30000) //连接超时时间
-                    .setConnectionRequestTimeout(30000)//从线程池中获取线程超时时间
-                    .setSocketTimeout(30000)//设置数据超时时间
-                    .build();
             httpPost.setConfig(requestConfig);
             setPostParams(httpPost, reqParams);
             httpPost.addHeader("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
@@ -169,7 +164,7 @@ public class HttpRequestUtil {
         try{
             //把一个普通参数和文件上传给下面这个地址    是一个servlet
             HttpPost httpPost = new HttpPost(postUrl);
-
+            httpPost.setConfig(requestConfig);
             //设置传输参数
             MultipartEntityBuilder multipartEntity = MultipartEntityBuilder.create();
             multipartEntity.addBinaryBody("file",file.getInputStream(), ContentType.MULTIPART_FORM_DATA,"report");
@@ -221,7 +216,6 @@ public class HttpRequestUtil {
         ServletOutputStream out = null;
         try {
             HttpGet httpGet = new HttpGet(url+getQueryString(req));
-            RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(30000).setConnectionRequestTimeout(30000).setSocketTimeout(30000).build();
             httpGet.setConfig(requestConfig);
             httpGet.addHeader("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
             httpGet.setHeader("Accept", "*/*");
