@@ -25,9 +25,10 @@ public class MybatisPlusConfig {
     /**
      * SQL执行效率插件
      * 该插件只用于开发环境，不建议生产环境使用
+     * @Profile({"dev","prod"})
      */
     @Bean
-    @Profile({"dev","prod"})
+    @Profile({"dev"})
     public PerformanceInterceptor performanceInterceptor() {
         return new PerformanceInterceptor();
     }
