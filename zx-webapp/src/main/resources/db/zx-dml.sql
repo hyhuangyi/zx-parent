@@ -1,17 +1,17 @@
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES ('0', 'admin', '$2a$10$ISho47dej24FwG6qWGdZTuiArGdZqcMj4ZBwIM25LpwOpxQzjAfz6', '18705621249', '597505910@qq.com', '0', '2019-11-19 10:45:41', '2019-11-20 10:39:23');
+INSERT INTO `sys_user` VALUES ('1', 'admin', '$2a$10$ISho47dej24FwG6qWGdZTuiArGdZqcMj4ZBwIM25LpwOpxQzjAfz6', '18705621249', '597505910@qq.com', '0', '2019-11-19 10:45:41', '2019-11-20 10:39:23');
 
 -- ----------------------------
 -- Records of auth_role
 -- ----------------------------
-INSERT INTO `auth_role` VALUES ('0', 'ROLE_ADMIN', '超级管理员', '0', '2019-11-19 18:12:57', '2019-11-20 10:50:09');
+INSERT INTO `auth_role` VALUES ('1', 'ROLE_ADMIN', '超级管理员', '0', '2019-11-19 18:12:57', '2019-11-20 10:50:09');
 
 -- ----------------------------
 -- Records of auth_user_role
 -- ----------------------------
-INSERT INTO `auth_user_role` VALUES ('1', '0', '0', '0', '2019-11-19 19:01:21', '2019-11-20 10:55:14');
+INSERT INTO `auth_user_role` VALUES ('1', '1', '1', '0', '2019-11-19 19:01:21', '2019-11-20 10:55:14');
 
 -- ----------------------------
 -- Records of auth_menu
@@ -39,21 +39,21 @@ INSERT INTO `auth_menu` VALUES ('16', '删除日志', '15', null, '1', null, '1'
 -- ----------------------------
 -- Records of auth_role_menu
 -- ----------------------------
-INSERT INTO `auth_role_menu` VALUES ('1', '0', '1', '2019-11-19 18:36:54', '2019-11-20 10:54:28');
-INSERT INTO `auth_role_menu` VALUES ('2', '0', '2', '2019-11-19 18:36:54', '2019-11-20 10:54:28');
-INSERT INTO `auth_role_menu` VALUES ('3', '0', '3', '2019-11-19 18:36:54', '2019-11-20 10:54:29');
-INSERT INTO `auth_role_menu` VALUES ('4', '0', '4', '2019-11-19 18:36:54', '2019-11-20 10:54:32');
-INSERT INTO `auth_role_menu` VALUES ('5', '0', '5', '2019-11-19 18:36:54', '2019-11-20 10:54:34');
-INSERT INTO `auth_role_menu` VALUES ('6', '0', '6', '2019-11-19 18:36:54', '2019-11-20 10:54:35');
-INSERT INTO `auth_role_menu` VALUES ('7', '0', '7', '2019-11-22 22:23:31', '2019-11-22 22:23:36');
-INSERT INTO `auth_role_menu` VALUES ('8', '0', '8', '2019-11-22 22:23:42', '2019-11-22 22:23:42');
-INSERT INTO `auth_role_menu` VALUES ('9', '0', '9', '2019-11-22 22:23:52', '2019-11-22 22:23:52');
-INSERT INTO `auth_role_menu` VALUES ('10', '0', '10', '2019-11-22 22:24:03', '2019-11-22 22:24:03');
-INSERT INTO `auth_role_menu` VALUES ('11', '0', '11', '2019-11-22 22:24:08', '2019-11-22 22:24:08');
-INSERT INTO `auth_role_menu` VALUES ('12', '0', '12', '2019-11-22 22:24:14', '2019-11-22 22:24:14');
-INSERT INTO `auth_role_menu` VALUES ('13', '0', '13', '2019-11-22 22:24:23', '2019-11-22 22:24:23');
-INSERT INTO `auth_role_menu` VALUES ('14', '0', '14', '2019-11-22 22:24:29', '2019-11-22 22:24:29');
-INSERT INTO `auth_role_menu` VALUES ('15', '0', '15', '2019-11-22 22:24:29', '2019-11-22 22:24:29');
+INSERT INTO `auth_role_menu` VALUES ('1', '1', '1', '2019-11-19 18:36:54', '2019-11-20 10:54:28');
+INSERT INTO `auth_role_menu` VALUES ('2', '1', '2', '2019-11-19 18:36:54', '2019-11-20 10:54:28');
+INSERT INTO `auth_role_menu` VALUES ('3', '1', '3', '2019-11-19 18:36:54', '2019-11-20 10:54:29');
+INSERT INTO `auth_role_menu` VALUES ('4', '1', '4', '2019-11-19 18:36:54', '2019-11-20 10:54:32');
+INSERT INTO `auth_role_menu` VALUES ('5', '1', '5', '2019-11-19 18:36:54', '2019-11-20 10:54:34');
+INSERT INTO `auth_role_menu` VALUES ('6', '1', '6', '2019-11-19 18:36:54', '2019-11-20 10:54:35');
+INSERT INTO `auth_role_menu` VALUES ('7', '1', '7', '2019-11-22 22:23:31', '2019-11-22 22:23:36');
+INSERT INTO `auth_role_menu` VALUES ('8', '1', '8', '2019-11-22 22:23:42', '2019-11-22 22:23:42');
+INSERT INTO `auth_role_menu` VALUES ('9', '1', '9', '2019-11-22 22:23:52', '2019-11-22 22:23:52');
+INSERT INTO `auth_role_menu` VALUES ('10', '1', '10', '2019-11-22 22:24:03', '2019-11-22 22:24:03');
+INSERT INTO `auth_role_menu` VALUES ('11', '1', '11', '2019-11-22 22:24:08', '2019-11-22 22:24:08');
+INSERT INTO `auth_role_menu` VALUES ('12', '1', '12', '2019-11-22 22:24:14', '2019-11-22 22:24:14');
+INSERT INTO `auth_role_menu` VALUES ('13', '1', '13', '2019-11-22 22:24:23', '2019-11-22 22:24:23');
+INSERT INTO `auth_role_menu` VALUES ('14', '1', '14', '2019-11-22 22:24:29', '2019-11-22 22:24:29');
+INSERT INTO `auth_role_menu` VALUES ('15', '1', '15', '2019-11-22 22:24:29', '2019-11-22 22:24:29');
 -- ----------------------------
 -- Records of sys_tree_dict
 -- ----------------------------

@@ -108,7 +108,7 @@ public class AuthRoleServiceImpl implements IAuthRoleService {
            authRole.setCreateTime(LocalDateTime.now());
            roleMapper.insert(authRole);
         }else{
-            if("0".equals(dto.getId())){
+            if("1".equals(dto.getId())){
                 throw new ZxException("超级管理员不能编辑");
             }
             AuthRole one= roleMapper.selectById(dto.getId());
@@ -161,7 +161,7 @@ public class AuthRoleServiceImpl implements IAuthRoleService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean delRole(String roleId) {
-        if("0".equals(roleId)){
+        if("1".equals(roleId)){
             throw new ZxException("超级管理角色不能删除");
         }
         AuthRole role= roleMapper.selectById(roleId);
