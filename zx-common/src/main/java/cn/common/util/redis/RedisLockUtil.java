@@ -64,11 +64,11 @@ public class RedisLockUtil {
             return true;
         }
         //未获得锁则判断是否超时，如果此时key被删了，则返回0
-        long oldExpireTime = Long.parseLong(RedisUtil.get(key,"0"));
+        long oldExpireTime = Long.parseLong(RedisUtil.get(key,"0"));//0
         if(oldExpireTime < System.currentTimeMillis()) {//超时或key被释放
             //超时
             long newExpireTime = System.currentTimeMillis() + expire;
-            //设置新值并返回旧值
+            //设置新值并返回旧值 //锁时间可能会被覆盖
             String val=RedisUtil.getSet(key, String.valueOf(newExpireTime));
             if(val==null){
                 val="0";
