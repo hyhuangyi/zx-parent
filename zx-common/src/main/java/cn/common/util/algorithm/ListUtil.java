@@ -20,7 +20,7 @@ public class ListUtil {
         if (list == null) {
             list = new ArrayList<T>();
         }
-        if (currPage == null) {
+        if (currPage == null||currPage<=0) {
             currPage = 1;
         }
         if (pageNum == null) {
@@ -89,16 +89,16 @@ public class ListUtil {
     }
 
     public static void main(String[] args) {
-        List<String> s=new ArrayList<>();
-        s.add("1");
-        s.add("2");
-        s.add("3");
-        s.add("4");
-        s.add("5");
-        s.add("6");
-        s.add("7");
-        s.add("8");
-       System.out.println( ListUtil.pageList(s,3,4));
+        List<String> list=new ArrayList<>();
+        list.add("1");
+        list.add("2");
+        list.add("3");
+        list.add("4");
+        list.add("5");
+        list.add("6");
+        list.add("7");
+        list.add("8");
+        System.out.println( ListUtil.pageList(list,2,4));
     }
 
 }
