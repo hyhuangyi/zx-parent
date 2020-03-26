@@ -15,6 +15,8 @@ public class ListUtil {
      * @return 分页后数据
      */
     public static <T> List<T> pageList(List<T> list, Integer currPage, Integer pageNum) {
+        Integer size=list.size();
+        List<T> pageList=null;
         if (list == null) {
             list = new ArrayList<T>();
         }
@@ -26,7 +28,15 @@ public class ListUtil {
         }
         Integer start = (currPage - 1) * pageNum;
         Integer end=currPage*pageNum;
-        List<T> pageList = list.subList(start, end);
+        if(start>=size){//起始大于等于总条数 返回空
+            pageList=new ArrayList<>();
+        } else  {
+            if(end<=size){
+                pageList = list.subList(start, end);
+            }else {
+                pageList=list.subList(start,size);
+            }
+        }
         return pageList;
     }
 
@@ -76,6 +86,19 @@ public class ListUtil {
             listArr.add(sub);
         }
         return listArr;
+    }
+
+    public static void main(String[] args) {
+        List<String> s=new ArrayList<>();
+        s.add("1");
+        s.add("2");
+        s.add("3");
+        s.add("4");
+        s.add("5");
+        s.add("6");
+        s.add("7");
+        s.add("8");
+       System.out.println( ListUtil.pageList(s,3,4));
     }
 
 }

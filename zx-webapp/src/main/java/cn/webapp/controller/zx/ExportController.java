@@ -8,7 +8,9 @@ import cn.biz.vo.BlackList;
 import cn.biz.vo.BlackListExport;
 import cn.biz.vo.Demo;
 import cn.common.exception.ZxException;
+import cn.common.util.algorithm.ListUtil;
 import cn.common.util.file.EasyPoiUtil;
+import cn.common.util.file.ExcelParser;
 import cn.webapp.controller.BaseController;
 import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.Api;
@@ -145,5 +147,16 @@ public class ExportController extends BaseController {
         sheetsList.add(dataMap);
        }
         EasyPoiUtil.exportExcel(sheetsList,"hy.xls",response);
+    }
+
+    @ApiOperation("批量导入")
+    @PostMapping("/batch/import")
+    public List<List<List<String>>> batchImport(MultipartFile file) throws Exception{
+        ExcelParser excelParser=new ExcelParser();
+        ExcelParser parser= excelParser.parse(file.getInputStream());
+        List<List<String>>l= parser.getDatas();
+        //5000一批次
+        List<List<List<String>>> ll= ListUtil.AssignBatchList(l,5000);
+        return ll;
     }
 }
