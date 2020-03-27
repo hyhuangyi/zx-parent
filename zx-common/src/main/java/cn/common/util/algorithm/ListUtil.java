@@ -23,7 +23,7 @@ public class ListUtil {
         if (currPage == null||currPage<=0) {
             currPage = 1;
         }
-        if (pageNum == null) {
+        if (pageNum == null||pageNum<=0) {
             pageNum = 10;
         }
         Integer start = (currPage - 1) * pageNum;
@@ -98,7 +98,7 @@ public class ListUtil {
         list.add("6");
         list.add("7");
         list.add("8");
-        System.out.println( ListUtil.pageList(list,2,4));
+        System.out.println( ListUtil.pageList(list,1,0));
     }
 
 }
