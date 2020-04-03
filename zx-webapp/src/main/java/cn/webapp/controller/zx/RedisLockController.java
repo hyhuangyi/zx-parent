@@ -1,13 +1,20 @@
 package cn.webapp.controller.zx;
 
 import cn.common.util.redis.RedisLockUtil;
+import cn.common.util.redis.RedisUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import redis.clients.jedis.Jedis;
+
+import java.util.Arrays;
 import java.util.concurrent.CountDownLatch;
 
 /**
@@ -16,6 +23,8 @@ import java.util.concurrent.CountDownLatch;
 @Api(tags = "分布式锁测试")
 @Controller
 public class RedisLockController {
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     @ApiOperation("分布式锁测试一")
     @RequestMapping(value = "/comm/redisTest1", method = RequestMethod.POST)
@@ -99,5 +108,34 @@ public class RedisLockController {
         }
         countDownLatch.await();
         System.out.println("count=" + countDownLatch.getCount() + ",主线程等待结束!");
+    }
+
+
+    // 这里必须是Long
+    RedisScript<Long> script = RedisScript.of("local num=redis.call('get',KEYS[1])\r\n" +
+            "if tonumber(num)>0 then\r\n" +
+            "   return redis.call('decr',KEYS[1])\r\n" +
+            "else\r\n" +
+            "   return -1\r\n" +
+            "end", Long.class);
+
+    @ApiOperation("超卖测试")
+    @PostMapping("/comm/stock")
+    @ResponseBody
+    public void redisStock(){
+        //设置库存
+        RedisUtil.set("stock",5);
+        for(int i=0;i<10;i++){
+            new Thread(()->{
+                long remaind = 0;
+                if ((remaind=(Long)redisTemplate.execute(script, Arrays.asList("stock"), new Object[] {})) >= 0) {
+                    System.out.println(Thread.currentThread().getName() + ":" + "扣除成功" + "剩余：" + remaind);
+                    //处理后续逻辑
+                }else {
+                    System.out.println(Thread.currentThread().getName() + ":" + "扣除失败" + "剩余：" + remaind);
+                    //直接返回
+                }
+            }).start();
+        }
     }
 }
