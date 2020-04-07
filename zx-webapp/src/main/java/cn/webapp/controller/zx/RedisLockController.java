@@ -122,10 +122,10 @@ public class RedisLockController {
     @ApiOperation("超卖测试")
     @PostMapping("/comm/stock")
     @ResponseBody
-    public void redisStock(){
+    public void redisStock(Long val){
         //设置库存
-        RedisUtil.set("stock",5);
-        for(int i=0;i<10;i++){
+        RedisUtil.set("stock",val);
+        for(int i=0;i<val+5;i++){
             new Thread(()->{
                 long remaind = 0;
                 if ((remaind=(Long)redisTemplate.execute(script, Arrays.asList("stock"), new Object[] {})) >= 0) {
