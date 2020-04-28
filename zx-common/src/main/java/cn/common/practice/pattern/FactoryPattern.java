@@ -3,7 +3,7 @@ package cn.common.practice.pattern;
 import lombok.Data;
 
 /**
- * 工厂模式
+ * 工厂方法模式
  */
 public class FactoryPattern {
     public static void main(String[] args) {
