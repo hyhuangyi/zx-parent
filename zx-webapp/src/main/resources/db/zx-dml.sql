@@ -54,6 +54,8 @@ INSERT INTO `auth_role_menu` VALUES ('12', '1', '12', '2019-11-22 22:24:14', '20
 INSERT INTO `auth_role_menu` VALUES ('13', '1', '13', '2019-11-22 22:24:23', '2019-11-22 22:24:23');
 INSERT INTO `auth_role_menu` VALUES ('14', '1', '14', '2019-11-22 22:24:29', '2019-11-22 22:24:29');
 INSERT INTO `auth_role_menu` VALUES ('15', '1', '15', '2019-11-22 22:24:29', '2019-11-22 22:24:29');
+INSERT INTO `auth_role_menu` VALUES ('16', '1', '16', '2019-11-22 22:24:29', '2019-11-22 22:24:29');
+INSERT INTO `auth_role_menu` VALUES ('17', '1', '17', '2019-11-22 22:24:29', '2019-11-22 22:24:29');
 -- ----------------------------
 -- Records of sys_tree_dict
 -- ----------------------------
