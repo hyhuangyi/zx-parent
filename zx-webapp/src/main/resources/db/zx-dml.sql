@@ -59,24 +59,39 @@ INSERT INTO `auth_role_menu` VALUES ('17', '1', '17', '2019-11-22 22:24:29', '20
 -- ----------------------------
 -- Records of sys_tree_dict
 -- ----------------------------
-INSERT INTO `sys_tree_dict` VALUES ('1022', 'sxlx', '授信类型', '-999', '-999', '0', '0', '2019-04-19 18:15:20', '\0');
-INSERT INTO `sys_tree_dict` VALUES ('1023', 'sxlx', '抵押', '1', '1', '0', '0', '2019-04-19 18:15:20', '\0');
-INSERT INTO `sys_tree_dict` VALUES ('1024', 'sxlx', '质押', '2', '2', '0', '0', '2019-04-19 18:15:20', '\0');
-INSERT INTO `sys_tree_dict` VALUES ('1025', 'sxlx', '信用', '3', '3', '0', '0', '2019-04-19 18:15:20', '\0');
-INSERT INTO `sys_tree_dict` VALUES ('1026', 'sxlx', '担保', '4', '4', '0', '0', '2019-04-19 18:15:20', '\0');
-INSERT INTO `sys_tree_dict` VALUES ('1027', 'sxlx', '自然人持有的不动产', '5', '1', '1', '0', '2019-04-19 18:15:20', '\0');
-INSERT INTO `sys_tree_dict` VALUES ('1028', 'sxlx', '商品住宅', '6', '2', '1', '0', '2019-04-19 18:15:20', '\0');
-INSERT INTO `sys_tree_dict` VALUES ('1029', 'sxlx', '公司法人持有的不动产', '7', '3', '1', '0', '2019-04-19 18:15:20', '\0');
-INSERT INTO `sys_tree_dict` VALUES ('1030', 'sxlx', '标准厂房', '8', '4', '1', '0', '2019-04-19 18:15:20', '\0');
-INSERT INTO `sys_tree_dict` VALUES ('1031', 'sxlx', '机器设备', '9', '5', '1', '0', '2019-04-19 18:15:20', '\0');
-INSERT INTO `sys_tree_dict` VALUES ('1032', 'sxlx', '车辆', '10', '6', '1', '0', '2019-04-19 18:15:20', '\0');
-INSERT INTO `sys_tree_dict` VALUES ('1033', 'sxlx', '其他', '11', '7', '1', '0', '2019-04-19 18:15:20', '\0');
-INSERT INTO `sys_tree_dict` VALUES ('1034', 'sxlx', '存贷', '12', '1', '2', '0', '2019-04-19 18:15:20', '\0');
-INSERT INTO `sys_tree_dict` VALUES ('1035', 'sxlx', '国债', '13', '2', '2', '0', '2019-04-19 18:15:20', '\0');
-INSERT INTO `sys_tree_dict` VALUES ('1036', 'sxlx', '保证基金', '14', '3', '2', '0', '2019-04-19 18:15:20', '\0');
-INSERT INTO `sys_tree_dict` VALUES ('1037', 'sxlx', '银行承兑汇票', '15', '4', '2', '0', '2019-04-19 18:15:20', '\0');
-INSERT INTO `sys_tree_dict` VALUES ('1038', 'sxlx', '标准仓单', '16', '5', '2', '0', '2019-04-19 18:15:20', '\0');
-INSERT INTO `sys_tree_dict` VALUES ('1039', 'sxlx', '其他', '17', '6', '2', '0', '2019-04-19 18:16:13', '\0');
+INSERT INTO `sys_tree_dict` VALUES (1, 'fund', '基金代码', '-999', -999, '0', 0, '2020-5-11 09:47:09', '\0');
+INSERT INTO `sys_tree_dict` VALUES (2, 'fund', '001178', '2', 2, '0', 0, '2020-5-11 11:17:58', '\0');
+INSERT INTO `sys_tree_dict` VALUES (3, 'fund', '320007', '3', 3, '0', 0, '2020-5-11 11:19:13', '\0');
+INSERT INTO `sys_tree_dict` VALUES (4, 'fund', '005224', '4', 4, '0', 0, '2020-5-11 11:19:13', '\0');
+INSERT INTO `sys_tree_dict` VALUES (5, 'fund', '519674', '5', 5, '0', 0, '2020-5-11 11:19:13', '\0');
+INSERT INTO `sys_tree_dict` VALUES (6, 'fund', '501058', '6', 6, '0', 0, '2020-5-11 11:19:13', '\0');
+INSERT INTO `sys_tree_dict` VALUES (7, 'fund', '001593', '7', 7, '0', 0, '2020-5-11 11:19:13', '\0');
+INSERT INTO `sys_tree_dict` VALUES (8, 'fund', '519181', '8', 8, '0', 0, '2020-5-11 11:19:13', '\0');
+INSERT INTO `sys_tree_dict` VALUES (9, 'fund', '162703', '9', 9, '0', 0, '2020-5-11 11:19:13', '\0');
+INSERT INTO `sys_tree_dict` VALUES (10, 'fund', '008400', '10', 10, '0', 0, '2020-5-11 11:19:13', '\0');
+INSERT INTO `sys_tree_dict` VALUES (11, 'fund', '501015', '11', 11, '0', 0, '2020-5-11 11:19:13', '\0');
+INSERT INTO `sys_tree_dict` VALUES (12, 'fund', '001618', '12', 12, '0', 0, '2020-5-11 11:19:13', '\0');
+INSERT INTO `sys_tree_dict` VALUES (13, 'fund', '160224', '13', 13, '0', 0, '2020-5-11 11:19:13', '\0');
+INSERT INTO `sys_tree_dict` VALUES (14, 'fund', '001371', '14', 14, '0', 0, '2020-5-11 11:19:13', '\0');
+INSERT INTO `sys_tree_dict` VALUES (15, 'fund', '161903', '15', 15, '0', 0, '2020-5-11 11:19:13', '\0');
+INSERT INTO `sys_tree_dict` VALUES (1022, 'sxlx', '授信类型', '-999', -999, '0', 0, '2019-4-19 18:15:20', '\0');
+INSERT INTO `sys_tree_dict` VALUES (1023, 'sxlx', '抵押', '1', 1, '0', 0, '2019-4-19 18:15:20', '\0');
+INSERT INTO `sys_tree_dict` VALUES (1024, 'sxlx', '质押', '2', 2, '0', 0, '2019-4-19 18:15:20', '\0');
+INSERT INTO `sys_tree_dict` VALUES (1025, 'sxlx', '信用', '3', 3, '0', 0, '2019-4-19 18:15:20', '\0');
+INSERT INTO `sys_tree_dict` VALUES (1026, 'sxlx', '担保', '4', 4, '0', 0, '2019-4-19 18:15:20', '\0');
+INSERT INTO `sys_tree_dict` VALUES (1027, 'sxlx', '自然人持有的不动产', '5', 1, '1', 0, '2019-4-19 18:15:20', '\0');
+INSERT INTO `sys_tree_dict` VALUES (1028, 'sxlx', '商品住宅', '6', 2, '1', 0, '2019-4-19 18:15:20', '\0');
+INSERT INTO `sys_tree_dict` VALUES (1029, 'sxlx', '公司法人持有的不动产', '7', 3, '1', 0, '2019-4-19 18:15:20', '\0');
+INSERT INTO `sys_tree_dict` VALUES (1030, 'sxlx', '标准厂房', '8', 4, '1', 0, '2019-4-19 18:15:20', '\0');
+INSERT INTO `sys_tree_dict` VALUES (1031, 'sxlx', '机器设备', '9', 5, '1', 0, '2019-4-19 18:15:20', '\0');
+INSERT INTO `sys_tree_dict` VALUES (1032, 'sxlx', '车辆', '10', 6, '1', 0, '2019-4-19 18:15:20', '\0');
+INSERT INTO `sys_tree_dict` VALUES (1033, 'sxlx', '其他', '11', 7, '1', 0, '2019-4-19 18:15:20', '\0');
+INSERT INTO `sys_tree_dict` VALUES (1034, 'sxlx', '存贷', '12', 1, '2', 0, '2019-4-19 18:15:20', '\0');
+INSERT INTO `sys_tree_dict` VALUES (1035, 'sxlx', '国债', '13', 2, '2', 0, '2019-4-19 18:15:20', '\0');
+INSERT INTO `sys_tree_dict` VALUES (1036, 'sxlx', '保证基金', '14', 3, '2', 0, '2019-4-19 18:15:20', '\0');
+INSERT INTO `sys_tree_dict` VALUES (1037, 'sxlx', '银行承兑汇票', '15', 4, '2', 0, '2019-4-19 18:15:20', '\0');
+INSERT INTO `sys_tree_dict` VALUES (1038, 'sxlx', '标准仓单', '16', 5, '2', 0, '2019-4-19 18:15:20', '\0');
+INSERT INTO `sys_tree_dict` VALUES (1039, 'sxlx', '其他', '17', 6, '2', 0, '2019-4-19 18:16:13', '\0');
 
 
 -- ----------------------------

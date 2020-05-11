@@ -65,7 +65,7 @@ public class SysTreeDictServiceImpl implements ISysTreeDictService {
     public List<DictVO> listSubDicts(List<DictVO> list) {
         List<DictVO> ret = Lists.newArrayList();
         for (DictVO dictVO : list) {
-            if (dictVO.getParentValue().equals("0")) {
+            if ("0".equals(dictVO.getParentValue())) {
                 getChild(dictVO, list);
                 ret.add(dictVO);
             }
