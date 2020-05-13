@@ -4,7 +4,7 @@
     <select id="getRoleList" resultType="cn.biz.po.AuthRole">
         select * from
         auth_role a
-        where a.is_del=0
+        where 1=1
         <if test="dto.roleName!=null and dto.roleName!=''">
             and a.role_name like concat("%",#{dto.roleName},"%")
         </if>
