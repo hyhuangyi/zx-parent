@@ -15,6 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Api(tags = "角色权限相关api")
@@ -48,10 +49,11 @@ public class AuthRoleController {
         return authRoleService.selectRole(id);
     }
 
-    @ApiOperation("删除角色")
-    @PostMapping("/del")
-    public boolean delRole(@ApiParam("主键id") @RequestParam  @NotEmpty(message = "id不能为空") String id){
-        return authRoleService.delRole(id);
+    @ApiOperation("启用||禁用角色")
+    @PostMapping("/state")
+    public boolean updateRole(@ApiParam("主键id") @RequestParam  @NotEmpty(message = "id不能为空") String id,
+                           @ApiParam("type") @RequestParam  @NotNull(message = "0启用 1禁用") int type){
+        return authRoleService.updateRole(id,type);
     }
 
 }

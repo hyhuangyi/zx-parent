@@ -108,13 +108,14 @@ public class AuthRoleServiceImpl implements IAuthRoleService {
            authRole.setCreateTime(LocalDateTime.now());
            roleMapper.insert(authRole);
         }else{
-            if("1".equals(dto.getId())){
-                throw new ZxException("超级管理员不能编辑");
-            }
             AuthRole one= roleMapper.selectById(dto.getId());
             if(one==null){
                 throw new ZxException("该角色不存在");
             }
+            /**
+            if("ROLE_ADMIN".equals(one.getRoleCode())){
+                throw new ZxException("超级管理员不能编辑");
+            }**/
             if(!one.getRoleName().equals(dto.getRoleName())){
                 Integer count= roleMapper.selectCount(new QueryWrapper<AuthRole>().eq("role_name",dto.getRoleName()).eq("is_del",0));
                 if(count!=0){
@@ -154,27 +155,23 @@ public class AuthRoleServiceImpl implements IAuthRoleService {
     }
 
     /**
-     * 删除角色
+     * 启用禁用角色
      * @param roleId
      * @return
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean delRole(String roleId) {
-        if("1".equals(roleId)){
-            throw new ZxException("超级管理角色不能删除");
-        }
+    public boolean updateRole(String roleId,int type) {
         AuthRole role= roleMapper.selectById(roleId);
         if(role==null) {
             throw new ZxException("角色不存在");
         }
-       Integer count= userRoleMapper.selectCount(new QueryWrapper<AuthUserRole>().eq("role_id",roleId).eq("is_del",0));
-       if (count!=0){
-           throw new ZxException("该角色下有用户，不能被删除");
-       }
-       roleMapper.deleteById(roleId);
-       roleMenuMapper.delete(new QueryWrapper<AuthRoleMenu>().eq("role_id",roleId));
-       return true;
+        if("ROLE_ADMIN".equals(role.getRoleCode())){
+            throw new ZxException("超级管理角色不能操作");
+        }
+        role.setIsDel(type);
+        roleMapper.updateById(role);
+        return true;
     }
 
     /**

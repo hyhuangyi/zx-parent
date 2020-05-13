@@ -174,7 +174,11 @@ public class SysUserServiceImpl implements ISysUserService {
      */
     @Override
     public boolean delUser(String id) {
-        if("1".equals(id)){
+        SysUser sysUser=sysUserMapper.selectById(id);
+        if(sysUser==null){
+            throw new ZxException("用户不存在");
+        }
+        if("admin".equals(sysUser.getUsername())){
             throw new ZxException("超级管理员不能删除");
         }
         sysUserMapper.deleteById(id);
@@ -204,8 +208,12 @@ public class SysUserServiceImpl implements ISysUserService {
      */
     @Override
     public boolean changeStatus(UserStatusDTO dto) {
-        if(dto.getUserId()==1){
-            throw new ZxException("超级管理员不能禁用");
+        SysUser one=sysUserMapper.selectById(dto.getUserId());
+        if(one==null){
+            throw new ZxException("用户不存在");
+        }
+        if("admin".equals(one.getUsername())){
+            throw new ZxException("超级管理员不能操作");
         }
         SysUser sysUser=new SysUser();
         sysUser.setId(dto.getUserId());
