@@ -1,9 +1,14 @@
 package cn.common.util.comm;
 
 import cn.common.pojo.base.Token;
-
 import java.io.*;
 
+/**
+ * 什么时候使用序列化
+ * 当对象保存到物理介质的时候，比如对象保存到磁盘、文件
+ * 当对象在网络上传输的时候，比如通过套接字传输对象
+ * 当对象远程过程调用的时候，比如通过RMI调用对象
+ */
 public class CloneUtil {
 
     private CloneUtil() {
