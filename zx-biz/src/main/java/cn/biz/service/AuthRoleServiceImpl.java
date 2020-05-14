@@ -116,6 +116,10 @@ public class AuthRoleServiceImpl implements IAuthRoleService {
             if("ROLE_ADMIN".equals(one.getRoleCode())){
                 throw new ZxException("超级管理员不能编辑");
             }**/
+            //超管编号不能变
+            if("ROLE_ADMIN".equals(one.getRoleCode())){
+                authRole.setRoleCode("ROLE_ADMIN");
+            }
             if(!one.getRoleName().equals(dto.getRoleName())){
                 Integer count= roleMapper.selectCount(new QueryWrapper<AuthRole>().eq("role_name",dto.getRoleName()).eq("is_del",0));
                 if(count!=0){
