@@ -20,42 +20,56 @@ INSERT INTO `auth_user_role` VALUES ('1', '1', '1', '0', '2019-11-19 19:01:21', 
 -- Records of auth_menu
 -- ----------------------------
 INSERT INTO `auth_menu` VALUES ('1', '系统首页', '0', 'dashboard', '0', 'el-icon-lx-home', '1', '0', 'sys:view', '2019-11-22 11:41:42', '2020-01-03 11:26:22');
-INSERT INTO `auth_menu` VALUES ('2', '城市列表', '0', 'table', '0', 'el-icon-lx-cascades', '2', '0', 'city:view', '2019-11-22 11:44:25', '2020-01-03 11:27:23');
-INSERT INTO `auth_menu` VALUES ('3', 'tab选项卡', '0', 'tabs', '0', 'el-icon-lx-copy', '3', '0', null, '2019-11-22 11:45:12', '2020-01-03 11:29:34');
-INSERT INTO `auth_menu` VALUES ('4', '表单相关', '0', 'form', '0', 'el-icon-lx-calendar', '4', '0', null, '2019-11-22 11:45:28', '2020-01-03 11:29:34');
-INSERT INTO `auth_menu` VALUES ('5', 'schart图表', '0', 'charts', '0', 'el-icon-pie-chart', '5', '0', null, '2019-11-22 11:47:45', '2020-01-03 11:29:34');
-INSERT INTO `auth_menu` VALUES ('6', '国际化功能', '0', 'i18n', '0', 'el-icon-lx-global', '6', '0', null, '2019-11-22 11:48:30', '2020-01-03 11:29:34');
-INSERT INTO `auth_menu` VALUES ('7', '系统工具', '0', 'sys', '0', 'el-icon-s-tools', '7', '0', null, '2019-11-22 11:48:48', '2020-01-03 11:29:34');
-INSERT INTO `auth_menu` VALUES ('8', '接口文档', '7', 'swagger', '0', 'el-icon-lx-read', '1', '0', null, '2019-11-22 11:49:29', '2020-01-03 11:29:34');
-INSERT INTO `auth_menu` VALUES ('9', '数据监控', '7', 'druid', '0', 'el-icon-s-platform', '2', '0', null, '2019-11-22 11:49:44', '2020-01-03 11:29:34');
-INSERT INTO `auth_menu` VALUES ('10', '基本表单', '4', 'form', '0', 'el-icon-s-grid', '1', '0', null, '2019-11-22 11:50:49', '2020-01-03 11:29:34');
-INSERT INTO `auth_menu` VALUES ('11', '三级菜单', '4', 'form-three', '0', 'el-icon-connection', '2', '0', null, '2019-11-22 11:51:12', '2020-01-03 11:29:34');
-INSERT INTO `auth_menu` VALUES ('12', '富文本编辑器', '11', 'editor', '0', 'el-icon-notebook-1', '1', '0', null, '2019-11-22 11:51:32', '2020-01-03 11:29:34');
-INSERT INTO `auth_menu` VALUES ('13', 'markdown编辑器', '11', 'markdown', '0', 'el-icon-notebook-2', '2', '0', null, '2019-11-22 11:51:34', '2020-01-03 11:29:34');
-INSERT INTO `auth_menu` VALUES ('14', '文件上传', '4', 'upload', '0', 'el-icon-upload', '3', '0', null, '2019-11-22 11:52:36', '2020-01-03 11:29:34');
-INSERT INTO `auth_menu` VALUES ('15', '操作日志', '7', 'operate', '0', 'el-icon-document', '3', '0', 'log:list', '2019-11-26 10:52:33', '2020-01-03 11:27:13');
-INSERT INTO `auth_menu` VALUES ('16', '删除日志', '15', null, '1', null, '1', '0', 'log:del', '2019-11-26 10:52:33', '2020-01-03 11:27:13');
-INSERT INTO `auth_menu` VALUES ('17', '基金列表', '0', 'fund', '0', 'el-icon-position', '2', '0', null, '2019-11-26 10:52:33', '2020-01-03 11:27:13');
+INSERT INTO `auth_menu` VALUES ('2', '城市列表', '0', 'table', '0', 'el-icon-location-information', '2', '0', 'city:list', '2019-11-22 11:44:25', '2020-05-15 11:22:57');
+INSERT INTO `auth_menu` VALUES ('3', 'tab选项卡', '4', 'tabs', '0', 'el-icon-lx-copy', '3', '0', ' ', '2019-11-22 11:45:12', '2020-05-15 16:29:40');
+INSERT INTO `auth_menu` VALUES ('4', '演示案例', '0', 'demo', '0', 'el-icon-apple', '99', '0', ' ', '2019-11-22 11:45:28', '2020-05-15 16:29:38');
+INSERT INTO `auth_menu` VALUES ('5', 'schart图表', '4', 'charts', '0', 'el-icon-pie-chart', '5', '0', ' ', '2019-11-22 11:47:45', '2020-05-15 16:29:41');
+INSERT INTO `auth_menu` VALUES ('6', '国际化功能', '4', 'i18n', '0', 'el-icon-lx-global', '6', '0', ' ', '2019-11-22 11:48:30', '2020-05-15 16:29:42');
+INSERT INTO `auth_menu` VALUES ('7', '系统工具', '0', 'sys', '0', 'el-icon-s-tools', '98', '0', ' ', '2019-11-22 11:48:48', '2020-05-15 16:29:41');
+INSERT INTO `auth_menu` VALUES ('8', '接口文档', '7', 'swagger', '0', 'el-icon-lx-read', '1', '0', ' ', '2019-11-22 11:49:29', '2020-05-15 16:29:42');
+INSERT INTO `auth_menu` VALUES ('9', '数据监控', '7', 'druid', '0', 'el-icon-s-platform', '2', '0', ' ', '2019-11-22 11:49:44', '2020-05-15 16:29:43');
+INSERT INTO `auth_menu` VALUES ('10', '基本表单', '4', 'form', '0', 'el-icon-s-grid', '1', '0', ' ', '2019-11-22 11:50:49', '2020-05-15 16:29:44');
+INSERT INTO `auth_menu` VALUES ('11', '三级菜单', '4', 'form-three', '0', 'el-icon-connection', '3', '0', ' ', '2019-11-22 11:51:12', '2020-05-15 16:29:45');
+INSERT INTO `auth_menu` VALUES ('12', '富文本编辑器', '11', 'editor', '0', 'el-icon-notebook-1', '1', '0', ' ', '2019-11-22 11:51:32', '2020-05-15 16:29:44');
+INSERT INTO `auth_menu` VALUES ('13', 'markdown编辑器', '11', 'markdown', '0', 'el-icon-notebook-2', '2', '0', ' ', '2019-11-22 11:51:34', '2020-05-15 16:29:46');
+INSERT INTO `auth_menu` VALUES ('14', '文件上传', '4', 'upload', '0', 'el-icon-upload', '2', '0', ' ', '2019-11-22 11:52:36', '2020-05-15 16:29:47');
+INSERT INTO `auth_menu` VALUES ('15', '操作日志', '7', 'operate', '0', 'el-icon-document', '3', '0', 'log:list', '2019-11-26 10:52:33', '2020-01-03 14:26:04');
+INSERT INTO `auth_menu` VALUES ('16', '删除日志', '15', ' ', '1', ' ', '1', '0', 'log:del', '2020-01-03 14:10:52', '2020-05-15 16:29:24');
+INSERT INTO `auth_menu` VALUES ('17', '基金列表', '0', 'fund', '0', 'el-icon-position', '2', '0', 'fund:list', '2020-04-02 15:37:07', '2020-05-15 11:21:52');
+INSERT INTO `auth_menu` VALUES ('18', '角色管理', '20', 'role', '0', 'el-icon-user-solid', '1', '0', 'role:list', '2020-05-13 14:44:08', '2020-05-15 11:14:34');
+INSERT INTO `auth_menu` VALUES ('19', '用户管理', '20', 'user', '0', 'el-icon-user', '2', '0', 'user:list', '2020-05-15 10:29:38', '2020-05-15 11:11:55');
+INSERT INTO `auth_menu` VALUES ('20', '权限管理', '0', 'auth', '0', 'el-icon-share', '8', '0', ' ', '2020-05-15 10:29:49', '2020-05-15 16:29:48');
+INSERT INTO `auth_menu` VALUES ('21', '新增|编辑角色', '18', '', '1', ' ', '1', '0', 'role:save', '2020-05-15 11:29:47', '2020-05-15 16:29:26');
+INSERT INTO `auth_menu` VALUES ('22', '删除角色', '18', ' ', '1', ' ', '2', '0', 'role:del', '2020-05-15 11:30:35', '2020-05-15 16:29:31');
+INSERT INTO `auth_menu` VALUES ('23', '新增|编辑用户', '19', ' ', '1', ' ', '1', '0', 'user:save', '2020-05-15 12:44:45', '2020-05-15 16:29:33');
+INSERT INTO `auth_menu` VALUES ('24', '删除用户', '19', ' ', '1', ' ', '2', '0', 'user:del', '2020-05-15 16:40:55', '2020-05-15 16:41:11');
 -- ----------------------------
 -- Records of auth_role_menu
 -- ----------------------------
-INSERT INTO `auth_role_menu` VALUES ('1', '1', '1', '2019-11-19 18:36:54', '2019-11-20 10:54:28');
-INSERT INTO `auth_role_menu` VALUES ('2', '1', '2', '2019-11-19 18:36:54', '2019-11-20 10:54:28');
-INSERT INTO `auth_role_menu` VALUES ('3', '1', '3', '2019-11-19 18:36:54', '2019-11-20 10:54:29');
-INSERT INTO `auth_role_menu` VALUES ('4', '1', '4', '2019-11-19 18:36:54', '2019-11-20 10:54:32');
-INSERT INTO `auth_role_menu` VALUES ('5', '1', '5', '2019-11-19 18:36:54', '2019-11-20 10:54:34');
-INSERT INTO `auth_role_menu` VALUES ('6', '1', '6', '2019-11-19 18:36:54', '2019-11-20 10:54:35');
-INSERT INTO `auth_role_menu` VALUES ('7', '1', '7', '2019-11-22 22:23:31', '2019-11-22 22:23:36');
-INSERT INTO `auth_role_menu` VALUES ('8', '1', '8', '2019-11-22 22:23:42', '2019-11-22 22:23:42');
-INSERT INTO `auth_role_menu` VALUES ('9', '1', '9', '2019-11-22 22:23:52', '2019-11-22 22:23:52');
-INSERT INTO `auth_role_menu` VALUES ('10', '1', '10', '2019-11-22 22:24:03', '2019-11-22 22:24:03');
-INSERT INTO `auth_role_menu` VALUES ('11', '1', '11', '2019-11-22 22:24:08', '2019-11-22 22:24:08');
-INSERT INTO `auth_role_menu` VALUES ('12', '1', '12', '2019-11-22 22:24:14', '2019-11-22 22:24:14');
-INSERT INTO `auth_role_menu` VALUES ('13', '1', '13', '2019-11-22 22:24:23', '2019-11-22 22:24:23');
-INSERT INTO `auth_role_menu` VALUES ('14', '1', '14', '2019-11-22 22:24:29', '2019-11-22 22:24:29');
-INSERT INTO `auth_role_menu` VALUES ('15', '1', '15', '2019-11-22 22:24:29', '2019-11-22 22:24:29');
-INSERT INTO `auth_role_menu` VALUES ('16', '1', '16', '2019-11-22 22:24:29', '2019-11-22 22:24:29');
-INSERT INTO `auth_role_menu` VALUES ('17', '1', '17', '2019-11-22 22:24:29', '2019-11-22 22:24:29');
+INSERT INTO `auth_role_menu` VALUES ('585', '1', '1', '2020-05-15 16:54:48', '2020-05-15 16:54:48');
+INSERT INTO `auth_role_menu` VALUES ('586', '1', '2', '2020-05-15 16:54:48', '2020-05-15 16:54:48');
+INSERT INTO `auth_role_menu` VALUES ('587', '1', '17', '2020-05-15 16:54:48', '2020-05-15 16:54:48');
+INSERT INTO `auth_role_menu` VALUES ('588', '1', '20', '2020-05-15 16:54:48', '2020-05-15 16:54:48');
+INSERT INTO `auth_role_menu` VALUES ('589', '1', '18', '2020-05-15 16:54:48', '2020-05-15 16:54:48');
+INSERT INTO `auth_role_menu` VALUES ('590', '1', '21', '2020-05-15 16:54:48', '2020-05-15 16:54:48');
+INSERT INTO `auth_role_menu` VALUES ('591', '1', '22', '2020-05-15 16:54:48', '2020-05-15 16:54:48');
+INSERT INTO `auth_role_menu` VALUES ('592', '1', '19', '2020-05-15 16:54:48', '2020-05-15 16:54:48');
+INSERT INTO `auth_role_menu` VALUES ('593', '1', '23', '2020-05-15 16:54:48', '2020-05-15 16:54:48');
+INSERT INTO `auth_role_menu` VALUES ('594', '1', '24', '2020-05-15 16:54:48', '2020-05-15 16:54:48');
+INSERT INTO `auth_role_menu` VALUES ('595', '1', '7', '2020-05-15 16:54:48', '2020-05-15 16:54:48');
+INSERT INTO `auth_role_menu` VALUES ('596', '1', '8', '2020-05-15 16:54:48', '2020-05-15 16:54:48');
+INSERT INTO `auth_role_menu` VALUES ('597', '1', '9', '2020-05-15 16:54:48', '2020-05-15 16:54:48');
+INSERT INTO `auth_role_menu` VALUES ('598', '1', '15', '2020-05-15 16:54:48', '2020-05-15 16:54:48');
+INSERT INTO `auth_role_menu` VALUES ('599', '1', '16', '2020-05-15 16:54:48', '2020-05-15 16:54:48');
+INSERT INTO `auth_role_menu` VALUES ('600', '1', '4', '2020-05-15 16:54:48', '2020-05-15 16:54:48');
+INSERT INTO `auth_role_menu` VALUES ('601', '1', '10', '2020-05-15 16:54:48', '2020-05-15 16:54:48');
+INSERT INTO `auth_role_menu` VALUES ('602', '1', '14', '2020-05-15 16:54:48', '2020-05-15 16:54:48');
+INSERT INTO `auth_role_menu` VALUES ('603', '1', '3', '2020-05-15 16:54:48', '2020-05-15 16:54:48');
+INSERT INTO `auth_role_menu` VALUES ('604', '1', '11', '2020-05-15 16:54:48', '2020-05-15 16:54:48');
+INSERT INTO `auth_role_menu` VALUES ('605', '1', '12', '2020-05-15 16:54:48', '2020-05-15 16:54:48');
+INSERT INTO `auth_role_menu` VALUES ('606', '1', '13', '2020-05-15 16:54:48', '2020-05-15 16:54:48');
+INSERT INTO `auth_role_menu` VALUES ('607', '1', '5', '2020-05-15 16:54:48', '2020-05-15 16:54:48');
+INSERT INTO `auth_role_menu` VALUES ('608', '1', '6', '2020-05-15 16:54:48', '2020-05-15 16:54:48');
 -- ----------------------------
 -- Records of sys_tree_dict
 -- ----------------------------
