@@ -179,6 +179,30 @@ public class AuthRoleServiceImpl implements IAuthRoleService {
     }
 
     /**
+     * 删除角色 角色下有用户不能删除
+     * @param roleId
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean delRole(String roleId) {
+        AuthRole role= roleMapper.selectById(roleId);
+        if(role==null) {
+            throw new ZxException("角色不存在");
+        }
+        if("ROLE_ADMIN".equals(role.getRoleCode())){
+            throw new ZxException("超级管理角色不能删除");
+        }
+        Integer count= userRoleMapper.selectCount(new QueryWrapper<AuthUserRole>().eq("role_id",roleId).eq("is_del",0));
+        if (count!=0){
+            throw new ZxException("该角色下有用户，不能被删除");
+        }
+        roleMapper.deleteById(roleId);
+        roleMenuMapper.delete(new QueryWrapper<AuthRoleMenu>().eq("role_id",roleId));
+        return true;
+    }
+
+    /**
      * 获取用户菜单
      */
     @Override

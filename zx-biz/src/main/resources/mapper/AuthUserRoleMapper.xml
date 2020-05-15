@@ -15,6 +15,6 @@
         FROM
             auth_user_role a
         LEFT JOIN auth_role b ON a.role_id = b.id
-        where a.user_id=#{userId}
+        where a.user_id=#{userId} and b.is_del=0
     </select>
 </mapper>

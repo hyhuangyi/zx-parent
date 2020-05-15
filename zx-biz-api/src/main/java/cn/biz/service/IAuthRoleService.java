@@ -19,6 +19,8 @@ public interface IAuthRoleService {
     RoleVO selectRole(String roleId);
     //启用禁用角色
     boolean updateRole(String roleId,int type);
+    //删除角色
+    boolean delRole(String roleId);
     //获取用户菜单
     List<MenuVO> getUserMenus(String roleIds);
 }

@@ -56,4 +56,9 @@ public class AuthRoleController {
         return authRoleService.updateRole(id,type);
     }
 
+    @ApiOperation("删除角色")
+    @PostMapping("/del")
+    public boolean delRole(@ApiParam("主键id") @RequestParam  @NotEmpty(message = "id不能为空") String id ){
+        return authRoleService.delRole(id);
+    }
 }
