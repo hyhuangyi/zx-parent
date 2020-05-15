@@ -90,7 +90,6 @@ public class UserController {
     }
     @ApiOperation("修改密码")
     @PostMapping("/change/psw")
-    @PreAuthorize("hasAuthority('user:save')")
     @OperateLog(operation ="修改密码" ,moduleName = LogModuleConst.USER_MODULE)
     public boolean change(@ApiParam("主键id") @RequestParam  @NotEmpty(message = "id不能为空") String id,
                           @ApiParam("旧密码") @RequestParam  @NotEmpty(message = "旧密码不能为空") String old,
