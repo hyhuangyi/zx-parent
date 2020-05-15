@@ -5,6 +5,7 @@ import cn.biz.po.AuthRole;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 
@@ -16,4 +17,6 @@ import java.util.List;
 @Repository
 public interface AuthRoleMapper extends BaseMapper<AuthRole> {
     List<AuthRole> getRoleList(@Param("dto")RoleListDTO dto, Page page);
+    @Select("select *from auth_role where 1=1")
+    List<AuthRole> roleSelect();
 }

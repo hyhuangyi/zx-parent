@@ -3,8 +3,10 @@ package cn.biz.service;
 import cn.biz.dto.SaveUserDTO;
 import cn.biz.dto.UserListDTO;
 import cn.biz.dto.UserStatusDTO;
+import cn.biz.mapper.AuthRoleMapper;
 import cn.biz.mapper.AuthUserRoleMapper;
 import cn.biz.mapper.SysUserMapper;
+import cn.biz.po.AuthRole;
 import cn.biz.po.AuthUserRole;
 import cn.biz.po.SysUser;
 import cn.biz.vo.MenuVO;
@@ -51,6 +53,8 @@ public class SysUserServiceImpl implements ISysUserService {
     private AuthUserRoleMapper userRoleMapper;
     @Autowired
     private IAuthRoleService authRoleService;
+    @Autowired
+    private AuthRoleMapper roleMapper;
 
     private static BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -155,6 +159,15 @@ public class SysUserServiceImpl implements ISysUserService {
         Page<UserListVO> page=new Page<>(dto.getCurrent(),dto.getSize());
         page.setRecords(sysUserMapper.getUserList(dto,page));
         return page;
+    }
+
+    /**
+     * 角色下拉选
+     * @return
+     */
+    @Override
+    public List<AuthRole> roleSelect() {
+        return  roleMapper.roleSelect();
     }
 
     /**

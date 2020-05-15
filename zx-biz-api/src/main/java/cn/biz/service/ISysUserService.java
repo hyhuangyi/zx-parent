@@ -2,11 +2,14 @@ package cn.biz.service;
 import cn.biz.dto.SaveUserDTO;
 import cn.biz.dto.UserListDTO;
 import cn.biz.dto.UserStatusDTO;
+import cn.biz.po.AuthRole;
 import cn.biz.po.SysUser;
 import cn.biz.vo.UserListVO;
 import cn.biz.vo.ZxToken;
 import cn.common.pojo.monitor.Server;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+
+import java.util.List;
 
 
 /**
@@ -19,6 +22,8 @@ public interface ISysUserService {
     boolean saveUser(SaveUserDTO dto);
     //user列表
     IPage<UserListVO> getUserList(UserListDTO dto);
+    //角色下拉选
+    List<AuthRole> roleSelect();
     //获取用户信息
     UserListVO getUserInfo(String id);
     //删除用户

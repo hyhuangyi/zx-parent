@@ -10,6 +10,7 @@
         sys_user a
         left join auth_user_role b on a.id=b.user_id
         left join auth_role c on c.id=b.role_id
+        where 1=1
         <if test="dto.phone!=null and dto.phone!=''">
             and a.phone like concat("%",#{dto.phone},"%")
         </if>

@@ -25,7 +25,7 @@ public class CityController {
 
     @GetMapping("/city/list")
     @ApiOperation("城市分页列表")
-    @PreAuthorize("hasAuthority('city:view')")
+    @PreAuthorize("hasAuthority('city:list')")
     @OperateLog(operation = "查询城市列表",moduleName = LogModuleConst.BIZ_MODULE)
     public IPage<CdCity> list(@RequestParam(required = false,defaultValue = "1") long current, @RequestParam(required = false,defaultValue = "10")long size, String name){
         Page page=new Page(current,size);
