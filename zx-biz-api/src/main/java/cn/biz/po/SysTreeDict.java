@@ -44,7 +44,7 @@ public class SysTreeDict implements Serializable {
     private String parentValue;
 
     @ApiModelProperty(value = "编辑人")
-    private Integer updateUser;
+    private String remark;
 
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "更新时间")

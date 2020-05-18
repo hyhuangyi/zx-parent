@@ -3,8 +3,12 @@ package cn.biz.vo;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 @Data
 public class FundVO implements Comparable<FundVO>{
+    @ApiModelProperty("id")
+    private Integer id;
     @ApiModelProperty("code")
     private String fundcode;
     @ApiModelProperty("名称")
@@ -19,6 +23,10 @@ public class FundVO implements Comparable<FundVO>{
     private double gszzl;
     @ApiModelProperty("估值时间")
     private String gztime;
+    @ApiModelProperty("持有金额")
+    private String remark;
+    @ApiModelProperty("利润")
+    private BigDecimal ly;
     @Override
     public int compareTo(FundVO o) {
         double i=o.getGszzl()-this.getGszzl();

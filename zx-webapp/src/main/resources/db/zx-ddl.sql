@@ -118,7 +118,7 @@ CREATE TABLE `sys_tree_dict` (
   `dd_value` varchar(50) DEFAULT NULL COMMENT '字典值',
   `dd_index` int(11) DEFAULT '0' COMMENT '排序字段',
   `parent_value` varchar(50) DEFAULT NULL COMMENT '父级字典值',
-  `update_user` int(11) DEFAULT NULL COMMENT '编辑人',
+  `remark` varchar(20) DEFAULT '0' COMMENT '备注',
   `update_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `is_del` bit(1) DEFAULT b'0' COMMENT '删除标识',
   PRIMARY KEY (`dd_id`),
