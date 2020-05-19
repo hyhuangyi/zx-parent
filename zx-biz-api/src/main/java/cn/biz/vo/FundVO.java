@@ -24,7 +24,7 @@ public class FundVO implements Comparable<FundVO>{
     @ApiModelProperty("估值时间")
     private String gztime;
     @ApiModelProperty("持有金额")
-    private String remark;
+    private double remark;
     @ApiModelProperty("利润")
     private BigDecimal ly;
     @Override

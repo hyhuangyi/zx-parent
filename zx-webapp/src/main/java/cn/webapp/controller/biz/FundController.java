@@ -51,7 +51,7 @@ public class FundController {
                String json=result.substring(result.indexOf("{"),result.lastIndexOf("}")+1);//获取json
                FundVO fundVO=JSON.parseObject(json,FundVO.class);
                fundVO.setId(vo.getDdId());
-               fundVO.setRemark(vo.getRemark());
+               fundVO.setRemark(Double.valueOf(vo.getRemark()));
                fundVO.setLy(BigDecimalUtils.mulFool(2,vo.getRemark(),fundVO.getGszzl()/100));
                res.add(fundVO);//转为实体
            }catch (Exception e){
