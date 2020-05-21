@@ -25,7 +25,7 @@
         FROM information_schema.`TABLES`
       WHERE TABLE_SCHEMA = #{dto.schema}
         <if test="dto.name!=null and dto.name!=''">
-            and TABLE_COMMENT =#{dto.name}
+            and TABLE_COMMENT like concat("%",#{dto.name},"%")
         </if>
         <if test="dto.startDate!=null and dto.startDate!='' and (dto.endDate==null or dto.endDate=='')">
             and date(CREATE_TIME)=#{dto.startDate}

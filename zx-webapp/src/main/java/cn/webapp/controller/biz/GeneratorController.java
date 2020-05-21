@@ -13,20 +13,19 @@ import javax.servlet.http.HttpServletResponse;
 
 @Api(tags = "代码生成相关接口")
 @RestController
-@RequestMapping("generate")
 @Slf4j
 public class GeneratorController {
     @Autowired
     private ISysService sysService;
 
     @ApiOperation("代码生成")
-    @GetMapping("/code")
-    public void generateCode(String[] arr, HttpServletResponse response)throws Exception{
-        sysService.generateCode(arr,response);
+    @GetMapping("/comm/generate/code")
+    public void generateCode(String arr, HttpServletResponse response)throws Exception{
+        sysService.generateCode(arr.split(","),response);
     }
 
     @ApiOperation("/数据表列表")
-    @GetMapping("list")
+    @GetMapping("/generate/list")
     public IPage<TableListVO> list(@ModelAttribute TableListDTO dto){
        return sysService.getTableList(dto);
     }
