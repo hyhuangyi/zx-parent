@@ -17,11 +17,9 @@ import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
-import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.OutputStream;
@@ -44,10 +42,12 @@ public class SysServiceImpl implements ISysService {
     private String parent="com.zx";
 
     @Override
-    public void generateCode(@ApiParam("主键id") @RequestParam  String[] arr, HttpServletResponse response)throws Exception {
+    public void generateCode(String schema ,String[] arr, HttpServletResponse response)throws Exception {
         if (arr==null||arr.length==0){
             throw new ZxException("请至少选择一个");
         }
+        String replace= url.substring(url.indexOf("6/")+2, url.indexOf("?"));//截取当前schema
+        String realUrl=url.replace(replace,schema);//替换schmea
         // 代码生成器
         AutoGenerator mpg = new AutoGenerator();
         //全局配置
@@ -62,7 +62,7 @@ public class SysServiceImpl implements ISysService {
 
         //数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl(url);
+        dsc.setUrl(realUrl);
         //dsc.setSchemaName("public");
         dsc.setDriverName(driver);
         dsc.setUsername(name);
@@ -148,9 +148,14 @@ public class SysServiceImpl implements ISysService {
     @Override
     public IPage<TableListVO> getTableList(TableListDTO dto) {
         Page<TableListVO> page=new Page<>(dto.getCurrent(),dto.getSize());
-        dto.setSchema("zx");
         List<TableListVO> list=sysOperateLogMapper.getTableList(page,dto);
         page.setRecords(list);
         return page;
     }
+
+    @Override
+    public List<String> getSchemas() {
+        return sysOperateLogMapper.getSchemas();
+    }
+
 }

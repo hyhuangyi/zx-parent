@@ -12,6 +12,6 @@ public class TableListDTO extends PagingQuest {
     private String startDate;
     @ApiModelProperty("结束时间")
     private String endDate;
-    @ApiModelProperty(hidden = true)
+    @ApiModelProperty("库")
     private String schema;
 }

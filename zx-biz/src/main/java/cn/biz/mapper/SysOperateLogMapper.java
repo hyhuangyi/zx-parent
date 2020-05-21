@@ -7,6 +7,7 @@ import cn.biz.vo.TableListVO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -21,4 +22,7 @@ public interface SysOperateLogMapper extends BaseMapper<SysOperateLog> {
      List<SysOperateLog> getOperateLogList(Page page,@Param("dto") OperateLogDTO dto);
 
      List<TableListVO> getTableList(Page page,@Param("dto") TableListDTO dto);
+
+     @Select("SELECT TABLE_SCHEMA  FROM information_schema.`TABLES` GROUP BY TABLE_SCHEMA")
+     List<String> getSchemas();
 }
