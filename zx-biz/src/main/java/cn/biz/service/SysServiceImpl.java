@@ -136,6 +136,8 @@ public class SysServiceImpl implements ISysService {
         mpg.setTemplateEngine(new FreemarkerTemplateEngine());
         mpg.execute();
         try {
+//            response.setContentType("application/octet-stream;charset=UTF-8;");
+//            response.addHeader("Content-Disposition", "attachment;");
             OutputStream outputStream = response.getOutputStream();
             AntZipUtil.compress(outputStream,projectPath+ File.separator+"src");
         }finally {
