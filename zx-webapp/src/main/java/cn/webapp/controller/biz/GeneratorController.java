@@ -9,12 +9,11 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpServletResponse;
 
 @Api(tags = "代码生成相关接口")
 @RestController
-@RequestMapping("comm/generate")
+@RequestMapping("generate")
 @Slf4j
 public class GeneratorController {
     @Autowired
