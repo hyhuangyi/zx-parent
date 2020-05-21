@@ -18,4 +18,24 @@
         </if>
         ORDER BY a.operate_time desc
     </select>
+
+    <select id="getTableList" resultType="cn.biz.vo.TableListVO">
+      SELECT
+        `TABLE_NAME`,`TABLE_COMMENT`,`CREATE_TIME`,`UPDATE_TIME`
+        FROM information_schema.`TABLES`
+      WHERE TABLE_SCHEMA = #{dto.schema}
+        <if test="dto.name!=null and dto.name!=''">
+            and TABLE_COMMENT =#{dto.name}
+        </if>
+        <if test="dto.startDate!=null and dto.startDate!='' and (dto.endDate==null or dto.endDate=='')">
+            and date(CREATE_TIME)=#{dto.startDate}
+        </if>
+        <if test="dto.endDate!=null and dto.endDate!='' and (dto.startDate==null or dto.startDate=='')">
+            and date(CREATE_TIME)=#{dto.endDate}
+        </if>
+        <if test="dto.startDate!=null and dto.startDate!='' and dto.endDate!=null and dto.endDate!=''">
+            and date(CREATE_TIME) between #{dto.startDate} and #{dto.endDate}
+        </if>
+        order by CREATE_TIME desc
+    </select>
 </mapper>

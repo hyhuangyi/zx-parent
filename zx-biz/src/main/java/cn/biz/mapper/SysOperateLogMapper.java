@@ -1,7 +1,9 @@
 package cn.biz.mapper;
 
 import cn.biz.dto.OperateLogDTO;
+import cn.biz.dto.TableListDTO;
 import cn.biz.po.SysOperateLog;
+import cn.biz.vo.TableListVO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
@@ -17,4 +19,6 @@ import java.util.List;
 @Repository
 public interface SysOperateLogMapper extends BaseMapper<SysOperateLog> {
      List<SysOperateLog> getOperateLogList(Page page,@Param("dto") OperateLogDTO dto);
+
+     List<TableListVO> getTableList(Page page,@Param("dto") TableListDTO dto);
 }
