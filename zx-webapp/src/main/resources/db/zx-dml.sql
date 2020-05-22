@@ -38,13 +38,13 @@ INSERT INTO `auth_menu` VALUES ('16', '删除日志', '15', ' ', '1', ' ', '1', 
 INSERT INTO `auth_menu` VALUES ('17', '基金列表', '0', 'fund', '0', 'el-icon-position', '2', '0', 'fund:list', '2020-04-02 15:37:07', '2020-05-15 11:21:52');
 INSERT INTO `auth_menu` VALUES ('18', '角色管理', '20', 'role', '0', 'el-icon-user-solid', '1', '0', 'role:list', '2020-05-13 14:44:08', '2020-05-15 11:14:34');
 INSERT INTO `auth_menu` VALUES ('19', '用户管理', '20', 'user', '0', 'el-icon-user', '2', '0', 'user:list', '2020-05-15 10:29:38', '2020-05-15 11:11:55');
-INSERT INTO `auth_menu` VALUES ('20', '权限管理', '0', 'auth', '0', 'el-icon-share', '8', '0', ' ', '2020-05-15 10:29:49', '2020-05-15 16:29:48');
+INSERT INTO `auth_menu` VALUES ('20', '权限管理', '0', 'auth', '0', 'el-icon-unlock', '8', '0', ' ', '2020-05-15 10:29:49', '2020-05-15 16:29:48');
 INSERT INTO `auth_menu` VALUES ('21', '新增|编辑角色', '18', '', '1', ' ', '1', '0', 'role:save', '2020-05-15 11:29:47', '2020-05-15 16:29:26');
 INSERT INTO `auth_menu` VALUES ('22', '删除角色', '18', ' ', '1', ' ', '2', '0', 'role:del', '2020-05-15 11:30:35', '2020-05-15 16:29:31');
 INSERT INTO `auth_menu` VALUES ('23', '新增|编辑用户', '19', ' ', '1', ' ', '1', '0', 'user:save', '2020-05-15 12:44:45', '2020-05-15 16:29:33');
 INSERT INTO `auth_menu` VALUES ('24', '删除用户', '19', ' ', '1', ' ', '2', '0', 'user:del', '2020-05-15 16:40:55', '2020-05-15 16:41:11');
-INSERT INTO `auth_menu` VALUES ('25', '爱情树', '7', 'love', '0', 'el-icon-star-off', '4', '0', '', '2020-05-15 16:40:55', '2020-05-15 16:41:11');
-INSERT INTO `auth_menu` VALUES ('26', '代码生成', '7', 'generator', '0', 'el-icon-folder-opened', '5', '0', 'generator:list', '2020-05-15 16:40:55', '2020-05-15 16:41:11');
+INSERT INTO `auth_menu` VALUES ('25', '爱情之树', '0', 'love', '0', 'el-icon-grape', '5', '0', '', '2020-05-15 16:40:55', '2020-05-15 16:41:11');
+INSERT INTO `auth_menu` VALUES ('26', '代码生成', '0', 'generator', '0', 'el-icon-s-data', '4', '0', 'generator:list', '2020-05-15 16:40:55', '2020-05-15 16:41:11');
 -- ----------------------------
 -- Records of auth_role_menu
 -- ----------------------------
