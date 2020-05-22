@@ -46,6 +46,7 @@ INSERT INTO `auth_menu` VALUES ('24', '删除用户', '19', ' ', '1', ' ', '2', 
 INSERT INTO `auth_menu` VALUES ('25', '爱情之树', '0', 'love', '0', 'el-icon-grape', '5', '0', '', '2020-05-15 16:40:55', '2020-05-15 16:41:11');
 INSERT INTO `auth_menu` VALUES ('26', '代码生成', '0', 'generator', '0', 'el-icon-s-data', '4', '0', 'generator:list', '2020-05-15 16:40:55', '2020-05-15 16:41:11');
 INSERT INTO `auth_menu` VALUES ('27', '高德地图', '0', 'map', '0', 'el-icon-location-information', '6', '0', '', '2020-05-15 16:40:55', '2020-05-15 16:41:11');
+INSERT INTO `auth_menu` VALUES ('28', '视频播放', '0', 'video', '0', 'el-icon-video-play', '7', '0', '', '2020-05-15 16:40:55', '2020-05-15 16:41:11');
 -- ----------------------------
 -- Records of auth_role_menu
 -- ----------------------------
@@ -76,6 +77,7 @@ INSERT INTO `auth_role_menu` VALUES ('608', '1', '6', '2020-05-15 16:54:48', '20
 INSERT INTO `auth_role_menu` VALUES ('609', '1', '25', '2020-05-15 16:54:48', '2020-05-15 16:54:48');
 INSERT INTO `auth_role_menu` VALUES ('610', '1', '26', '2020-05-15 16:54:48', '2020-05-15 16:54:48');
 INSERT INTO `auth_role_menu` VALUES ('611', '1', '27', '2020-05-15 16:54:48', '2020-05-15 16:54:48');
+INSERT INTO `auth_role_menu` VALUES ('612', '1', '28', '2020-05-15 16:54:48', '2020-05-15 16:54:48');
 -- ----------------------------
 -- Records of sys_tree_dict
 -- ----------------------------
