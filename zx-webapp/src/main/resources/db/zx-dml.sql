@@ -19,7 +19,7 @@ INSERT INTO `auth_user_role` VALUES ('1', '1', '1', '0', '2019-11-19 19:01:21', 
 -- ----------------------------
 -- Records of auth_menu
 -- ----------------------------
-INSERT INTO `auth_menu` VALUES ('1', '系统首页', '0', 'dashboard', '0', 'el-icon-lx-home', '1', '0', 'sys:view', '2019-11-22 11:41:42', '2020-01-03 11:26:22');
+INSERT INTO `auth_menu` VALUES ('1', '系统首页', '0', 'dashboard', '0', 'el-icon-lx-home', '1', '0', '', '2019-11-22 11:41:42', '2020-01-03 11:26:22');
 INSERT INTO `auth_menu` VALUES ('2', '城市列表', '0', 'city', '0', 'el-icon-office-building', '2', '0', 'city:list', '2019-11-22 11:44:25', '2020-05-15 11:22:57');
 INSERT INTO `auth_menu` VALUES ('3', 'tab选项卡', '4', 'tabs', '0', 'el-icon-lx-copy', '3', '0', ' ', '2019-11-22 11:45:12', '2020-05-15 16:29:40');
 INSERT INTO `auth_menu` VALUES ('4', '演示案例', '0', 'demo', '0', 'el-icon-apple', '99', '0', ' ', '2019-11-22 11:45:28', '2020-05-15 16:29:38');
@@ -50,6 +50,7 @@ INSERT INTO `auth_menu` VALUES ('28', '视频播放', '0', 'video', '0', 'el-ico
 INSERT INTO `auth_menu` VALUES ('29', '瀑布流-easy', '31', 'waterfall-easy', '0', 'el-icon-cloudy', '1', '0', '', '2020-05-15 16:40:55', '2020-05-15 16:41:11');
 INSERT INTO `auth_menu` VALUES ('30', '瀑布流-2', '31', 'waterfall2', '0', 'el-icon-partly-cloudy', '2', '0', '', '2020-05-15 16:40:55', '2020-05-15 16:41:11');
 INSERT INTO `auth_menu` VALUES ('31', '瀑布流图', '0', 'waterfall', '0', 'el-icon-cloudy-and-sunny', '7', '0', '', '2020-05-15 16:40:55', '2020-05-15 16:41:11');
+INSERT INTO `auth_menu` VALUES ('32', '系统监控', '7', 'monitor', '0', 'el-icon-monitor', '2', '0', 'sys:view', '2020-05-15 16:40:55', '2020-05-15 16:41:11');
 -- ----------------------------
 -- Records of auth_role_menu
 -- ----------------------------
@@ -84,6 +85,7 @@ INSERT INTO `auth_role_menu` VALUES ('612', '1', '28', '2020-05-15 16:54:48', '2
 INSERT INTO `auth_role_menu` VALUES ('613', '1', '29', '2020-05-15 16:54:48', '2020-05-15 16:54:48');
 INSERT INTO `auth_role_menu` VALUES ('614', '1', '30', '2020-05-15 16:54:48', '2020-05-15 16:54:48');
 INSERT INTO `auth_role_menu` VALUES ('615', '1', '31', '2020-05-15 16:54:48', '2020-05-15 16:54:48');
+INSERT INTO `auth_role_menu` VALUES ('615', '1', '32', '2020-05-15 16:54:48', '2020-05-15 16:54:48');
 -- ----------------------------
 -- Records of sys_tree_dict
 -- ----------------------------
