@@ -49,7 +49,7 @@ INSERT INTO `auth_menu` VALUES ('27', '高德地图', '0', 'map', '0', 'el-icon-
 INSERT INTO `auth_menu` VALUES ('28', '视频播放', '0', 'video', '0', 'el-icon-video-play', '7', '0', '', '2020-05-15 16:40:55', '2020-05-15 16:41:11');
 INSERT INTO `auth_menu` VALUES ('29', '瀑布流-easy', '31', 'waterfall-easy', '0', 'el-icon-cloudy', '1', '0', '', '2020-05-15 16:40:55', '2020-05-15 16:41:11');
 INSERT INTO `auth_menu` VALUES ('30', '瀑布流-2', '31', 'waterfall2', '0', 'el-icon-partly-cloudy', '2', '0', '', '2020-05-15 16:40:55', '2020-05-15 16:41:11');
-INSERT INTO `auth_menu` VALUES ('31', '瀑布流', '0', 'waterfall', '0', 'el-icon-cloudy-and-sunny', '7', '0', '', '2020-05-15 16:40:55', '2020-05-15 16:41:11');
+INSERT INTO `auth_menu` VALUES ('31', '瀑布流图', '0', 'waterfall', '0', 'el-icon-cloudy-and-sunny', '7', '0', '', '2020-05-15 16:40:55', '2020-05-15 16:41:11');
 -- ----------------------------
 -- Records of auth_role_menu
 -- ----------------------------
