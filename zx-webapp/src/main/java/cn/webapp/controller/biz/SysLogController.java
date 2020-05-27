@@ -29,7 +29,7 @@ public class SysLogController {
     }
 
     @ApiOperation("chart数据")
-    @GetMapping("/comm/operate/chart")
+    @GetMapping("/operate/chart")
     public Map chart(){
         return sysLogService.getChartData();
     }
