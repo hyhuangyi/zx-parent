@@ -8,10 +8,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -30,7 +27,7 @@ public class SysLogController {
 
     @ApiOperation("chart数据")
     @GetMapping("/operate/chart")
-    public Map chart(){
-        return sysLogService.getChartData();
+    public Map chart(@RequestParam(required = false,defaultValue = "bar") String type){
+        return sysLogService.getChartData(type);
     }
 }

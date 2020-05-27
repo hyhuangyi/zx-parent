@@ -10,5 +10,5 @@ public interface ISysLogService {
     //操作日志列表
     IPage<SysOperateLog> getOperateLogList(OperateLogDTO dto);
     //chart数据
-    Map getChartData();
+    Map getChartData(String type);
 }

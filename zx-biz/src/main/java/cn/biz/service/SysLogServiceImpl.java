@@ -49,9 +49,9 @@ public class SysLogServiceImpl implements ISysLogService {
      * @return
      */
     @Override
-    public Map getChartData() {
+    public Map getChartData(String type) {
         //存放数据
-        List datasets = new ArrayList();
+        List series = new ArrayList();
         List<String> users = sysOperateLogMapper.getUsers();
         if (users.size() == 0) {
             return null;
@@ -76,12 +76,14 @@ public class SysLogServiceImpl implements ISysLogService {
                 }
             }
             m.put("data", count);
-            m.put("label", users.get(i));
-            datasets.add(m);
+            m.put("name", users.get(i));
+            m.put("type", type);
+            series.add(m);
         }
         Map result = Maps.newHashMap();
-        result.put("labels", date);
-        result.put("datasets", datasets);
+        result.put("xAxis", date);
+        result.put("series", series);
+        result.put("legend", users);
         return result;
     }
 }
