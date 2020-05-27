@@ -73,6 +73,8 @@ public class SysLogServiceImpl implements ISysLogService {
                 }
                 if (isSetZero) {
                     count.add(0L);
+                }{
+                    count.add(0L);
                 }
             }
             m.put("data", count);
@@ -80,7 +82,7 @@ public class SysLogServiceImpl implements ISysLogService {
             datasets.add(m);
         }
         Map result = Maps.newHashMap();
-        result.put("labels", users);
+        result.put("labels", date);
         result.put("datasets", datasets);
         return result;
     }
