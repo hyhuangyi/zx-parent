@@ -11,6 +11,7 @@ import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 操作日志
@@ -25,4 +26,8 @@ public interface SysOperateLogMapper extends BaseMapper<SysOperateLog> {
 
      @Select("SELECT TABLE_SCHEMA  FROM information_schema.`TABLES` GROUP BY TABLE_SCHEMA")
      List<String> getSchemas();
+
+     List<String> getUsers();
+
+     List<Map> getChart();
 }

@@ -8,9 +8,12 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
 
 @Api(tags = "日志相关")
 @RestController
@@ -23,5 +26,11 @@ public class SysLogController {
     @PreAuthorize("hasAuthority('log:list')")
     public IPage<SysOperateLog> getOperateLogList(@ModelAttribute OperateLogDTO dto){
         return sysLogService.getOperateLogList(dto);
+    }
+
+    @ApiOperation("chart数据")
+    @GetMapping("/comm/operate/chart")
+    public Map chart(){
+        return sysLogService.getChartData();
     }
 }

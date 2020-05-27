@@ -585,6 +585,43 @@ public class DateUtils {
         return sdf.format(date);
     }
 
+    /**
+     *      * 获取某一月份的前六个月
+     *      * @param date 日期,格式:"2018-10"
+     *      * @return
+     *     
+     */
+    public static List<String> getSixMonth(String date) {
+        //返回值
+        List<String> list = new ArrayList<String>();
+        int month = Integer.parseInt(date.substring(5, 7));
+        int year = Integer.parseInt(date.substring(0, 4));
+        for (int i = 5; i >= 0; i--) {
+            if (month > 6) {
+                if (month - i >= 10) {
+                    list.add(year + "-" + String.valueOf(month - i));
+                } else {
+                    list.add(year + "-0" + String.valueOf(month - i));
+                }
+            } else {
+                if (month - i <= 0) {
+                    if (month - i + 12 >= 10) {
+                        list.add(String.valueOf(year - 1) + "-" + String.valueOf(month - i + 12));
+                    } else {
+                        list.add(String.valueOf(year - 1) + "-0" + String.valueOf(month - i + 12));
+                    }
+                } else {
+                    if (month - i >= 10) {
+                        list.add(String.valueOf(year) + "-" + String.valueOf(month - i));
+                    } else {
+                        list.add(String.valueOf(year) + "-0" + String.valueOf(month - i));
+                    }
+                }
+            }
+        }
+        return list;
+
+    }
     /*
     public static void main(String[] args) {
         System.out.println(getNearlyPeriod(1,true));
