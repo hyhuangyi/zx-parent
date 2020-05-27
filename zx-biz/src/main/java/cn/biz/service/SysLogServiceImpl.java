@@ -73,8 +73,6 @@ public class SysLogServiceImpl implements ISysLogService {
                 }
                 if (isSetZero) {
                     count.add(0L);
-                }{
-                    count.add(0L);
                 }
             }
             m.put("data", count);
