@@ -1,8 +1,10 @@
 package cn.biz.service;
 
 import cn.biz.dto.TableListDTO;
+import cn.biz.dto.WeiboDTO;
 import cn.biz.mapper.SysOperateLogMapper;
-import cn.biz.po.SysOperateLog;
+import cn.biz.mapper.WeiboMapper;
+import cn.biz.po.Weibo;
 import cn.biz.vo.TableListVO;
 import cn.common.exception.ZxException;
 import cn.common.util.file.AntZipUtil;
@@ -31,6 +33,8 @@ public class SysServiceImpl implements ISysService {
 
     @Autowired
     private SysOperateLogMapper sysOperateLogMapper;
+    @Autowired
+    private WeiboMapper weiboMapper;
     @Value("${spring.datasource.druid.url}")
     private  String url;
     @Value("${spring.datasource.druid.username}")
@@ -158,4 +162,11 @@ public class SysServiceImpl implements ISysService {
         return sysOperateLogMapper.getSchemas();
     }
 
+    @Override
+    public IPage<Weibo> getWeiboSearchList(WeiboDTO dto) {
+        Page<Weibo> page=new Page<>(dto.getCurrent(),dto.getSize());
+        List<Weibo> list=weiboMapper.getWeiboList(page,dto);
+        page.setRecords(list);
+        return page;
+    }
 }
