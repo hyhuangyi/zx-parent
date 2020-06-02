@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.biz.mapper.FundMapper">
+    <insert id="batchInsertOrUpdate" parameterType="java.util.List">
+        INSERT INTO fund (code,short_py,full_py,`name`,`type`,create_time,update_time)
+        VALUE
+        <foreach collection="list" item="item" separator=",">
+            (#{item.code},#{item.shortPy},#{item.fullPy},#{item.name},#{item.type},now(),now())
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+        code=VALUES(code),
+        short_py=VALUES(short_py),
+        full_py=VALUES(full_py),
+        `name`=VALUES(`name`),
+        `type`=VALUES(`type`),
+        update_time = VALUES(update_time)
+    </insert>
+</mapper>

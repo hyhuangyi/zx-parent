@@ -2,13 +2,21 @@ package cn.biz.service;
 
 import cn.biz.dto.TableListDTO;
 import cn.biz.dto.WeiboDTO;
+import cn.biz.mapper.FundMapper;
 import cn.biz.mapper.SysOperateLogMapper;
 import cn.biz.mapper.WeiboMapper;
+import cn.biz.po.Fund;
 import cn.biz.po.Weibo;
+import cn.biz.vo.DictVO;
+import cn.biz.vo.FundVO;
 import cn.biz.vo.TableListVO;
 import cn.common.exception.ZxException;
+import cn.common.util.algorithm.ListUtil;
 import cn.common.util.file.AntZipUtil;
 import cn.common.util.file.FileUtil;
+import cn.common.util.http.HttpRequestUtil;
+import cn.common.util.math.BigDecimalUtils;
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
@@ -19,6 +27,7 @@ import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -26,15 +35,22 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @Service
+@Slf4j
 public class SysServiceImpl implements ISysService {
 
     @Autowired
     private SysOperateLogMapper sysOperateLogMapper;
     @Autowired
     private WeiboMapper weiboMapper;
+    @Autowired
+    private ISysTreeDictService sysTreeDictService;
+    @Autowired
+    private FundMapper fundMapper;
     @Value("${spring.datasource.druid.url}")
     private  String url;
     @Value("${spring.datasource.druid.username}")
@@ -168,5 +184,57 @@ public class SysServiceImpl implements ISysService {
         List<Weibo> list=weiboMapper.getWeiboList(page,dto);
         page.setRecords(list);
         return page;
+    }
+
+    @Override
+    public List<FundVO> fundList() {
+        long start = System.currentTimeMillis();
+        Map<String, List<DictVO>> map = sysTreeDictService.listDicts("fund");
+        List<DictVO> list = map.get("fund");
+        String baseUrl = "http://fundgz.1234567.com.cn/js/";
+        List<FundVO> res = new ArrayList<>();
+        for (DictVO vo : list) {
+            try {
+                String result = HttpRequestUtil.get(baseUrl + vo.getDdText() + ".js", null, null);//获取结果
+                String json = result.substring(result.indexOf("{"), result.lastIndexOf("}") + 1);//获取json
+                FundVO fundVO = JSON.parseObject(json, FundVO.class);
+                fundVO.setId(vo.getDdId());
+                fundVO.setRemark(Double.valueOf(vo.getRemark()));
+                fundVO.setLy(BigDecimalUtils.mulFool(2, vo.getRemark(), fundVO.getGszzl() / 100));
+                res.add(fundVO);//转为实体
+            } catch (Exception e) {
+                log.error("查询异常", e);
+            }
+        }
+        Collections.sort(res);//倒序
+        long end = System.currentTimeMillis();
+        log.info("执行时间=" + (end - start) + "毫秒");
+        return res;
+    }
+
+    @Override
+    public Boolean updateAllFund() {
+        List<Fund> list=new ArrayList<>();
+        long start = System.currentTimeMillis();
+        String baseUrl = "http://fund.eastmoney.com/js/fundcode_search.js";
+        String result = HttpRequestUtil.get(baseUrl, null, null);//获取结果
+        String json=result.substring(result.indexOf("["),result.lastIndexOf(";"));//json  基金列表
+        List<List> l=  JSON.parseArray(json,List.class);
+        l.forEach(data->{
+            Fund fund=new Fund();
+            fund.setCode(data.get(0).toString());
+            fund.setShortPy(data.get(1).toString());
+            fund.setName(data.get(2).toString());
+            fund.setType(data.get(3).toString());
+            fund.setFullPy(data.get(4).toString());
+            list.add(fund);
+        });
+        List<List<Fund>> tempList= ListUtil.AssignBatchList(list, 5000);
+        for(List<Fund> res:tempList){
+            fundMapper.batchInsertOrUpdate(res);
+        }
+        long end = System.currentTimeMillis();
+        log.info("执行时间=" + (end - start) + "毫秒");
+        return true;
     }
 }

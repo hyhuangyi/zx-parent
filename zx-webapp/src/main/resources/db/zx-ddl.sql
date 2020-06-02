@@ -181,4 +181,21 @@ CREATE TABLE `weibo` (
   `reposts_count` int(11) DEFAULT NULL COMMENT '转发数',
   `retweet_id` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='微博话题搜索结果表';
+
+
+-- ----------------------------
+-- Table structure for fund
+-- ----------------------------
+DROP TABLE IF EXISTS `fund`;
+CREATE TABLE `fund` (
+  `code` varchar(20) NOT NULL COMMENT '基金代码',
+  `short_py` varchar(30) NOT NULL COMMENT '短拼',
+  `full_py` varchar(80) NOT NULL COMMENT '全拼',
+  `name` varchar(40) NOT NULL COMMENT '基金名称',
+  `type` varchar(20) NOT NULL COMMENT '基金类型',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='基金表';
+
