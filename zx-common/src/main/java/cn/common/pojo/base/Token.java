@@ -3,7 +3,7 @@ package cn.common.pojo.base;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 
 /**
  * Created by huangYi on 2018/9/5
@@ -25,5 +25,5 @@ public class Token implements Serializable {
     @ApiModelProperty("角色")
     private String[] roles = new String[0];
     @ApiModelProperty("权限")
-    private List<String> permissions;
+    private Set<String> permissions;
 }
