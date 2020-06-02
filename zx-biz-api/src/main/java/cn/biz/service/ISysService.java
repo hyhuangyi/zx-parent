@@ -1,7 +1,9 @@
 package cn.biz.service;
 
+import cn.biz.dto.FundDTO;
 import cn.biz.dto.TableListDTO;
 import cn.biz.dto.WeiboDTO;
+import cn.biz.po.Fund;
 import cn.biz.po.Weibo;
 import cn.biz.vo.FundVO;
 import cn.biz.vo.TableListVO;
@@ -15,8 +17,10 @@ public interface ISysService {
      List<String> getSchemas();
      /**微博查询**/
      IPage<Weibo> getWeiboSearchList(WeiboDTO dto);
-     /**基金列表**/
+     /**我的基金列表**/
      List<FundVO> fundList();
      /**更新基金列表**/
      Boolean updateAllFund();
+     /**分页查询所有基金列表**/
+     IPage<Fund> getAllFund(FundDTO dto);
 }

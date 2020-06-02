@@ -1,9 +1,11 @@
 package cn.biz.mapper;
 
+import cn.biz.dto.FundDTO;
 import cn.biz.po.Fund;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
 
 /**
@@ -17,4 +19,5 @@ import java.util.List;
 @Repository
 public interface FundMapper extends BaseMapper<Fund> {
     Boolean batchInsertOrUpdate(List<Fund> list);
+    List<Fund> getAllFund( Page page,@Param("dto") FundDTO dto);
 }

@@ -1,5 +1,6 @@
 package cn.biz.service;
 
+import cn.biz.dto.FundDTO;
 import cn.biz.dto.TableListDTO;
 import cn.biz.dto.WeiboDTO;
 import cn.biz.mapper.FundMapper;
@@ -236,5 +237,13 @@ public class SysServiceImpl implements ISysService {
         long end = System.currentTimeMillis();
         log.info("执行时间=" + (end - start) + "毫秒");
         return true;
+    }
+
+    @Override
+    public IPage<Fund> getAllFund(FundDTO dto) {
+        Page<Fund> page=new Page<>(dto.getCurrent(),dto.getSize());
+        List<Fund> list=fundMapper.getAllFund(page,dto);
+        page.setRecords(list);
+        return page;
     }
 }

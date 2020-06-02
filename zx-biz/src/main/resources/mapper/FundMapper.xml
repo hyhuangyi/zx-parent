@@ -15,4 +15,15 @@
         `type`=VALUES(`type`),
         update_time = VALUES(update_time)
     </insert>
+    <select id="getAllFund" resultType="cn.biz.po.Fund">
+        SELECT * FROM fund
+        WHERE 1=1
+        <if test="dto.name!=null and dto.name!=''">
+            and name like concat("%",#{dto.name},"%")
+        </if>
+        <if test="dto.type!=null and dto.type!=''">
+            and type=#{dto.type}
+        </if>
+        order by code asc
+    </select>
 </mapper>
