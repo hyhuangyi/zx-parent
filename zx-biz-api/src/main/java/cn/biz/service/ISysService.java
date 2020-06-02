@@ -23,4 +23,6 @@ public interface ISysService {
      Boolean updateAllFund();
      /**分页查询所有基金列表**/
      IPage<Fund> getAllFund(FundDTO dto);
+     /**基金类型**/
+     List<String>getFundType();
 }

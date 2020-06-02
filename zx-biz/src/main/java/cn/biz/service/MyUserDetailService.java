@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -53,7 +54,7 @@ public class MyUserDetailService implements UserDetailsService {
             ids+=r.getRoleId()+",";
         }
         String roleIds=ids.substring(0,ids.lastIndexOf(","));
-        List<String> permissionList=authMenuMapper.getPermissions(roleIds);
+        Set<String> permissionList=authMenuMapper.getPermissions(roleIds);
         Token token=new Token();
         token.setRoles(roles);
         token.setPermissions(permissionList);

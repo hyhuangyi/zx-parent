@@ -246,4 +246,9 @@ public class SysServiceImpl implements ISysService {
         page.setRecords(list);
         return page;
     }
+
+    @Override
+    public List<String> getFundType() {
+        return fundMapper.getFundType();
+    }
 }

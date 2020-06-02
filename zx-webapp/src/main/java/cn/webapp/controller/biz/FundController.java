@@ -64,4 +64,12 @@ public class FundController {
     public IPage<Fund> fundAll(@ModelAttribute FundDTO dto) {
         return sysService.getAllFund(dto);
     }
+
+    @ApiOperation("获取基金类型")
+    @GetMapping("/fund/type")
+    @PreAuthorize("hasAuthority('fund:list')")
+    @OperateLog(operation = "获取基金类型", moduleName = LogModuleConst.FUND_MODULE)
+    public List<String> fundType() {
+        return sysService.getFundType();
+    }
 }

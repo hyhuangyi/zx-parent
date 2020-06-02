@@ -16,39 +16,42 @@ INSERT INTO `auth_user_role` VALUES ('1', '1', '1', '0', '2019-11-19 19:01:21', 
 -- ----------------------------
 -- Records of auth_menu
 -- ----------------------------
-INSERT INTO `auth_menu` VALUES ('1', '系统首页', '0', 'dashboard', '0', 'el-icon-lx-home', '1', '0', '', '2019-11-22 11:41:42', '2020-01-03 11:26:22');
-INSERT INTO `auth_menu` VALUES ('2', '城市列表', '0', 'city', '0', 'el-icon-office-building', '2', '0', 'city:list', '2019-11-22 11:44:25', '2020-05-15 11:22:57');
+INSERT INTO `auth_menu` VALUES ('1', '系统首页', '0', 'dashboard', '0', 'el-icon-lx-home', '1', '0', '', '2019-11-22 11:41:42', '2020-05-26 13:33:21');
+INSERT INTO `auth_menu` VALUES ('2', '城市列表', '0', 'city', '0', 'el-icon-office-building', '2', '0', 'city:list', '2019-11-22 11:44:25', '2020-05-22 16:53:16');
 INSERT INTO `auth_menu` VALUES ('3', 'tab选项卡', '4', 'tabs', '0', 'el-icon-lx-copy', '3', '0', ' ', '2019-11-22 11:45:12', '2020-05-15 16:29:40');
 INSERT INTO `auth_menu` VALUES ('4', '演示案例', '0', 'demo', '0', 'el-icon-apple', '99', '0', ' ', '2019-11-22 11:45:28', '2020-05-15 16:29:38');
 INSERT INTO `auth_menu` VALUES ('5', 'schart图表', '4', 'charts', '0', 'el-icon-pie-chart', '5', '0', ' ', '2019-11-22 11:47:45', '2020-05-15 16:29:41');
 INSERT INTO `auth_menu` VALUES ('6', '国际化功能', '4', 'i18n', '0', 'el-icon-lx-global', '6', '0', ' ', '2019-11-22 11:48:30', '2020-05-15 16:29:42');
-INSERT INTO `auth_menu` VALUES ('7', '系统工具', '0', 'sys', '0', 'el-icon-s-tools', '98', '0', ' ', '2019-11-22 11:48:48', '2020-05-15 16:29:41');
-INSERT INTO `auth_menu` VALUES ('8', '接口文档', '7', 'swagger', '0', 'el-icon-lx-read', '1', '0', ' ', '2019-11-22 11:49:29', '2020-05-15 16:29:42');
+INSERT INTO `auth_menu` VALUES ('7', '系统工具', '0', 'sys', '0', 'el-icon-s-tools', '98', '0', ' ', '2019-11-22 11:48:48', '2020-05-21 10:02:48');
+INSERT INTO `auth_menu` VALUES ('8', '接口文档', '7', 'swagger', '0', 'el-icon-lx-read', '1', '0', ' ', '2019-11-22 11:49:29', '2020-05-21 10:03:31');
 INSERT INTO `auth_menu` VALUES ('9', '数据监控', '7', 'druid', '0', 'el-icon-s-platform', '2', '0', ' ', '2019-11-22 11:49:44', '2020-05-15 16:29:43');
 INSERT INTO `auth_menu` VALUES ('10', '基本表单', '4', 'form', '0', 'el-icon-s-grid', '1', '0', ' ', '2019-11-22 11:50:49', '2020-05-15 16:29:44');
 INSERT INTO `auth_menu` VALUES ('11', '三级菜单', '4', 'form-three', '0', 'el-icon-connection', '3', '0', ' ', '2019-11-22 11:51:12', '2020-05-15 16:29:45');
 INSERT INTO `auth_menu` VALUES ('12', '富文本编辑器', '11', 'editor', '0', 'el-icon-notebook-1', '1', '0', ' ', '2019-11-22 11:51:32', '2020-05-15 16:29:44');
 INSERT INTO `auth_menu` VALUES ('13', 'markdown编辑器', '11', 'markdown', '0', 'el-icon-notebook-2', '2', '0', ' ', '2019-11-22 11:51:34', '2020-05-15 16:29:46');
 INSERT INTO `auth_menu` VALUES ('14', '文件上传', '4', 'upload', '0', 'el-icon-upload', '2', '0', ' ', '2019-11-22 11:52:36', '2020-05-15 16:29:47');
-INSERT INTO `auth_menu` VALUES ('15', '操作日志', '7', 'operate', '0', 'el-icon-document', '3', '0', 'log:list', '2019-11-26 10:52:33', '2020-01-03 14:26:04');
+INSERT INTO `auth_menu` VALUES ('15', '操作日志', '7', 'operate', '0', 'el-icon-document', '3', '0', 'log:list', '2019-11-26 10:52:33', '2020-05-22 09:54:42');
 INSERT INTO `auth_menu` VALUES ('16', '删除日志', '15', ' ', '1', ' ', '1', '0', 'log:del', '2020-01-03 14:10:52', '2020-05-15 16:29:24');
-INSERT INTO `auth_menu` VALUES ('17', '基金列表', '0', 'fund', '0', 'el-icon-position', '2', '0', 'fund:list', '2020-04-02 15:37:07', '2020-05-15 11:21:52');
+INSERT INTO `auth_menu` VALUES ('17', '基金列表', '34', 'fund-all', '0', 'el-icon-position', '2', '0', 'fund:list', '2020-04-02 15:37:07', '2020-06-02 20:22:44');
 INSERT INTO `auth_menu` VALUES ('18', '角色管理', '20', 'role', '0', 'el-icon-user-solid', '1', '0', 'role:list', '2020-05-13 14:44:08', '2020-05-15 11:14:34');
 INSERT INTO `auth_menu` VALUES ('19', '用户管理', '20', 'user', '0', 'el-icon-user', '2', '0', 'user:list', '2020-05-15 10:29:38', '2020-05-15 11:11:55');
-INSERT INTO `auth_menu` VALUES ('20', '权限管理', '0', 'auth', '0', 'el-icon-unlock', '8', '0', ' ', '2020-05-15 10:29:49', '2020-05-15 16:29:48');
+INSERT INTO `auth_menu` VALUES ('20', '权限管理', '0', 'auth', '0', 'el-icon-unlock', '8', '0', ' ', '2020-05-15 10:29:49', '2020-05-22 10:07:02');
 INSERT INTO `auth_menu` VALUES ('21', '新增|编辑角色', '18', '', '1', ' ', '1', '0', 'role:save', '2020-05-15 11:29:47', '2020-05-15 16:29:26');
 INSERT INTO `auth_menu` VALUES ('22', '删除角色', '18', ' ', '1', ' ', '2', '0', 'role:del', '2020-05-15 11:30:35', '2020-05-15 16:29:31');
 INSERT INTO `auth_menu` VALUES ('23', '新增|编辑用户', '19', ' ', '1', ' ', '1', '0', 'user:save', '2020-05-15 12:44:45', '2020-05-15 16:29:33');
 INSERT INTO `auth_menu` VALUES ('24', '删除用户', '19', ' ', '1', ' ', '2', '0', 'user:del', '2020-05-15 16:40:55', '2020-05-15 16:41:11');
-INSERT INTO `auth_menu` VALUES ('25', '爱情之树', '0', 'love', '0', 'el-icon-grape', '5', '0', '', '2020-05-15 16:40:55', '2020-05-15 16:41:11');
-INSERT INTO `auth_menu` VALUES ('26', '代码生成', '0', 'generator', '0', 'el-icon-s-data', '4', '0', 'generator:list', '2020-05-15 16:40:55', '2020-05-15 16:41:11');
-INSERT INTO `auth_menu` VALUES ('27', '高德地图', '0', 'map', '0', 'el-icon-location-information', '6', '0', '', '2020-05-15 16:40:55', '2020-05-15 16:41:11');
-INSERT INTO `auth_menu` VALUES ('28', '视频播放', '0', 'video', '0', 'el-icon-video-play', '5', '0', '', '2020-05-15 16:40:55', '2020-05-15 16:41:11');
-INSERT INTO `auth_menu` VALUES ('29', '瀑布流-easy', '31', 'waterfall-easy', '0', 'el-icon-cloudy', '1', '0', '', '2020-05-15 16:40:55', '2020-05-15 16:41:11');
-INSERT INTO `auth_menu` VALUES ('30', '瀑布流-2', '31', 'waterfall2', '0', 'el-icon-partly-cloudy', '2', '0', '', '2020-05-15 16:40:55', '2020-05-15 16:41:11');
-INSERT INTO `auth_menu` VALUES ('31', '瀑布流图', '0', 'waterfall', '0', 'el-icon-cloudy-and-sunny', '7', '0', '', '2020-05-15 16:40:55', '2020-05-15 16:41:11');
-INSERT INTO `auth_menu` VALUES ('32', '系统监控', '7', 'monitor', '0', 'el-icon-monitor', '2', '0', 'sys:view', '2020-05-15 16:40:55', '2020-05-15 16:41:11');
-INSERT INTO `auth_menu` VALUES ('33', '微博话题', '0', 'weibo', '0', 'el-icon-crop', '3', '0', 'weibo:list', '2020-05-15 16:40:55', '2020-05-15 16:41:11');
+INSERT INTO `auth_menu` VALUES ('25', '爱情之树', '0', 'love', '0', 'el-icon-grape', '5', '0', ' ', '2020-05-21 09:58:48', '2020-05-22 10:09:16');
+INSERT INTO `auth_menu` VALUES ('26', '代码生成', '0', 'generator', '0', 'el-icon-s-data', '4', '0', 'generator:list', '2020-05-21 17:41:59', '2020-05-22 10:09:15');
+INSERT INTO `auth_menu` VALUES ('27', '高德地图', '0', 'map', '0', 'el-icon-location-information', '6', '0', ' ', '2020-05-22 11:46:05', '2020-05-22 11:47:43');
+INSERT INTO `auth_menu` VALUES ('28', '视频播放', '0', 'video', '0', 'el-icon-video-play', '5', '0', ' ', '2020-05-22 16:48:16', '2020-05-26 10:32:56');
+INSERT INTO `auth_menu` VALUES ('29', '瀑布流-easy', '31', 'waterfall-easy', '0', 'el-icon-cloudy', '1', '0', ' ', '2020-05-23 18:21:59', '2020-05-25 15:31:16');
+INSERT INTO `auth_menu` VALUES ('30', '瀑布流-2', '31', 'waterfall2', '0', 'el-icon-partly-cloudy', '2', '0', ' ', '2020-05-25 15:28:29', '2020-05-25 15:31:18');
+INSERT INTO `auth_menu` VALUES ('31', '瀑布流图', '0', 'waterfall', '0', 'el-icon-cloudy-and-sunny', '7', '0', ' ', '2020-05-25 15:31:15', '2020-05-26 10:30:32');
+INSERT INTO `auth_menu` VALUES ('32', '系统监控', '7', 'monitor', '0', 'el-icon-monitor', '2', '0', 'sys:view', '2020-05-26 13:12:13', '2020-05-26 13:12:59');
+INSERT INTO `auth_menu` VALUES ('33', '微博话题', '0', 'weibo', '0', 'el-icon-pear', '3', '0', 'weibo:list', '2020-06-01 16:37:28', '2020-06-02 20:27:03');
+INSERT INTO `auth_menu` VALUES ('34', '天天基金', '0', 'ttFund', '0', 'el-icon-orange', '3', '0', ' ', '2020-06-02 20:19:55', '2020-06-02 20:26:18');
+INSERT INTO `auth_menu` VALUES ('35', '我的基金', '34', 'fund-my', '0', 'el-icon-star-on', '1', '0', 'fund:list', '2020-06-02 20:22:40', '2020-06-02 20:27:53');
+
 -- ----------------------------
 -- Records of auth_role_menu
 -- ----------------------------
@@ -85,6 +88,8 @@ INSERT INTO `auth_role_menu` VALUES ('614', '1', '30', '2020-05-15 16:54:48', '2
 INSERT INTO `auth_role_menu` VALUES ('615', '1', '31', '2020-05-15 16:54:48', '2020-05-15 16:54:48');
 INSERT INTO `auth_role_menu` VALUES ('616', '1', '32', '2020-05-15 16:54:48', '2020-05-15 16:54:48');
 INSERT INTO `auth_role_menu` VALUES ('617', '1', '33', '2020-05-15 16:54:48', '2020-05-15 16:54:48');
+INSERT INTO `auth_role_menu` VALUES ('618', '1', '34', '2020-05-15 16:54:48', '2020-05-15 16:54:48');
+INSERT INTO `auth_role_menu` VALUES ('619', '1', '35', '2020-05-15 16:54:48', '2020-05-15 16:54:48');
 -- ----------------------------
 -- Records of sys_tree_dict
 -- ----------------------------
