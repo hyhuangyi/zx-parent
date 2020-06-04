@@ -32,7 +32,7 @@ INSERT INTO `auth_menu` VALUES ('13', 'markdown编辑器', '11', 'markdown', '0'
 INSERT INTO `auth_menu` VALUES ('14', '文件上传', '4', 'upload', '0', 'el-icon-upload', '2', '0', ' ', '2019-11-22 11:52:36', '2020-05-15 16:29:47');
 INSERT INTO `auth_menu` VALUES ('15', '操作日志', '7', 'operate', '0', 'el-icon-document', '3', '0', 'log:list', '2019-11-26 10:52:33', '2020-05-22 09:54:42');
 INSERT INTO `auth_menu` VALUES ('16', '删除日志', '15', ' ', '1', ' ', '1', '0', 'log:del', '2020-01-03 14:10:52', '2020-05-15 16:29:24');
-INSERT INTO `auth_menu` VALUES ('17', '基金列表', '34', 'fund-all', '0', 'el-icon-position', '2', '0', 'fund:list', '2020-04-02 15:37:07', '2020-06-02 20:22:44');
+INSERT INTO `auth_menu` VALUES ('17', '基金列表', '34', 'fund-all', '0', 'el-icon-baseball', '2', '0', 'fund:list', '2020-04-02 15:37:07', '2020-06-02 20:22:44');
 INSERT INTO `auth_menu` VALUES ('18', '角色管理', '20', 'role', '0', 'el-icon-user-solid', '1', '0', 'role:list', '2020-05-13 14:44:08', '2020-05-15 11:14:34');
 INSERT INTO `auth_menu` VALUES ('19', '用户管理', '20', 'user', '0', 'el-icon-user', '2', '0', 'user:list', '2020-05-15 10:29:38', '2020-05-15 11:11:55');
 INSERT INTO `auth_menu` VALUES ('20', '权限管理', '0', 'auth', '0', 'el-icon-unlock', '8', '0', ' ', '2020-05-15 10:29:49', '2020-05-22 10:07:02');
@@ -50,7 +50,7 @@ INSERT INTO `auth_menu` VALUES ('31', '瀑布流图', '0', 'waterfall', '0', 'el
 INSERT INTO `auth_menu` VALUES ('32', '系统监控', '7', 'monitor', '0', 'el-icon-monitor', '2', '0', 'sys:view', '2020-05-26 13:12:13', '2020-05-26 13:12:59');
 INSERT INTO `auth_menu` VALUES ('33', '微博话题', '0', 'weibo', '0', 'el-icon-pear', '3', '0', 'weibo:list', '2020-06-01 16:37:28', '2020-06-02 20:27:03');
 INSERT INTO `auth_menu` VALUES ('34', '天天基金', '0', 'ttFund', '0', 'el-icon-orange', '3', '0', ' ', '2020-06-02 20:19:55', '2020-06-02 20:26:18');
-INSERT INTO `auth_menu` VALUES ('35', '我的基金', '34', 'fund-my', '0', 'el-icon-star-on', '1', '0', 'fund:list', '2020-06-02 20:22:40', '2020-06-02 20:27:53');
+INSERT INTO `auth_menu` VALUES ('35', '我的基金', '34', 'fund-my', '0', 'el-icon-football', '1', '0', 'fund:list', '2020-06-02 20:22:40', '2020-06-02 20:27:53');
 
 -- ----------------------------
 -- Records of auth_role_menu
