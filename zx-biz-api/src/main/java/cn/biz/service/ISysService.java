@@ -25,4 +25,6 @@ public interface ISysService {
      IPage<Fund> getAllFund(FundDTO dto);
      /**基金类型**/
      List<String>getFundType();
+     /**获取费率为0的基金**/
+     List<Fund> getZeroRateFund()throws Exception;
 }

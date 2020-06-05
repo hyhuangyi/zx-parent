@@ -23,4 +23,6 @@ public interface FundMapper extends BaseMapper<Fund> {
     List<Fund> getAllFund( Page page,@Param("dto") FundDTO dto);
     @Select("select type from fund group by type")
     List<String>getFundType();
+    @Select("select * from fund where type  in('股票型','股票指数','联接基金','混合型','QDII-指数')")
+    List<Fund> getFundForZero();
 }

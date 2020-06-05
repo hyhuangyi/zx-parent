@@ -13,6 +13,7 @@ import cn.biz.vo.FundVO;
 import cn.biz.vo.TableListVO;
 import cn.common.exception.ZxException;
 import cn.common.util.algorithm.ListUtil;
+import cn.common.util.comm.RegexUtils;
 import cn.common.util.file.AntZipUtil;
 import cn.common.util.file.FileUtil;
 import cn.common.util.http.HttpRequestUtil;
@@ -29,6 +30,7 @@ import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -39,6 +41,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
 
 @Service
 @Slf4j
@@ -61,6 +64,13 @@ public class SysServiceImpl implements ISysService {
     @Value("${spring.datasource.druid.driver-class-name}")
     private String driver;
     private String parent="com.zx";
+
+    /**基金详情**/
+    public static final String FUND_DETAIL = "http://fund.eastmoney.com/pingzhongdata/";
+    /**所有基金**/
+    public static final String FUND_ALL = "http://fund.eastmoney.com/js/fundcode_search.js";
+    /**基金估值**/
+    public static final String FUND_GZ = "http://fundgz.1234567.com.cn/js/";
 
     @Override
     public void generateCode(String schema ,String[] arr, HttpServletResponse response)throws Exception {
@@ -192,11 +202,10 @@ public class SysServiceImpl implements ISysService {
         long start = System.currentTimeMillis();
         Map<String, List<DictVO>> map = sysTreeDictService.listDicts("fund");
         List<DictVO> list = map.get("fund");
-        String baseUrl = "http://fundgz.1234567.com.cn/js/";
         List<FundVO> res = new ArrayList<>();
         for (DictVO vo : list) {
             try {
-                String result = HttpRequestUtil.get(baseUrl + vo.getDdText() + ".js", null, null);//获取结果
+                String result = HttpRequestUtil.get(FUND_GZ + vo.getDdText() + ".js", null, null);//获取结果
                 String json = result.substring(result.indexOf("{"), result.lastIndexOf("}") + 1);//获取json
                 FundVO fundVO = JSON.parseObject(json, FundVO.class);
                 fundVO.setId(vo.getDdId());
@@ -217,8 +226,7 @@ public class SysServiceImpl implements ISysService {
     public Boolean updateAllFund() {
         List<Fund> list=new ArrayList<>();
         long start = System.currentTimeMillis();
-        String baseUrl = "http://fund.eastmoney.com/js/fundcode_search.js";
-        String result = HttpRequestUtil.get(baseUrl, null, null);//获取结果
+        String result = HttpRequestUtil.get(FUND_ALL, null, null);//获取结果
         String json=result.substring(result.indexOf("["),result.lastIndexOf(";"));//json  基金列表
         List<List> l=  JSON.parseArray(json,List.class);
         l.forEach(data->{
@@ -243,6 +251,20 @@ public class SysServiceImpl implements ISysService {
     public IPage<Fund> getAllFund(FundDTO dto) {
         Page<Fund> page=new Page<>(dto.getCurrent(),dto.getSize());
         List<Fund> list=fundMapper.getAllFund(page,dto);
+        list.forEach(l->{
+            try {
+                String result = HttpRequestUtil.get(FUND_DETAIL + l.getCode() + ".js", null, null);//获取结果
+                String rate = result.substring(result.indexOf("fund_Rate") + 11, result.indexOf("fund_Rate") + 15);
+                if(RegexUtils.checkDecimals(rate)){
+                    l.setBuyRate(rate);
+                }else {
+                    l.setBuyRate("/");
+                }
+            } catch (Exception e) {
+                l.setBuyRate("/");
+                e.printStackTrace();
+            }
+        });
         page.setRecords(list);
         return page;
     }
@@ -250,5 +272,45 @@ public class SysServiceImpl implements ISysService {
     @Override
     public List<String> getFundType() {
         return fundMapper.getFundType();
+    }
+
+    @Override
+    public List<Fund> getZeroRateFund() throws Exception{
+        log.info("开始执行");
+        long start=System.currentTimeMillis();
+        //多线程插入会有并发问题 需要加锁
+        List<Fund> res=Collections.synchronizedList(new ArrayList<>());
+        List<Fund> funds=fundMapper.getFundForZero();
+        //大概5000多条，切分成100份，多线程去执行
+        List<List<Fund>> all= ListUtil.averageAssign(funds,50);
+        CountDownLatch countDownLatch=new CountDownLatch(50);
+        for(List<Fund> fl:all){
+            new Thread(()->{
+                handle(Collections.synchronizedList(fl),res);
+                countDownLatch.countDown();
+            }).start();
+        }
+        //主线程等所有线程完成工作才继续执行后面的代码，当计算器减到0阻塞结束
+        countDownLatch.await();
+        long end=System.currentTimeMillis();
+        log.info("所有线程执行结束，耗时："+(end-start)/(60*1000)+"分钟。一共"+res.size()+"条。");
+        return res;
+    }
+
+    /**处理多线程任务*/
+    public  void  handle(List<Fund> fl,List<Fund> res) {
+        for (Fund f : fl) {
+            try {
+                String result = HttpRequestUtil.get(FUND_DETAIL + f.getCode() + ".js", null, null);//获取结果
+                //log.info(result + "---" + Thread.currentThread().getName() + "========" + f.getCode());
+                String rate = result.substring(result.indexOf("fund_Rate") + 11, result.indexOf("fund_Rate") + 15);
+                log.info(rate);
+                if ("0.00".equals(rate)) {
+                    res.add(f);
+                }
+            } catch (Exception e) {
+                log.error(Thread.currentThread().getName() + ":" + f.getCode(), e);
+            }
+        }
     }
 }

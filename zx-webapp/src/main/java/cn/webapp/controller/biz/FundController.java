@@ -6,6 +6,7 @@ import cn.biz.service.ISysService;
 import cn.biz.service.ISysTreeDictService;
 import cn.biz.vo.FundVO;
 import cn.common.consts.LogModuleConst;
+import cn.common.util.http.HttpRequestUtil;
 import cn.webapp.aop.annotation.OperateLog;
 import cn.webapp.aop.annotation.TimeCount;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -71,5 +72,11 @@ public class FundController {
     @OperateLog(operation = "获取基金类型", moduleName = LogModuleConst.FUND_MODULE)
     public List<String> fundType() {
         return sysService.getFundType();
+    }
+
+    @ApiOperation("费率为0的基金")
+    @GetMapping("/comm/fund/zero")
+    public List<Fund> zeroRateFund()throws Exception{
+        return sysService.getZeroRateFund();
     }
 }

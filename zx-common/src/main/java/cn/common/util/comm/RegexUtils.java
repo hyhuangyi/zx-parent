@@ -94,12 +94,12 @@ public class RegexUtils {
     }
 
     /**
-     * 验证整数和浮点数（正负整数和正负浮点数）
+     * 验证整数和浮点数
      * @param decimals 一位或多位0-9之间的浮点数，如：1.23，233.30
      * @return 验证成功返回true，验证失败返回false
      */
     public static boolean checkDecimals(String decimals) {
-        String regex = "\\-?[1-9]\\d+(\\.\\d+)?";
+        String regex =  "^[0-9]+(.[0-9]+)?$";
         return Pattern.matches(regex,decimals);
     }
 

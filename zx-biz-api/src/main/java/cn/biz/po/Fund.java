@@ -1,6 +1,7 @@
 package cn.biz.po;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -52,4 +53,7 @@ public class Fund implements Serializable {
     @ApiModelProperty(value = "修改时间")
     private LocalDateTime updateTime;
 
+    @ApiModelProperty("购买费率")
+    @TableField(exist=false)//不是数据库中的字段
+    private String buyRate;
 }
