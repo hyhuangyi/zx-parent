@@ -479,6 +479,38 @@ public class FileUtil {
             return false;
         }
     }
+    /**
+     * 读取文本文件
+     *
+     * @param Path
+     * @return
+     */
+    public static String readFile(String Path) {
+        BufferedReader reader = null;
+        String laststr = "";
+        try {
+            FileInputStream fileInputStream = new FileInputStream(Path);
+            InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream, "UTF-8");
+            reader = new BufferedReader(inputStreamReader);
+            String tempString = null;
+            while ((tempString = reader.readLine()) != null) {
+                laststr += tempString;
+            }
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return laststr;
+    }
+
     /*
     public static void main(String[]args){
         File file=new File("f:/huangy/子轩.chm");
