@@ -92,6 +92,7 @@ public class IndexController {
         return city;
     }
     @GetMapping("/comm/fd")
+    @ResponseBody
     public Integer fd()throws Exception{
         Thread.sleep(10);
         return RandomUtil.getRandomInt(8);
