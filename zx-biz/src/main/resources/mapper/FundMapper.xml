@@ -3,7 +3,7 @@
 <mapper namespace="cn.biz.mapper.FundMapper">
     <insert id="batchInsertOrUpdate" parameterType="java.util.List">
         INSERT INTO fund (code,short_py,full_py,`name`,`type`,create_time,update_time)
-        VALUE
+        VALUES
         <foreach collection="list" item="item" separator=",">
             (#{item.code},#{item.shortPy},#{item.fullPy},#{item.name},#{item.type},now(),now())
         </foreach>
