@@ -5,6 +5,7 @@ import cn.biz.po.CdCity;
 import cn.biz.service.ISysUserService;
 import cn.common.pojo.monitor.Server;
 import cn.common.pojo.servlet.ServletContextHolder;
+import cn.common.util.generate.RandomUtil;
 import cn.webapp.aop.annotation.Decrypt;
 import cn.webapp.aop.annotation.Encrypt;
 import cn.webapp.aop.annotation.TimeCount;
@@ -89,5 +90,10 @@ public class IndexController {
         city.setCode("10000");
         city.setFullName("杭州");
         return city;
+    }
+    @GetMapping("/comm/fd")
+    public Integer fd()throws Exception{
+        Thread.sleep(10);
+        return RandomUtil.getRandomInt(8);
     }
 }
