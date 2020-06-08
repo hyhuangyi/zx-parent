@@ -312,8 +312,6 @@ public class SysServiceImpl implements ISysService {
         for (Fund f : fl) {
             try {
                 String result = HttpRequestUtil.get(FUND_DETAIL + f.getCode() + ".js", null, null);//获取结果
-//                ResponseEntity r= RestTemplateUtil.get(FUND_DETAIL+f.getCode()+".js",String.class);
-//                String result=r.getBody().toString();
                 //log.info(result + "---" + Thread.currentThread().getName() + "========" + f.getCode());
                 String rate = result.substring(result.indexOf("fund_Rate") + 11, result.indexOf("fund_Rate") + 15);
                 log.info(rate);
