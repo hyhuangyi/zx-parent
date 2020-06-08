@@ -76,6 +76,7 @@ public class SysServiceImpl implements ISysService {
     public static final String FUND_GZ = "http://fundgz.1234567.com.cn/js/";
     /**输出基金费率0的结果地址**/
     public static final String ZERO_FUND_PATH="/home/zeroFund.txt";
+    /**输出基金费率0的实时排名结果地址**/
     public static final String ZERO_FUND_RANK_PATH="/home/zeroFundRank.txt";
 
     @Override
