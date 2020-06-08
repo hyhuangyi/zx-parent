@@ -26,5 +26,7 @@ public interface ISysService {
      /**基金类型**/
      List<String>getFundType();
      /**获取费率为0的基金**/
-     List<Fund> getZeroRateFund()throws Exception;
+     List<Fund> getZeroRateFund(int num)throws Exception;
+     /**费率为0的基金当日排行**/
+     List<FundVO> getZeroRateFundRank(int num) throws Exception;
 }

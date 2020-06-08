@@ -17,8 +17,10 @@ import cn.common.util.comm.RegexUtils;
 import cn.common.util.file.AntZipUtil;
 import cn.common.util.file.FileUtil;
 import cn.common.util.http.HttpRequestUtil;
+import cn.common.util.http.RestTemplateUtil;
 import cn.common.util.math.BigDecimalUtils;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
@@ -33,6 +35,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
@@ -71,6 +74,9 @@ public class SysServiceImpl implements ISysService {
     public static final String FUND_ALL = "http://fund.eastmoney.com/js/fundcode_search.js";
     /**基金估值**/
     public static final String FUND_GZ = "http://fundgz.1234567.com.cn/js/";
+    /**输出基金费率0的结果地址**/
+    public static final String ZERO_FUND_PATH="/home/zeroFund.txt";
+    public static final String ZERO_FUND_RANK_PATH="/home/zeroFundRank.txt";
 
     @Override
     public void generateCode(String schema ,String[] arr, HttpServletResponse response)throws Exception {
@@ -275,33 +281,39 @@ public class SysServiceImpl implements ISysService {
     }
 
     @Override
-    public List<Fund> getZeroRateFund() throws Exception{
+    public List<Fund> getZeroRateFund(int num) throws Exception{
+        if(num<=0){
+            num=50;
+        }
         log.info("开始执行");
         long start=System.currentTimeMillis();
         //多线程插入会有并发问题 需要加锁
         List<Fund> res=Collections.synchronizedList(new ArrayList<>());
         List<Fund> funds=fundMapper.getFundForZero();
         //大概5000多条，切分成100份，多线程去执行
-        List<List<Fund>> all= ListUtil.averageAssign(funds,50);
-        CountDownLatch countDownLatch=new CountDownLatch(50);
+        List<List<Fund>> all= ListUtil.averageAssign(funds,num);
+        CountDownLatch countDownLatch=new CountDownLatch(num);
         for(List<Fund> fl:all){
             new Thread(()->{
-                handle(Collections.synchronizedList(fl),res);
+                handleZero(Collections.synchronizedList(fl),res);
                 countDownLatch.countDown();
             }).start();
         }
         //主线程等所有线程完成工作才继续执行后面的代码，当计算器减到0阻塞结束
         countDownLatch.await();
         long end=System.currentTimeMillis();
+        FileUtil.writeFile(ZERO_FUND_PATH,JSON.toJSONString(res));
         log.info("所有线程执行结束，耗时："+(end-start)/(60*1000)+"分钟。一共"+res.size()+"条。");
         return res;
     }
 
     /**处理多线程任务*/
-    public  void  handle(List<Fund> fl,List<Fund> res) {
+    public  void  handleZero(List<Fund> fl,List<Fund> res) {
         for (Fund f : fl) {
             try {
                 String result = HttpRequestUtil.get(FUND_DETAIL + f.getCode() + ".js", null, null);//获取结果
+//                ResponseEntity r= RestTemplateUtil.get(FUND_DETAIL+f.getCode()+".js",String.class);
+//                String result=r.getBody().toString();
                 //log.info(result + "---" + Thread.currentThread().getName() + "========" + f.getCode());
                 String rate = result.substring(result.indexOf("fund_Rate") + 11, result.indexOf("fund_Rate") + 15);
                 log.info(rate);
@@ -313,4 +325,45 @@ public class SysServiceImpl implements ISysService {
             }
         }
     }
+
+    /**处理多线程任务*/
+    public  void  handleZeroRank(List<Fund> fl,List<FundVO> res) {
+        for (Fund f : fl) {
+            try {
+                String result = HttpRequestUtil.get(FUND_GZ + f.getCode() + ".js", null, null);//获取结果
+                String json = result.substring(result.indexOf("{"), result.lastIndexOf("}") + 1);//获取json
+                FundVO fundVO = JSON.parseObject(json, FundVO.class);
+                res.add(fundVO);//转为实体
+            } catch (Exception e) {
+                log.error(Thread.currentThread().getName()+"----"+f.getCode()+"异常");
+            }
+        }
+    }
+    @Override
+    public List<FundVO> getZeroRateFundRank(int num)throws Exception{
+        if(num<=0){
+            num=50;
+        }
+        long start=System.currentTimeMillis();
+        String data= FileUtil.readFile(ZERO_FUND_PATH);
+        List<Fund> funds= JSONArray.parseArray(data,Fund.class);
+        List<FundVO> res=Collections.synchronizedList(new ArrayList<>());
+        //切分
+        List<List<Fund>> all= ListUtil.averageAssign(funds,num);
+        CountDownLatch countDownLatch=new CountDownLatch(num);
+        for(List<Fund> fl:all){
+            new Thread(()->{
+                handleZeroRank(Collections.synchronizedList(fl),res);
+                countDownLatch.countDown();
+            }).start();
+        }
+        //主线程等所有线程完成工作才继续执行后面的代码，当计算器减到0阻塞结束
+        countDownLatch.await();
+        long end=System.currentTimeMillis();
+        Collections.sort(res);//倒序
+        FileUtil.writeFile(ZERO_FUND_RANK_PATH,JSON.toJSONString(res));
+        log.info("所有线程执行结束，耗时："+(end-start)+"毫秒。一共"+res.size()+"条。");
+        return res;
+    }
+
 }

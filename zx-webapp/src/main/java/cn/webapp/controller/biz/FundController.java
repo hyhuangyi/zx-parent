@@ -76,7 +76,13 @@ public class FundController {
 
     @ApiOperation("费率为0的基金")
     @GetMapping("/comm/fund/zero")
-    public List<Fund> zeroRateFund()throws Exception{
-        return sysService.getZeroRateFund();
+    public List<Fund> zeroRateFund(@ApiParam("线程数量") @RequestParam Integer num)throws Exception{
+        return sysService.getZeroRateFund(num);
+    }
+
+    @ApiOperation("费率为0的基金排行")
+    @GetMapping("/comm/fund/zero/rank")
+    public List<FundVO> zeroRateFundRank(@ApiParam("线程数量") @RequestParam Integer num)throws Exception{
+        return sysService.getZeroRateFundRank(num);
     }
 }
