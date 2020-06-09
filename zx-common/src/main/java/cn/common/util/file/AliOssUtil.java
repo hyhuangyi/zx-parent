@@ -1,4 +1,4 @@
-package cn.common.util.oss;
+package cn.common.util.file;
 
 import cn.common.exception.ZxException;
 import cn.common.util.generate.IdGenUtils;

@@ -2,7 +2,7 @@ package cn.webapp.controller.zx;
 
 import cn.common.exception.ZxException;
 import cn.common.pojo.base.ResultDO;
-import cn.common.util.oss.AliOssUtil;
+import cn.common.util.file.AliOssUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
