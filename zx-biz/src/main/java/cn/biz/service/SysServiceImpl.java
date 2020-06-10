@@ -214,15 +214,14 @@ public class SysServiceImpl implements ISysService {
     @Override
     @Async("myTaskAsyncPool")
     public void handleCsdn(String page,Integer minute) {
-        Integer num = 0;
         while (RedisUtil.hasKey(RedisConst.CSDN_KEY + page)) {
             try {//休眠60秒
                 Thread.sleep(minute * 60 * 1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            log.error("第" + page + "页，第" + ++num + "次执行");
             RedisUtil.incr(RedisConst.CSDN_KEY + page, 1);
+            log.info("第" + page + "页准备执行第"+RedisUtil.get(RedisConst.CSDN_KEY+page)+"次，执行周期为"+minute+"分钟/次");
             Spider.create(new CSDN()).addUrl("https://blog.csdn.net/qq_37209293/article/list/" + page)
                     .addPipeline(new JsonFilePipeline("/home/webMagic"))
                     .thread(1).run();
