@@ -1,17 +1,16 @@
-package cn.common.pojo.webMagic;
+package cn.common.webMagic.magic;
 
+import cn.common.webMagic.base.Agents;
 import lombok.extern.slf4j.Slf4j;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
-import us.codecraft.webmagic.Spider;
-import us.codecraft.webmagic.pipeline.JsonFilePipeline;
 import us.codecraft.webmagic.processor.PageProcessor;
 
 import java.util.List;
 
 @Slf4j
 public class CSDN implements PageProcessor {
-    private Site site = Site.me().setRetryTimes(3).setSleepTime(100);
+    private Site site = Site.me().setCharset("UTF-8").setRetryTimes(3).setSleepTime(1000).setUserAgent(Agents.getRandom());
     @Override
     public Site getSite() {
         return site;
