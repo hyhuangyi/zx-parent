@@ -4,6 +4,7 @@ import cn.biz.service.ISysService;
 import cn.common.consts.RedisConst;
 import cn.common.exception.ZxException;
 import cn.common.util.redis.RedisUtil;
+import com.google.common.collect.Maps;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Api(tags = "webMagic相关接口")
 @RestController
@@ -39,5 +43,16 @@ public class webMagicController {
             return true;
         }
         throw new ZxException("key不存在");
+    }
+
+    @GetMapping("/comm/runStatus")
+    @ApiOperation("获取运行状态")
+    public Map<String,Object> getStatus(){
+       Object o1= RedisUtil.get(RedisConst.CSDN_KEY+1);
+       Object o2= RedisUtil.get(RedisConst.CSDN_KEY+2);
+       Map<String,Object> map= Maps.newHashMap();
+       map.put("v1",o1);
+       map.put("v2",o2);
+       return map;
     }
 }
