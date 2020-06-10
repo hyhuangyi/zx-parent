@@ -216,7 +216,7 @@ public class SysServiceImpl implements ISysService {
     public void handleCsdn(String page,Integer minute) {
         while (RedisUtil.hasKey(RedisConst.CSDN_KEY + page)) {
             try {//休眠60秒
-                Thread.sleep(minute * 2 * 1000);
+                Thread.sleep(minute * 60 * 1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
