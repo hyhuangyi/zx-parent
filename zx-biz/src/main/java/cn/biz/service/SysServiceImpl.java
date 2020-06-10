@@ -216,11 +216,15 @@ public class SysServiceImpl implements ISysService {
     public void handleCsdn(String page,Integer minute) {
         while (RedisUtil.hasKey(RedisConst.CSDN_KEY + page)) {
             try {//休眠60秒
-                Thread.sleep(minute * 60 * 1000);
+                Thread.sleep(minute * 2 * 1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            RedisUtil.incr(RedisConst.CSDN_KEY + page, 1);
+            if(RedisUtil.hasKey(RedisConst.CSDN_KEY + page)){
+                RedisUtil.incr(RedisConst.CSDN_KEY + page, 1);
+            }else {
+                break;
+            }
             log.info("第" + page + "页准备执行第"+RedisUtil.get(RedisConst.CSDN_KEY+page)+"次，执行周期为"+minute+"分钟/次");
             Spider.create(new CSDN()).addUrl("https://blog.csdn.net/qq_37209293/article/list/" + page)
                     .addPipeline(new JsonFilePipeline("/home/webMagic"))
@@ -388,5 +392,4 @@ public class SysServiceImpl implements ISysService {
         log.info("所有线程执行结束，耗时："+(end-start)+"毫秒。一共"+res.size()+"条。");
         return res;
     }
-
 }
