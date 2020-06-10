@@ -14,4 +14,6 @@ public class RedisConst {
     public static final String JWT_SIGNING_KEY = "springBoot-zx";
     //token heard头
     public static final String AUTHORIZATION = "authorization";
+    //csdn magic
+    public static final String CSDN_KEY = "csdnMagic";
 }

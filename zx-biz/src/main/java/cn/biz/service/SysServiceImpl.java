@@ -11,7 +11,9 @@ import cn.biz.po.Weibo;
 import cn.biz.vo.DictVO;
 import cn.biz.vo.FundVO;
 import cn.biz.vo.TableListVO;
+import cn.common.consts.RedisConst;
 import cn.common.exception.ZxException;
+import cn.common.pojo.webMagic.CSDN;
 import cn.common.util.algorithm.ListUtil;
 import cn.common.util.comm.RegexUtils;
 import cn.common.util.file.AntZipUtil;
@@ -19,6 +21,7 @@ import cn.common.util.file.FileUtil;
 import cn.common.util.http.HttpRequestUtil;
 import cn.common.util.http.RestTemplateUtil;
 import cn.common.util.math.BigDecimalUtils;
+import cn.common.util.redis.RedisUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -36,7 +39,11 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import us.codecraft.webmagic.Spider;
+import us.codecraft.webmagic.pipeline.JsonFilePipeline;
+
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.OutputStream;
@@ -202,6 +209,24 @@ public class SysServiceImpl implements ISysService {
         List<Weibo> list=weiboMapper.getWeiboList(page,dto);
         page.setRecords(list);
         return page;
+    }
+
+    @Override
+    @Async("myTaskAsyncPool")
+    public void handleCsdn(String page,Integer minute) {
+        Integer num = 0;
+        while (RedisUtil.hasKey(RedisConst.CSDN_KEY + page)) {
+            try {//休眠60秒
+                Thread.sleep(minute * 60 * 1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            log.error("第" + page + "页，第" + ++num + "次执行");
+            RedisUtil.incr(RedisConst.CSDN_KEY + page, 1);
+            Spider.create(new CSDN()).addUrl("https://blog.csdn.net/qq_37209293/article/list/" + page)
+                    .addPipeline(new JsonFilePipeline("/home/webMagic"))
+                    .thread(1).run();
+        }
     }
 
     @Override
