@@ -26,7 +26,7 @@ public class webMagicController {
 
     @GetMapping("/comm/start/csdn")
     @ApiOperation("启动csdn访问")
-    public Boolean startCsdn(@RequestParam("page") String page, @RequestParam(value = "minute", defaultValue = "1") Integer minute) {
+    public Boolean startCsdn(@RequestParam("page") String page, @RequestParam(value = "minute", defaultValue = "5") Integer minute) {
         if (!RedisUtil.hasKey(RedisConst.CSDN_KEY + page)) {
             RedisUtil.set(RedisConst.CSDN_KEY + page, 0);
             sysService.handleCsdn(page, minute);
