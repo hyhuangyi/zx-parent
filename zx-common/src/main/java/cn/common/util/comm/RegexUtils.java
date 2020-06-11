@@ -204,8 +204,6 @@ public class RegexUtils {
         return "";
     }
 
-
-
     public static boolean checkSex(String sex){
         return sex.equals("男")||sex.equals("女");
     }
