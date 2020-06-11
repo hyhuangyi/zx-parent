@@ -13,6 +13,7 @@ import cn.biz.vo.FundVO;
 import cn.biz.vo.TableListVO;
 import cn.common.consts.RedisConst;
 import cn.common.exception.ZxException;
+import cn.common.webMagic.base.CSDNPipeline;
 import cn.common.webMagic.magic.CSDN;
 import cn.common.util.algorithm.ListUtil;
 import cn.common.util.comm.RegexUtils;
@@ -61,6 +62,9 @@ public class SysServiceImpl implements ISysService {
     private ISysTreeDictService sysTreeDictService;
     @Autowired
     private FundMapper fundMapper;
+    @Autowired
+    private CSDNPipeline csdnPipeline;
+
     @Value("${spring.datasource.druid.url}")
     private  String url;
     @Value("${spring.datasource.druid.username}")
@@ -223,8 +227,7 @@ public class SysServiceImpl implements ISysService {
             }
             log.info("第" + page + "页准备执行第"+RedisUtil.get(RedisConst.CSDN_KEY+page)+"次，执行周期为"+minute+"分钟/次");
             Spider.create(new CSDN()).addUrl("https://blog.csdn.net/qq_37209293/article/list/" + page)
-                    .addPipeline(new JsonFilePipeline("/home/webMagic"))
-                    .thread(1).run();
+                    .addPipeline(csdnPipeline).thread(1).runAsync();
         }
     }
 
