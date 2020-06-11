@@ -180,6 +180,31 @@ public class RegexUtils {
         return Pattern.matches(regex, ipAddress);
     }
 
+    /**
+     * 获取#号之间的数据
+     * @param req
+     * @return
+     */
+    public static String getTags(String req){
+        String regStr = "#(.*?)#";
+        StringBuilder builder=new StringBuilder();
+        Pattern pattern = Pattern.compile(regStr);
+        if(req != null) {
+            Matcher m = pattern.matcher(req);
+            while (m.find()) {
+                String group = m.group(1);
+                builder.append(","+group);
+            }
+            if("".equals(builder.toString())){
+                return "";
+            }else {
+                return builder.toString().substring(1);
+            }
+        }
+        return "";
+    }
+
+
 
     public static boolean checkSex(String sex){
         return sex.equals("男")||sex.equals("女");
