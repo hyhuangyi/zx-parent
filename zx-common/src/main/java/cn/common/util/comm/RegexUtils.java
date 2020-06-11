@@ -2,6 +2,8 @@ package cn.common.util.comm;
 
 import cn.common.exception.ZxException;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -179,31 +181,33 @@ public class RegexUtils {
         String regex = "[1-9](\\d{1,2})?\\.(0|([1-9](\\d{1,2})?))\\.(0|([1-9](\\d{1,2})?))\\.(0|([1-9](\\d{1,2})?))";
         return Pattern.matches(regex, ipAddress);
     }
-
     /**
-     * 获取#号之间的数据
+     * 获取#号之间的数据 去重
      * @param req
      * @return
      */
     public static String getTags(String req){
+        String res="";
         String regStr = "#(.*?)#";
-        StringBuilder builder=new StringBuilder();
+        Set<String> set=new HashSet<String>();
         Pattern pattern = Pattern.compile(regStr);
         if(req != null) {
             Matcher m = pattern.matcher(req);
             while (m.find()) {
                 String group = m.group(1);
-                builder.append(","+group);
+                set.add(group);
             }
-            if("".equals(builder.toString())){
-                return "";
+            if(set.size()!=0){
+                for(String s:set){
+                    res+=","+s;
+                }
+                return res.substring(1);
             }else {
-                return builder.toString().substring(1);
+                return "";
             }
         }
         return "";
     }
-
     public static boolean checkSex(String sex){
         return sex.equals("男")||sex.equals("女");
     }
