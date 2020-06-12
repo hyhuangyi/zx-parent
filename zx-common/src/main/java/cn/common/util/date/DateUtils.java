@@ -284,19 +284,48 @@ public class DateUtils {
     }
 
     /**
-     * 时间前推或后推分钟,其中JJ表示分钟.
+     * 时间前推分钟,其中JJ表示分钟或者小时.
      */
-    public static String getPreTime(String sj1, String jj) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public static String getPreTime(String sj1, String jj,int type) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String mydate1 = "";
         try {
             Date date1 = format.parse(sj1);
-            long Time = (date1.getTime() / 1000) + Integer.parseInt(jj) * 60;
+            long Time=0;
+            if(type==0){//分钟
+                Time = (date1.getTime() / 1000) - Integer.parseInt(jj) * 60;
+            }else {//小时
+                Time=(date1.getTime()/1000)-Integer.parseInt(jj)*60*60;
+            }
             date1.setTime(Time * 1000);
             mydate1 = format.format(date1);
         } catch (Exception e) {
         }
         return mydate1;
+    }
+
+
+    public static String parseWeiboDate(String date){
+        SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        String res="";
+        if(date.indexOf("刚刚")!=-1||date.indexOf("秒")!=-1){
+            res=dateFormat.format(new Date());
+        }else if(date.indexOf("今天")!=-1){
+            String a= date.substring(date.indexOf("今天")+2).trim().substring(0,5);
+            res= DateUtils.getStringDate(new Date(),"yyyy-MM-dd")+" "+a;
+        }else if(date.indexOf("分钟")!=-1){
+            String b=date.substring(0,date.indexOf("分钟"));
+            res=DateUtils.getPreTime(dateFormat.format(new Date()),b,0);
+        } else if(date.indexOf("小时")!=-1){
+            String b=date.substring(0,date.indexOf("小时"));
+            res=DateUtils.getPreTime(dateFormat.format(new Date()),b,1);
+        }else if(date.indexOf("月")!=0&&date.indexOf("日")!=-1){
+            String c=date.substring(0,12);
+            res= DateUtils.getStringDate(new Date(),"yyyy")+"-"+c.substring(0,12).replace("月","-").replace("日","");
+        }else {
+            res=date;
+        }
+        return res;
     }
 
     /**

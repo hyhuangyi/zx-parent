@@ -26,6 +26,7 @@
             (#{item.userId},#{item.screenName},#{item.text},#{item.topics},#{item.pics},#{item.source},#{item.attitudesCount},#{item.commentsCount},#{item.repostsCount},#{item.createdAt},now(),now())
         </foreach>
         ON DUPLICATE KEY UPDATE
+        created_at=VALUES(created_at),
         attitudes_count=VALUES(attitudes_count),
         comments_count=VALUES(comments_count),
         reposts_count=VALUES(reposts_count),

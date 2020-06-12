@@ -41,7 +41,7 @@ public class Weibo implements Serializable {
     private String pics;
 
     @ApiModelProperty(value = "发布时间")
-    private LocalDateTime createdAt;
+    private String createdAt;
 
     @ApiModelProperty(value = "发布来源")
     private String source;

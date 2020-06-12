@@ -4,6 +4,7 @@ import cn.biz.po.Weibo;
 import cn.biz.webMagic.base.Agents;
 import cn.common.util.PropertyPlaceUtil;
 import cn.common.util.comm.RegexUtils;
+import cn.common.util.date.DateUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.util.Lists;
 import org.jsoup.Jsoup;
@@ -78,9 +79,8 @@ public class XinLangWeibo implements PageProcessor {
                 }
                 weibo=weibo.setUserId(uid).setScreenName(name).setRepostsCount(forward.equals("")?"0":forward).
                         setCommentsCount(comment.equals("")?"0":comment).setAttitudesCount(upvote.equals("")?"0":upvote).
-                        setText(content).setTopics(RegexUtils.getTags(content)).setSource(source).setPics(pics);
+                        setText(content).setTopics(RegexUtils.getTags(content)).setSource(source).setPics(pics).setCreatedAt(DateUtils.parseWeiboDate(time));
                 res.add(weibo);
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
