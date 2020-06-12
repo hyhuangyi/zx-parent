@@ -163,26 +163,20 @@ CREATE TABLE `sys_operate_log` (
 -- ----------------------------
 DROP TABLE IF EXISTS `weibo`;
 CREATE TABLE `weibo` (
-  `id` varchar(20) NOT NULL,
-  `bid` varchar(12) NOT NULL,
-  `user_id` varchar(20) DEFAULT NULL COMMENT '微博id',
+  `user_id` varchar(20) NOT NULL COMMENT '微博id',
   `screen_name` varchar(30) DEFAULT NULL COMMENT '微博名称',
   `text` varchar(2000) DEFAULT NULL COMMENT '微博类容',
-  `article_url` varchar(100) DEFAULT NULL,
-  `topics` varchar(200) DEFAULT NULL COMMENT '话题',
-  `at_users` varchar(1000) DEFAULT NULL,
-  `pics` varchar(3000) DEFAULT NULL,
-  `video_url` varchar(1000) DEFAULT NULL,
-  `location` varchar(100) DEFAULT NULL,
+  `topics` varchar(150) NOT NULL COMMENT '话题',
+  `pics` varchar(3000) DEFAULT NULL COMMENT '图片地址',
   `created_at` datetime DEFAULT NULL COMMENT '发布时间',
   `source` varchar(30) DEFAULT NULL COMMENT '发布来源',
   `attitudes_count` int(11) DEFAULT NULL COMMENT '点赞数',
   `comments_count` int(11) DEFAULT NULL COMMENT '评论数',
   `reposts_count` int(11) DEFAULT NULL COMMENT '转发数',
-  `retweet_id` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`user_id`,`topics`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='微博话题搜索结果表';
-
 
 -- ----------------------------
 -- Table structure for fund

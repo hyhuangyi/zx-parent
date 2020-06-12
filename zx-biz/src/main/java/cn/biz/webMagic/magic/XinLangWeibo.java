@@ -38,8 +38,8 @@ public class XinLangWeibo implements PageProcessor {
                 String content="";//内容
                 String source="";//发布工具
                 String time="";//发布时间
-                String name="";
-                String pics="";
+                String name="";//微博名
+                String pics="";//图片
                 //微博id
                 Elements e_id=document.select("div[class=info]").select("div");
                 if(e_id.size()>=3){
