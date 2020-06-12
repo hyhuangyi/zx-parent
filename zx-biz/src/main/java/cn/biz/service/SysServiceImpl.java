@@ -248,6 +248,12 @@ public class SysServiceImpl implements ISysService {
     }
 
     @Override
+    public Boolean cleanWeibo() {
+        weiboMapper.cleanWeiboData();
+        return true;
+    }
+
+    @Override
     public List<FundVO> fundList() {
         long start = System.currentTimeMillis();
         Map<String, List<DictVO>> map = sysTreeDictService.listDicts("fund");

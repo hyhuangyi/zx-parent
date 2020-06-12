@@ -5,6 +5,7 @@ import cn.biz.po.Weibo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 
@@ -20,4 +21,6 @@ import java.util.List;
 public interface WeiboMapper extends BaseMapper<Weibo> {
     List<Weibo> getWeiboList(Page page, @Param("dto") WeiboDTO dto);
     Boolean batchInsertOrUpdate(List<Weibo> list);
+    @Update("truncate table weibo")
+    void cleanWeiboData();
 }

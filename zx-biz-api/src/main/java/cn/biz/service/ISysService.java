@@ -21,6 +21,8 @@ public interface ISysService {
      void handleCsdn(String page,Integer minute);
      /**爬取微博**/
      void handleWeibo(String key);
+     /**清空微博**/
+     Boolean cleanWeibo();
      /**我的基金列表**/
      List<FundVO> fundList();
      /**更新基金列表**/

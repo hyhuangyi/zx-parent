@@ -34,4 +34,10 @@ public class WeiboController {
     public void getData(@RequestParam("key") String key){
         sysService.handleWeibo(key);
     }
+
+    @ApiOperation("清空数据")
+    @GetMapping("/weibo/clean")
+    public Boolean cleanData(){
+        return sysService.cleanWeibo();
+    }
 }
