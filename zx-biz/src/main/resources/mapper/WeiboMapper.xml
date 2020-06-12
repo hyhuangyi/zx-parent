@@ -16,7 +16,7 @@
         <if test="dto.startDate!=null and dto.startDate!='' and dto.endDate!=null and dto.endDate!=''">
             and date(created_at) between #{dto.startDate} and #{dto.endDate}
         </if>
-        order by created_at desc
+        order by attitudes_count desc
     </select>
 
     <insert id="batchInsertOrUpdate" parameterType="java.util.List">
