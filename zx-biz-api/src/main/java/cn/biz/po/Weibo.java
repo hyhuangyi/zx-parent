@@ -1,18 +1,17 @@
 package cn.biz.po;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import java.time.LocalDateTime;
-import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author zx
@@ -21,46 +20,45 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@ApiModel(value="Weibo对象", description="Weibo对象")
+@ApiModel(value = "Weibo对象", description = "Weibo")
 public class Weibo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "id", type = IdType.AUTO)
-    private String id;
-
-    private String bid;
-
+    @ApiModelProperty(value = "微博id")
     private String userId;
 
+    @ApiModelProperty(value = "微博名称")
     private String screenName;
 
+    @ApiModelProperty(value = "微博类容")
     private String text;
 
-    private String articleUrl;
-
+    @ApiModelProperty(value = "话题")
     private String topics;
 
-    private String atUsers;
-
+    @ApiModelProperty(value = "图片")
     private String pics;
 
-    private String videoUrl;
-
-    private String location;
-
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
+    @ApiModelProperty(value = "发布时间")
     private LocalDateTime createdAt;
 
+    @ApiModelProperty(value = "发布来源")
     private String source;
 
-    private Integer attitudesCount;
+    @ApiModelProperty(value = "点赞数")
+    private String attitudesCount;
 
-    private Integer commentsCount;
+    @ApiModelProperty(value = "评论数")
+    private String commentsCount;
 
-    private Integer repostsCount;
+    @ApiModelProperty(value = "转发数")
+    private String repostsCount;
 
-    private String retweetId;
-
-
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
+    @ApiModelProperty(value = "创建时间")
+    private LocalDateTime createTime;
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
+    @ApiModelProperty(value = "更新时间")
+    private LocalDateTime updateTime;
 }

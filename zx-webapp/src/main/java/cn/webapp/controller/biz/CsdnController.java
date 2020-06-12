@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 
-@Api(tags = "webMagic相关接口")
+@Api(tags = "csdn相关接口")
 @RestController
 @Slf4j
-public class webMagicController {
+public class CsdnController {
 
     @Autowired
     private ISysService sysService;

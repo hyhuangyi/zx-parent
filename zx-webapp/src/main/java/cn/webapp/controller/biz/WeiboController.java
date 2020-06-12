@@ -12,9 +12,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@Api(tags = "微博相关接口")
+@Api(tags = "weibo相关接口")
 @RestController
 @Slf4j
 public class WeiboController {
@@ -26,5 +27,11 @@ public class WeiboController {
     @OperateLog(operation = "微博列表查询",moduleName = LogModuleConst.BIZ_MODULE)
     public IPage<Weibo> list(@ModelAttribute WeiboDTO dto){
         return sysService.getWeiboSearchList(dto);
+    }
+
+    @ApiOperation("按关键词爬取微博话题列表")
+    @GetMapping("/comm/getWbData")
+    public void getData(@RequestParam("key") String key){
+        sysService.handleWeibo(key);
     }
 }

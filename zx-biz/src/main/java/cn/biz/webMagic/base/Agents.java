@@ -1,4 +1,4 @@
-package cn.common.webMagic.base;
+package cn.biz.webMagic.base;
 
 import lombok.extern.slf4j.Slf4j;
 

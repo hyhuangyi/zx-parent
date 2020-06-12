@@ -19,6 +19,8 @@ public interface ISysService {
      IPage<Weibo> getWeiboSearchList(WeiboDTO dto);
      /**处理csdn异步调用的方法**/
      void handleCsdn(String page,Integer minute);
+     /**爬取微博**/
+     void handleWeibo(String key);
      /**我的基金列表**/
      List<FundVO> fundList();
      /**更新基金列表**/

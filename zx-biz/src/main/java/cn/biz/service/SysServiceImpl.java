@@ -11,10 +11,13 @@ import cn.biz.po.Weibo;
 import cn.biz.vo.DictVO;
 import cn.biz.vo.FundVO;
 import cn.biz.vo.TableListVO;
+import cn.biz.webMagic.base.Downloader;
+import cn.biz.webMagic.base.WeiboPipLine;
+import cn.biz.webMagic.magic.XinLangWeibo;
 import cn.common.consts.RedisConst;
 import cn.common.exception.ZxException;
-import cn.common.webMagic.base.CSDNPipeline;
-import cn.common.webMagic.magic.CSDN;
+import cn.biz.webMagic.base.CSDNPipeline;
+import cn.biz.webMagic.magic.CSDN;
 import cn.common.util.algorithm.ListUtil;
 import cn.common.util.comm.RegexUtils;
 import cn.common.util.file.AntZipUtil;
@@ -40,7 +43,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import us.codecraft.webmagic.Spider;
-import us.codecraft.webmagic.pipeline.JsonFilePipeline;
+
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.OutputStream;
@@ -64,6 +67,10 @@ public class SysServiceImpl implements ISysService {
     private FundMapper fundMapper;
     @Autowired
     private CSDNPipeline csdnPipeline;
+    @Autowired
+    private WeiboPipLine weiboPipLine;
+    @Autowired
+    private XinLangWeibo xinLangWeibo;
 
     @Value("${spring.datasource.druid.url}")
     private  String url;
@@ -229,6 +236,15 @@ public class SysServiceImpl implements ISysService {
             Spider.create(new CSDN()).addUrl("https://blog.csdn.net/qq_37209293/article/list/" + page)
                     .addPipeline(csdnPipeline).thread(1).runAsync();
         }
+    }
+
+    @Override
+    @Async("myTaskAsyncPool")
+    public void handleWeibo(String key) {
+        String baseUrl="https://s.weibo.com/weibo?q=%23"+key+"%23";
+        Spider.create(xinLangWeibo).addUrl(baseUrl).addPipeline(weiboPipLine)
+                .setDownloader(Downloader.newIpDownloader())
+                .thread(1).runAsync();
     }
 
     @Override

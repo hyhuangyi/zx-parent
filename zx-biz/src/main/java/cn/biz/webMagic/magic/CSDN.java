@@ -1,6 +1,6 @@
-package cn.common.webMagic.magic;
+package cn.biz.webMagic.magic;
 
-import cn.common.webMagic.base.Agents;
+import cn.biz.webMagic.base.Agents;
 import lombok.extern.slf4j.Slf4j;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
