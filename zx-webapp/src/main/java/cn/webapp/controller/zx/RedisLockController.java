@@ -1,5 +1,6 @@
 package cn.webapp.controller.zx;
 
+import cn.common.util.redis.JedisUtil;
 import cn.common.util.redis.RedisLockUtil;
 import cn.common.util.redis.RedisUtil;
 import io.swagger.annotations.Api;
@@ -59,7 +60,7 @@ public class RedisLockController {
         CountDownLatch countDownLatch = new CountDownLatch(num);
         for (int i = 0; i < num; i++) {
             new Thread(() -> {
-                boolean lock = RedisLockUtil.tryLock(new Jedis(), "zx", Thread.currentThread().getName(), 100000);
+                boolean lock = RedisLockUtil.tryLock(JedisUtil.getJedis(), "zx", Thread.currentThread().getName(), 100000);
                 if (lock) {
                     try {
                         System.out.println(Thread.currentThread().getName() + "加锁成功");
