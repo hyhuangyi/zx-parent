@@ -8,12 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import redis.clients.jedis.Jedis;
-
 import java.util.Arrays;
 import java.util.concurrent.CountDownLatch;
 
@@ -27,7 +23,7 @@ public class RedisLockController {
     private RedisTemplate redisTemplate;
 
     @ApiOperation("分布式锁测试一")
-    @RequestMapping(value = "/comm/redisTest1", method = RequestMethod.POST)
+    @GetMapping(value = "/comm/redisTest1")
     @ResponseBody
     public void test1() throws Exception {
         int num = 10;
@@ -56,7 +52,7 @@ public class RedisLockController {
 
 
     @ApiOperation("分布式锁测试二")
-    @RequestMapping(value = "/comm/redisTest2", method = RequestMethod.POST)
+    @GetMapping(value = "/comm/redisTest2")
     @ResponseBody
     public void test2() throws Exception {
         int num = 10;
@@ -83,7 +79,7 @@ public class RedisLockController {
     }
 
     @ApiOperation("分布式锁测试三")
-    @RequestMapping(value = "/comm/redisTest3", method = RequestMethod.POST)
+    @GetMapping(value = "/comm/redisTest3")
     @ResponseBody
     public void test3() throws Exception {
         int num = 10;
