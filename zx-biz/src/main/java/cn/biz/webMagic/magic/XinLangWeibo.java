@@ -41,12 +41,14 @@ public class XinLangWeibo implements PageProcessor {
                 String time="";//发布时间
                 String name="";//微博名
                 String pics="";//图片
-                //微博id
+                String id="";//微博id
+                //uid
                 Elements e_id=document.select("div[class=info]").select("div");
                 if(e_id.size()>=3){
                     uid=  document.select("div[class=info]").select("div").get(2).select("a").get(0).attr("href");
                     uid=uid.substring(uid.lastIndexOf("/")+1,uid.indexOf("?"));
                     name=document.select("div[class=info]").select("div").get(2).select("a").get(0).text();
+                    id=document.select("div[class=card-wrap]").attr("mid");
                 }else {
                     continue;
                 }
@@ -79,7 +81,7 @@ public class XinLangWeibo implements PageProcessor {
                 }
                 weibo=weibo.setUserId(uid).setScreenName(name).setRepostsCount(forward.equals("")?"0":forward).
                         setCommentsCount(comment.equals("")?"0":comment).setAttitudesCount(upvote.equals("")?"0":upvote).
-                        setText(content).setTopics(RegexUtils.getTags(content)).setSource(source).setPics(pics).setCreatedAt(DateUtils.parseWeiboDate(time));
+                        setText(content).setTopics(RegexUtils.getTags(content)).setSource(source).setPics(pics).setCreatedAt(DateUtils.parseWeiboDate(time)).setId(id);
                 res.add(weibo);
             } catch (Exception e) {
                 e.printStackTrace();

@@ -304,28 +304,34 @@ public class DateUtils {
         return mydate1;
     }
 
-
+    /**
+     * 解析微博日期
+     * @param date
+     * @return
+     */
     public static String parseWeiboDate(String date){
         SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        String res="";
+        String temp="";
         if(date.indexOf("刚刚")!=-1||date.indexOf("秒")!=-1){
-            res=dateFormat.format(new Date());
+            return dateFormat.format(new Date());
         }else if(date.indexOf("今天")!=-1){
-            String a= date.substring(date.indexOf("今天")+2).trim().substring(0,5);
-            res= DateUtils.getStringDate(new Date(),"yyyy-MM-dd")+" "+a;
+            temp= date.substring(date.indexOf("今天")+2).trim().substring(0,5);
+            return DateUtils.getStringDate(new Date(),"yyyy-MM-dd")+" "+temp;
         }else if(date.indexOf("分钟")!=-1){
-            String b=date.substring(0,date.indexOf("分钟"));
-            res=DateUtils.getPreTime(dateFormat.format(new Date()),b,0);
+            temp=date.substring(0,date.indexOf("分钟"));
+            return DateUtils.getPreTime(dateFormat.format(new Date()),temp,0);
         } else if(date.indexOf("小时")!=-1){
-            String b=date.substring(0,date.indexOf("小时"));
-            res=DateUtils.getPreTime(dateFormat.format(new Date()),b,1);
-        }else if(date.indexOf("月")!=0&&date.indexOf("日")!=-1){
-            String c=date.substring(0,12);
-            res= DateUtils.getStringDate(new Date(),"yyyy")+"-"+c.substring(0,12).replace("月","-").replace("日","");
+            temp=date.substring(0,date.indexOf("小时"));
+            return DateUtils.getPreTime(dateFormat.format(new Date()),temp,1);
+        }else if(date.indexOf("年")!=-1&&date.indexOf("月")!=-1&&date.indexOf("日")!=-1){
+            temp=date.substring(0,17);
+            return temp.substring(0,4)+"-"+temp.substring(5,17).replace("月","-").replace("日","");
+        } else if(date.indexOf("月")!=-1&&date.indexOf("日")!=-1){
+            temp=date.substring(0,12);
+            return DateUtils.getStringDate(new Date(),"yyyy")+"-"+temp.substring(0,12).replace("月","-").replace("日","");
         }else {
-            res=date;
+            return date;
         }
-        return res;
     }
 
     /**
