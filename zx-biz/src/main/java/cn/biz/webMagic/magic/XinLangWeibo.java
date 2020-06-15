@@ -52,13 +52,14 @@ public class XinLangWeibo implements PageProcessor {
                 }else {
                     continue;
                 }
+                //内容
                 Elements e_txt=document.select("div[class=content]").select("p[class=txt]");
                 if(e_txt.size()==1){
                     content=e_txt.get(0).text();
                 } else {
                     content=e_txt.get(1).text();
                 }
-                //发布工具
+                //发布工具、时间
                 Elements e_source=document.select("p[class=from]").select("a");
                 if(e_source.size()==1){
                     time=e_source.get(0).text();
@@ -72,6 +73,7 @@ public class XinLangWeibo implements PageProcessor {
                 String comment=document.select("div[class=card-act]").select("ul").select("li").get(2).select("a").text().substring(2).trim();
                 //点赞
                 String upvote=document.select("div[class=card-act]").select("ul").select("li").get(3).select("a").select("em").text().trim();
+                //图片
                 String pic1=document.select("div[class=pic]").select("img").attr("src");
                 String pic2=document.select("div[class=media media-piclist]").select("img").attr("src");
                 if(!"".equals(pic2)){//只取一张
@@ -79,6 +81,7 @@ public class XinLangWeibo implements PageProcessor {
                 }else {
                     pics=pic1;
                 }
+                //组装对象
                 weibo=weibo.setUserId(uid).setScreenName(name).setRepostsCount(forward.equals("")?"0":forward).
                         setCommentsCount(comment.equals("")?"0":comment).setAttitudesCount(upvote.equals("")?"0":upvote).
                         setText(content).setTopics(RegexUtils.getTags(content)).setSource(source).setPics(pics).setCreatedAt(DateUtils.parseWeiboDate(time)).setId(id);
