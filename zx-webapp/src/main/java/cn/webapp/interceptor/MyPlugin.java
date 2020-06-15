@@ -34,7 +34,7 @@ public class MyPlugin implements Interceptor {
             log.info("sqlCost:"+sqlCost);
             BoundSql boundSql = statementHandler.getBoundSql();
             String sql = boundSql.getSql();
-            if (sqlCost > time) {
+            if (sqlCost >=time) {
                log.info("本次数据库操作是慢查询，sql是:" + sql+",执行时间："+sqlCost+"ms");
             }
         }
