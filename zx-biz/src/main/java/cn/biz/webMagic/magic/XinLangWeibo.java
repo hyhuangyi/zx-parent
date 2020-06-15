@@ -17,6 +17,14 @@ import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.processor.PageProcessor;
 import java.util.List;
 
+/**
+ *  微博查看详情
+ *  手机端  /detail/微博id  https://m.weibo.cn/detail/4514269225629864
+ *  web端  /用户id/bid    https://weibo.com/1669879400/J5ZcSnCAg
+ *  查看用户详情
+ *  web端 https://weibo.com/u/1669879400
+ * 手机端 https://m.weibo.cn/u/1669879400
+ */
 @Slf4j
 @Component
 public class XinLangWeibo implements PageProcessor {
@@ -42,6 +50,7 @@ public class XinLangWeibo implements PageProcessor {
                 String name="";//微博名
                 String pics="";//图片
                 String id="";//微博id
+                String bid="";//bid
                 //uid
                 Elements e_id=document.select("div[class=info]").select("div");
                 if(e_id.size()>=3){
@@ -61,10 +70,12 @@ public class XinLangWeibo implements PageProcessor {
                 }
                 //发布工具、时间
                 Elements e_source=document.select("p[class=from]").select("a");
+                time=e_source.get(0).text();
+                String detailUrl=e_source.get(0).attr("href");
+                bid=detailUrl.substring(detailUrl.lastIndexOf("/")+1,detailUrl.indexOf("?"));
                 if(e_source.size()==1){
-                    time=e_source.get(0).text();
+                    log.info("只有发布时间");
                 } else {
-                    time=e_source.get(0).text();
                     source=e_source.get(e_source.size()-1).text();
                 }
                 //转发
@@ -84,7 +95,8 @@ public class XinLangWeibo implements PageProcessor {
                 //组装对象
                 weibo=weibo.setUserId(uid).setScreenName(name).setRepostsCount(forward.equals("")?"0":forward).
                         setCommentsCount(comment.equals("")?"0":comment).setAttitudesCount(upvote.equals("")?"0":upvote).
-                        setText(content).setTopics(RegexUtils.getTags(content)).setSource(source).setPics(pics).setCreatedAt(DateUtils.parseWeiboDate(time)).setId(id);
+                        setText(content).setTopics(RegexUtils.getTags(content)).setSource(source).setPics(pics).
+                        setCreatedAt(DateUtils.parseWeiboDate(time)).setId(id).setBid(bid);
                 res.add(weibo);
             } catch (Exception e) {
                 e.printStackTrace();

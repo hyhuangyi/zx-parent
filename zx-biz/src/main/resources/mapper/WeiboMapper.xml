@@ -20,12 +20,13 @@
     </select>
 
     <insert id="batchInsertOrUpdate" parameterType="java.util.List">
-        INSERT INTO weibo (id,user_id,screen_name,text,topics,pics,source,attitudes_count,comments_count,reposts_count,created_at,create_time,update_time)
+        INSERT INTO weibo (id,bid,user_id,screen_name,text,topics,pics,source,attitudes_count,comments_count,reposts_count,created_at,create_time,update_time)
         VALUES
         <foreach collection="list" item="item" separator=",">
-            (#{item.id},#{item.userId},#{item.screenName},#{item.text},#{item.topics},#{item.pics},#{item.source},#{item.attitudesCount},#{item.commentsCount},#{item.repostsCount},#{item.createdAt},now(),now())
+            (#{item.id},#{item.bid},#{item.userId},#{item.screenName},#{item.text},#{item.topics},#{item.pics},#{item.source},#{item.attitudesCount},#{item.commentsCount},#{item.repostsCount},#{item.createdAt},now(),now())
         </foreach>
         ON DUPLICATE KEY UPDATE
+        bid=VALUES(bid),
         created_at=VALUES(created_at),
         attitudes_count=VALUES(attitudes_count),
         comments_count=VALUES(comments_count),

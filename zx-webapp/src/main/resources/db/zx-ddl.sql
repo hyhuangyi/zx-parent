@@ -164,6 +164,7 @@ CREATE TABLE `sys_operate_log` (
 DROP TABLE IF EXISTS `weibo`;
 CREATE TABLE `weibo` (
   `id` varchar(50) NOT NULL COMMENT '微博id',
+  `bid` varchar(30) DEFAULT NULL COMMENT '详情id',
   `user_id` varchar(20) DEFAULT NULL COMMENT '微博uid',
   `screen_name` varchar(30) DEFAULT NULL COMMENT '微博名称',
   `text` varchar(5000) DEFAULT NULL COMMENT '微博类容',

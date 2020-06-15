@@ -28,6 +28,9 @@ public class Weibo implements Serializable {
     @ApiModelProperty("微博id")
     private String id;
 
+    @ApiModelProperty("微博bid(详情id)")
+    private String bid;
+
     @ApiModelProperty(value = "微博uid")
     private String userId;
 
