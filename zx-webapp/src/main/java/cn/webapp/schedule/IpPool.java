@@ -22,7 +22,7 @@ import java.util.List;
  * IP代理池
  */
 @Slf4j
-@Component
+//@Component
 public class IpPool {
 
     @Scheduled(cron = "*/20 * * * * ?")
