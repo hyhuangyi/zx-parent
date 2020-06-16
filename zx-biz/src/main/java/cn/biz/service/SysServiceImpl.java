@@ -11,7 +11,7 @@ import cn.biz.po.Weibo;
 import cn.biz.vo.DictVO;
 import cn.biz.vo.FundVO;
 import cn.biz.vo.TableListVO;
-import cn.biz.webMagic.base.Downloader;
+import cn.biz.webMagic.base.ProxyDownloader;
 import cn.biz.webMagic.base.WeiboPipLine;
 import cn.biz.webMagic.magic.XinLangWeibo;
 import cn.common.consts.RedisConst;
@@ -243,7 +243,7 @@ public class SysServiceImpl implements ISysService {
     public void handleWeibo(String key) {
         String baseUrl="https://s.weibo.com/weibo?q=%23"+key+"%23";
         Spider.create(xinLangWeibo).addUrl(baseUrl).addPipeline(weiboPipLine)
-                .setDownloader(Downloader.newIpDownloader())
+                .setDownloader(ProxyDownloader.newIpDownloader())
                 .thread(1).runAsync();
     }
 
