@@ -1,4 +1,4 @@
-package cn.biz.webMagic.base;
+package cn.biz.webMagic.pipline;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

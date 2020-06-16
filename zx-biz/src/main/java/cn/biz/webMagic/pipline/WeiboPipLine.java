@@ -1,4 +1,4 @@
-package cn.biz.webMagic.base;
+package cn.biz.webMagic.pipline;
 
 import cn.biz.mapper.WeiboMapper;
 import cn.biz.po.Weibo;
