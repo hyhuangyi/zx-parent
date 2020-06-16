@@ -30,9 +30,8 @@ public class ProxyDownloader {
 
     private static RedisTemplate redisTemplate;
 
-    /**注入redisTemplate*/
     @Autowired
-    public void setRedisTemplate(RedisTemplate redisTemplate) {
+    public  void setRedisTemplate(RedisTemplate redisTemplate) {
         ProxyDownloader.redisTemplate = redisTemplate;
     }
 
@@ -53,16 +52,17 @@ public class ProxyDownloader {
             protected Page handleResponse(Request request, String charset, HttpResponse httpResponse, Task task) throws IOException {
                 Page page = new Page();
                 if (httpResponse.getStatusLine().getStatusCode() != HttpConstant.StatusCode.CODE_200) {
-                    page.setDownloadSuccess(false);//失败
-                    String[] ips = newIp();//换代理ip
+                    log.error("handleResponse>返回码=>"+httpResponse.getStatusLine().getStatusCode());
+                    String[] ips = newIp();
                     setProxyProvider(SimpleProxyProvider.from(new Proxy(ips[0], Integer.parseInt(ips[1]))));
+                    page.setDownloadSuccess(false);
                 } else {
                     byte[] bytes = IOUtils.toByteArray(httpResponse.getEntity().getContent());
                     String contentType = httpResponse.getEntity().getContentType() == null ? "" : httpResponse.getEntity().getContentType().getValue();
                     page.setBytes(bytes);
-                    if (!request.isBinaryContent()) {
+                    if (!request.isBinaryContent()){
                         if (charset == null) {
-                            charset = this.getHtmlCharset(contentType, bytes);
+                            charset =this.getHtmlCharset(contentType, bytes);
                         }
                         page.setCharset(charset);
                         page.setRawText(new String(bytes, charset));
@@ -77,8 +77,10 @@ public class ProxyDownloader {
                 }
                 return page;
             }
+            /**处理错误 换代理ip*/
             @Override
             protected void onError(Request request) {
+                log.error("ProxyDownloader=>onError");
                 String[] ips = newIp();
                 setProxyProvider(SimpleProxyProvider.from(new Proxy(ips[0], Integer.parseInt(ips[1]))));
             }
@@ -90,16 +92,21 @@ public class ProxyDownloader {
                 return charset;
             }
         };
-        //downloader.setProxyProvider(SimpleProxyProvider.from(new Proxy("183.167.217.152",63000)));
+       // downloader.setProxyProvider(SimpleProxyProvider.from(new Proxy("183.167.217.152",63000)));
         return downloader;
     }
-
+    /**从redis代理池里随机取ip*/
     static String[] newIp() {
-        Long size = redisTemplate.opsForList().size("ip");
-        String ip = redisTemplate.opsForList().index("ip", new Random().nextInt(size.intValue())).toString();
-        log.info("获取ip===========>" + ip);
-        String[] ips = ip.split(":");
-        return ips;
+        try {
+            Long size = redisTemplate.opsForList().size("ip");
+            String ip = redisTemplate.opsForList().index("ip", new Random().nextInt(size.intValue())).toString();
+            log.info("获取ip===========>" + ip);
+            String[] ips = ip.split(":");
+            return ips;
+        } catch (Exception e) {
+            log.error("ProxyDownloader=>newIp");
+            return new String[]{"183.167.217.152","63000"};
+        }
     }
 }
 
