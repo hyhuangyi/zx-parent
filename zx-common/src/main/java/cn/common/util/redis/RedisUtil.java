@@ -433,12 +433,43 @@ public  class RedisUtil {
 	 * 将list放入缓存
 	 * @param key 键
 	 * @param value 值
-	 * @param time 时间(秒)
 	 * @return
 	 */
 	public static boolean lSet(String key, Object value) {
 		try {
 			redisUtil.redisTemplate.opsForList().rightPush(key, value);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	/**
+	 * 左进右出
+	 * @param key
+	 * @param value
+	 * @return
+	 */
+	public static boolean lLeftPushAndRightPop(String key, Object value) {
+		try {
+			redisUtil.redisTemplate.opsForList().rightPopAndLeftPush(key, value);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	/**
+	 * 左边push
+	 * @param key
+	 * @param value
+	 * @return
+	 */
+	public static boolean lLeftPush(String key, Object value) {
+		try {
+			redisUtil.redisTemplate.opsForList().leftPush(key,value);
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -467,7 +498,6 @@ public  class RedisUtil {
 	 * 将list放入缓存
 	 * @param key 键
 	 * @param value 值
-	 * @param time 时间(秒)
 	 * @return
 	 */
 	public static boolean lSet(String key, List<Object> value) {
@@ -563,8 +593,6 @@ public  class RedisUtil {
 
 	/**
 	 * 根据实体类 获取 redis key
-	 * @param classDO 实体类
-	 * @param cloum  要存的实体类 列名
 	 */
 	public static <T> String getKey(String method,T classDO) {
 		StringBuffer keyBuffer=new StringBuffer();
@@ -585,8 +613,6 @@ public  class RedisUtil {
 
 	/**
 	 * 根据实体类 获取 redis key
-	 * @param classDO 实体类
-	 * @param cloum  要存的实体类 列名
 	 */
 	public static <T> String getKey(String method,String pkValue) {
 		StringBuffer keyBuffer=new StringBuffer();
