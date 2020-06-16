@@ -33,7 +33,7 @@ public class XinLangWeibo implements PageProcessor {
 
     @Override
     public Site getSite() {
-        return Site.me().setCharset("UTF-8").setRetryTimes(8).setCycleRetryTimes(10).setSleepTime(100).setUserAgent(Agents.getRandom()).addCookie("cookie", propertyPlaceUtil.getCookie());
+        return Site.me().setCharset("UTF-8").setRetryTimes(6).setCycleRetryTimes(10).setSleepTime(500).setUserAgent(Agents.getRandom()).addCookie("cookie", propertyPlaceUtil.getCookie());
     }
 
     public void process(Page page) {

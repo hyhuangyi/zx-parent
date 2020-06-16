@@ -10,7 +10,7 @@ import java.util.List;
 
 @Slf4j
 public class CSDN implements PageProcessor {
-    private Site site = Site.me().setCharset("UTF-8").setRetryTimes(3).setSleepTime(1000).setUserAgent(Agents.getRandom());
+    private Site site = Site.me().setCharset("UTF-8").setRetryTimes(6).setCycleRetryTimes(10).setSleepTime(500).setUserAgent(Agents.getRandom());
     @Override
     public Site getSite() {
         return site;
