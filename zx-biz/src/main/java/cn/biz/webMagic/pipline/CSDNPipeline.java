@@ -13,6 +13,6 @@ public class CSDNPipeline extends FilePersistentBase implements Pipeline {
     @Override
     public void process(ResultItems resultItems, Task task) {
         //拿到数据 可以存redis或者mysql
-        log.info(resultItems.get("Title"));
+        log.info(resultItems.get("title"));
     }
 }
