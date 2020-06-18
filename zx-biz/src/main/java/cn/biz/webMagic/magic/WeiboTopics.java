@@ -27,7 +27,7 @@ import java.util.List;
  */
 @Slf4j
 @Component
-public class XinLangWeibo implements PageProcessor {
+public class WeiboTopics implements PageProcessor {
     @Autowired
     private PropertyPlaceUtil propertyPlaceUtil;
 

@@ -13,7 +13,7 @@ import cn.biz.vo.FundVO;
 import cn.biz.vo.TableListVO;
 import cn.biz.webMagic.base.ProxyDownloader;
 import cn.biz.webMagic.pipline.WeiboPipLine;
-import cn.biz.webMagic.magic.XinLangWeibo;
+import cn.biz.webMagic.magic.WeiboTopics;
 import cn.common.consts.RedisConst;
 import cn.common.exception.ZxException;
 import cn.biz.webMagic.pipline.CSDNPipeline;
@@ -43,7 +43,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import us.codecraft.webmagic.Spider;
-
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.OutputStream;
@@ -70,7 +69,7 @@ public class SysServiceImpl implements ISysService {
     @Autowired
     private WeiboPipLine weiboPipLine;
     @Autowired
-    private XinLangWeibo xinLangWeibo;
+    private WeiboTopics weiboTopics;
 
     @Value("${spring.datasource.druid.url}")
     private  String url;
@@ -242,7 +241,7 @@ public class SysServiceImpl implements ISysService {
     @Async("myTaskAsyncPool")
     public void handleWeibo(String key) {
         String baseUrl="https://s.weibo.com/weibo?q=%23"+key+"%23";
-        Spider.create(xinLangWeibo).addUrl(baseUrl).addPipeline(weiboPipLine)
+        Spider.create(weiboTopics).addUrl(baseUrl).addPipeline(weiboPipLine)
                 .setDownloader(ProxyDownloader.newIpDownloader())
                 .thread(1).runAsync();
     }
