@@ -253,10 +253,10 @@ public class SysServiceImpl implements ISysService {
     }
 
     @Override
-    public List<FundVO> fundList() {
+    public List<FundVO> fundList(String type) {
         long start = System.currentTimeMillis();
-        Map<String, List<DictVO>> map = sysTreeDictService.listDicts("fund");
-        List<DictVO> list = map.get("fund");
+        Map<String, List<DictVO>> map = sysTreeDictService.listDicts(type);
+        List<DictVO> list = map.get(type);
         List<FundVO> res = new ArrayList<>();
         for (DictVO vo : list) {
             try {
@@ -306,6 +306,7 @@ public class SysServiceImpl implements ISysService {
     public IPage<Fund> getAllFund(FundDTO dto) {
         Page<Fund> page=new Page<>(dto.getCurrent(),dto.getSize());
         List<Fund> list=fundMapper.getAllFund(page,dto);
+        /**
         list.forEach(l->{
             try {
                 String result = HttpRequestUtil.get(FUND_DETAIL + l.getCode() + ".js", null, null);//获取结果
@@ -320,6 +321,7 @@ public class SysServiceImpl implements ISysService {
                 e.printStackTrace();
             }
         });
+         **/
         page.setRecords(list);
         return page;
     }

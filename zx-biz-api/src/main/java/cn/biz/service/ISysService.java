@@ -24,7 +24,7 @@ public interface ISysService {
      /**清空微博**/
      Boolean cleanWeibo();
      /**我的基金列表**/
-     List<FundVO> fundList();
+     List<FundVO> fundList(String type);
      /**更新基金列表**/
      Boolean updateAllFund();
      /**分页查询所有基金列表**/

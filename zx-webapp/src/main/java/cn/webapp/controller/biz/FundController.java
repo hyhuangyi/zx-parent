@@ -45,8 +45,8 @@ public class FundController {
     @GetMapping("/fund/list")
     @PreAuthorize("hasAuthority('fund:list')")
     @OperateLog(operation = "查询我的基金列表", moduleName = LogModuleConst.FUND_MODULE)
-    public List<FundVO> fundList() {
-       return sysService.fundList();
+    public List<FundVO> fundList(@ApiParam("类型") @RequestParam @NotEmpty(message = "type不能为空")String type) {
+       return sysService.fundList(type);
     }
 
     @ApiOperation("修改金额")
