@@ -6,7 +6,7 @@ import cn.biz.service.ISysService;
 import cn.biz.service.ISysTreeDictService;
 import cn.biz.vo.FundVO;
 import cn.common.consts.LogModuleConst;
-import cn.common.util.http.HttpRequestUtil;
+import cn.common.util.file.EasyPoiUtil;
 import cn.webapp.aop.annotation.OperateLog;
 import cn.webapp.aop.annotation.TimeCount;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -17,10 +17,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
-
 
 @Api(tags = "基金相关接口")
 @RestController
@@ -84,5 +83,12 @@ public class FundController {
     @GetMapping("/comm/fund/zero/rank")
     public List<FundVO> zeroRateFundRank(@ApiParam("线程数量") @RequestParam Integer num)throws Exception{
         return sysService.getZeroRateFundRank(num);
+    }
+
+    @ApiOperation(value = "导出费率为0的基金排行")
+    @GetMapping(value = "/comm/fund/zero/export")
+    public void exportZero(HttpServletResponse response)throws Exception{
+        List<FundVO> list=sysService.getZeroRateFundRank(30);
+        EasyPoiUtil.exportExcel(list,"fund","zero_fund",FundVO.class,"免费率列表.xls",response);
     }
 }

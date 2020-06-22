@@ -72,7 +72,6 @@ public class EasyPoiUtil {
         ExcelExportUtil.closeExportBigExcel();
         if (workbook != null);
         downLoadExcel(fileName, response, workbook);
-
     }
 
     /**
