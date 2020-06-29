@@ -1,7 +1,6 @@
 package cn.biz.service;
 
 import cn.biz.mapper.SysTreeDictMapper;
-import cn.biz.po.SysTreeDict;
 import cn.biz.vo.DictVO;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -85,14 +84,5 @@ public class SysTreeDictServiceImpl implements ISysTreeDictService {
                 getChild(child, list);
             }
         }
-    }
-
-    @Override
-    public boolean remark(Integer id, String remark) {
-        SysTreeDict sysTreeDict=new SysTreeDict();
-        sysTreeDict.setDdId(id);
-        sysTreeDict.setRemark(remark);
-        sysTreeDictMapper.updateById(sysTreeDict);
-        return true;
     }
 }

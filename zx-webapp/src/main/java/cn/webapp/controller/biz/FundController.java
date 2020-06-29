@@ -1,9 +1,9 @@
 package cn.webapp.controller.biz;
 
+import cn.biz.dto.AddFundDTO;
 import cn.biz.dto.FundDTO;
 import cn.biz.po.Fund;
 import cn.biz.service.ISysService;
-import cn.biz.service.ISysTreeDictService;
 import cn.biz.vo.FundVO;
 import cn.common.consts.LogModuleConst;
 import cn.common.util.file.EasyPoiUtil;
@@ -18,7 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Api(tags = "基金相关接口")
@@ -27,8 +29,6 @@ import java.util.List;
 public class FundController {
     @Autowired
     private ISysService sysService;
-    @Autowired
-    private ISysTreeDictService sysTreeDictService;
 
     @TimeCount
     @ApiOperation("更新所有基金列表")
@@ -44,19 +44,49 @@ public class FundController {
     @GetMapping("/fund/list")
     @PreAuthorize("hasAuthority('fund:list')")
     @OperateLog(operation = "查询我的基金列表", moduleName = LogModuleConst.FUND_MODULE)
-    public List<FundVO> fundList(@ApiParam("类型") @RequestParam @NotEmpty(message = "type不能为空")String type) {
-       return sysService.fundList(type);
+    public List<FundVO> fundList() {
+       return sysService.fundList();
     }
 
     @ApiOperation("修改金额")
     @PostMapping("/fund/edit")
     @PreAuthorize("hasAuthority('fund:list')")
     @OperateLog(operation = "修改金额", moduleName = LogModuleConst.FUND_MODULE)
-    public boolean handleEdit(@ApiParam("主键id") @RequestParam @NotEmpty(message = "id不能为空") Integer id,
-                              @ApiParam("remark") @RequestParam @NotEmpty(message = "备注不能为空") String remark) {
-        return sysTreeDictService.remark(id, remark);
+    public boolean handleEdit(@ApiParam("主键id") @RequestParam @NotNull(message = "id不能为空") Long id,
+                              @ApiParam("holdMoney") @RequestParam @NotEmpty(message = "金额不能为空") String holdMoney) {
+        return sysService.updateHoldMoney(id,holdMoney);
     }
 
+    @ApiOperation("修改备注")
+    @PostMapping("/fund/editRemark")
+    @PreAuthorize("hasAuthority('fund:list')")
+    @OperateLog(operation = "修改备注", moduleName = LogModuleConst.FUND_MODULE)
+    public boolean handleEditRemark(@ApiParam("主键id") @RequestParam @NotNull(message = "id不能为空") Long id,
+                              @ApiParam(value = "remark",defaultValue = "") @RequestParam  String remark) {
+        return sysService.updateRemark(id,remark);
+    }
+    @ApiOperation("新增基金")
+    @PostMapping("/fund/add")
+    @PreAuthorize("hasAuthority('fund:list')")
+    @OperateLog(operation = "新增基金", moduleName = LogModuleConst.FUND_MODULE)
+    public boolean addFund(@ModelAttribute@Valid AddFundDTO addFundDTO) {
+        return sysService.addFund(addFundDTO);
+    }
+    @ApiOperation("删除基金")
+    @PostMapping("/fund/del")
+    @PreAuthorize("hasAuthority('fund:list')")
+    @OperateLog(operation = "删除基金", moduleName = LogModuleConst.FUND_MODULE)
+    public boolean addFund(@ApiParam("主键id") @RequestParam @NotNull(message = "id不能为空") Long id) {
+        return sysService.delFund(id);
+    }
+
+    @ApiOperation("所有基金下拉选")
+    @PostMapping("/fund/select")
+    @PreAuthorize("hasAuthority('fund:list')")
+    @OperateLog(operation = "所有基金下拉选", moduleName = LogModuleConst.FUND_MODULE)
+    public List<String> fundSelect() {
+        return sysService.getFundSelect();
+    }
     @ApiOperation("获取所有基金列表（分页）")
     @PostMapping("/fund/all")
     @PreAuthorize("hasAuthority('fund:list')")

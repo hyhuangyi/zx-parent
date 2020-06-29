@@ -1,14 +1,16 @@
 package cn.biz.service;
 
+import cn.biz.dto.AddFundDTO;
 import cn.biz.dto.FundDTO;
 import cn.biz.dto.TableListDTO;
 import cn.biz.dto.WeiboDTO;
 import cn.biz.mapper.FundMapper;
+import cn.biz.mapper.FundOwnMapper;
 import cn.biz.mapper.SysOperateLogMapper;
 import cn.biz.mapper.WeiboMapper;
 import cn.biz.po.Fund;
+import cn.biz.po.FundOwn;
 import cn.biz.po.Weibo;
-import cn.biz.vo.DictVO;
 import cn.biz.vo.FundVO;
 import cn.biz.vo.TableListVO;
 import cn.biz.webMagic.base.ProxyDownloader;
@@ -18,8 +20,9 @@ import cn.common.consts.RedisConst;
 import cn.common.exception.ZxException;
 import cn.biz.webMagic.pipline.CSDNPipeline;
 import cn.biz.webMagic.magic.CSDN;
+import cn.common.pojo.base.Token;
+import cn.common.pojo.servlet.ServletContextHolder;
 import cn.common.util.algorithm.ListUtil;
-import cn.common.util.comm.RegexUtils;
 import cn.common.util.file.AntZipUtil;
 import cn.common.util.file.FileUtil;
 import cn.common.util.http.HttpRequestUtil;
@@ -28,6 +31,7 @@ import cn.common.util.redis.RedisUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -40,16 +44,18 @@ import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import us.codecraft.webmagic.Spider;
+
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.OutputStream;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
 @Service
@@ -61,49 +67,62 @@ public class SysServiceImpl implements ISysService {
     @Autowired
     private WeiboMapper weiboMapper;
     @Autowired
-    private ISysTreeDictService sysTreeDictService;
-    @Autowired
     private FundMapper fundMapper;
+    @Autowired
+    private FundOwnMapper fundOwnMapper;
     @Autowired
     private CSDNPipeline csdnPipeline;
     @Autowired
     private WeiboPipLine weiboPipLine;
     @Autowired
     private WeiboTopics weiboTopics;
+    @Autowired
+    private CSDN csdn;
 
     @Value("${spring.datasource.druid.url}")
-    private  String url;
+    private String url;
     @Value("${spring.datasource.druid.username}")
     private String name;
     @Value("${spring.datasource.druid.password}")
     private String password;
     @Value("${spring.datasource.druid.driver-class-name}")
     private String driver;
-    private String parent="com.zx";
+    private String parent = "com.zx";
 
-    /**基金详情**/
+    /**
+     * 基金详情
+     **/
     public static final String FUND_DETAIL = "http://fund.eastmoney.com/pingzhongdata/";
-    /**所有基金**/
+    /**
+     * 所有基金
+     **/
     public static final String FUND_ALL = "http://fund.eastmoney.com/js/fundcode_search.js";
-    /**基金估值**/
+    /**
+     * 基金估值
+     **/
     public static final String FUND_GZ = "http://fundgz.1234567.com.cn/js/";
-    /**输出基金费率0的结果地址**/
-    public static final String ZERO_FUND_PATH="/home/zeroFund.txt";
-    /**输出基金费率0的实时排名结果地址**/
-    public static final String ZERO_FUND_RANK_PATH="/home/zeroFundRank.txt";
+    /**
+     * 输出基金费率0的结果地址
+     **/
+    public static final String ZERO_FUND_PATH = "/home/zeroFund.txt";
+    /**
+     * 输出基金费率0的实时排名结果地址
+     **/
+    public static final String ZERO_FUND_RANK_PATH = "/home/zeroFundRank.txt";
 
+    /*生成代码*/
     @Override
-    public void generateCode(String schema ,String[] arr, HttpServletResponse response)throws Exception {
-        if (arr==null||arr.length==0){
+    public void generateCode(String schema, String[] arr, HttpServletResponse response) throws Exception {
+        if (arr == null || arr.length == 0) {
             throw new ZxException("请至少选择一个");
         }
-        String replace= url.substring(url.indexOf("6/")+2, url.indexOf("?"));//截取当前schema
-        String realUrl=url.replace(replace,schema);//替换schmea
+        String replace = url.substring(url.indexOf("6/") + 2, url.indexOf("?"));//截取当前schema
+        String realUrl = url.replace(replace, schema);//替换schmea
         // 代码生成器
         AutoGenerator mpg = new AutoGenerator();
         //全局配置
         GlobalConfig gc = new GlobalConfig();
-        String projectPath="/home/download/"; //输出到指定目录
+        String projectPath = "/home/download/"; //输出到指定目录
         gc.setOutputDir(projectPath + "/src/main/java");
         gc.setAuthor("zx");
         gc.setOpen(false);//是否打开输出目录
@@ -144,11 +163,11 @@ public class SysServiceImpl implements ISysService {
             @Override
             public String outputFile(TableInfo tableInfo) {
 
-                if(pc.getModuleName()!=null){
+                if (pc.getModuleName() != null) {
                     // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
                     return projectPath + "/src/main/resources/mapper/" + pc.getModuleName()
                             + "/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
-                }else {
+                } else {
                     // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
                     return projectPath + "/src/main/resources/mapper/"
                             + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
@@ -190,82 +209,90 @@ public class SysServiceImpl implements ISysService {
 //            response.setContentType("application/octet-stream;charset=UTF-8;");
 //            response.addHeader("Content-Disposition", "attachment;");
             OutputStream outputStream = response.getOutputStream();
-            AntZipUtil.compress(outputStream,projectPath+ File.separator+"src");
-        }finally {
+            AntZipUtil.compress(outputStream, projectPath + File.separator + "src");
+        } finally {
             FileUtil.deleteDirectory(projectPath);
         }
     }
 
+    /*表列表*/
     @Override
     public IPage<TableListVO> getTableList(TableListDTO dto) {
-        Page<TableListVO> page=new Page<>(dto.getCurrent(),dto.getSize());
-        List<TableListVO> list=sysOperateLogMapper.getTableList(page,dto);
+        Page<TableListVO> page = new Page<>(dto.getCurrent(), dto.getSize());
+        List<TableListVO> list = sysOperateLogMapper.getTableList(page, dto);
         page.setRecords(list);
         return page;
     }
 
+    /*获取schemas*/
     @Override
     public List<String> getSchemas() {
         return sysOperateLogMapper.getSchemas();
     }
 
+    /*微博查询*/
     @Override
     public IPage<Weibo> getWeiboSearchList(WeiboDTO dto) {
-        Page<Weibo> page=new Page<>(dto.getCurrent(),dto.getSize());
-        List<Weibo> list=weiboMapper.getWeiboList(page,dto);
+        Page<Weibo> page = new Page<>(dto.getCurrent(), dto.getSize());
+        List<Weibo> list = weiboMapper.getWeiboList(page, dto);
         page.setRecords(list);
         return page;
     }
 
+    /*处理csdn异步调用的方法*/
     @Override
     @Async("myTaskAsyncPool")
-    public void handleCsdn(String page,Integer minute) {
+    public void handleCsdn(String page, Integer minute) {
         while (RedisUtil.hasKey(RedisConst.CSDN_KEY + page)) {
             try {//休眠60秒
                 Thread.sleep(minute * 60 * 1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            if(RedisUtil.hasKey(RedisConst.CSDN_KEY + page)){
+            if (RedisUtil.hasKey(RedisConst.CSDN_KEY + page)) {
                 RedisUtil.incr(RedisConst.CSDN_KEY + page, 1);
-            }else {
+            } else {
                 break;
             }
-            log.info("第" + page + "页准备执行第"+RedisUtil.get(RedisConst.CSDN_KEY+page)+"次，执行周期为"+minute+"分钟/次");
-            Spider.create(new CSDN()).addUrl("https://blog.csdn.net/qq_37209293/article/list/" + page)
+            log.info("第" + page + "页准备执行第" + RedisUtil.get(RedisConst.CSDN_KEY + page) + "次，执行周期为" + minute + "分钟/次");
+            Spider.create(csdn).addUrl("https://blog.csdn.net/qq_37209293/article/list/" + page)
                     .addPipeline(csdnPipeline).thread(1).runAsync();
         }
     }
 
+    /*爬取微博*/
     @Override
     @Async("myTaskAsyncPool")
     public void handleWeibo(String key) {
-        String baseUrl="https://s.weibo.com/weibo?q=%23"+key+"%23";
+        String baseUrl = "https://s.weibo.com/weibo?q=%23" + key + "%23";
         Spider.create(weiboTopics).addUrl(baseUrl).addPipeline(weiboPipLine)
                 .setDownloader(ProxyDownloader.newIpDownloader())
                 .thread(1).runAsync();
     }
 
+    /*清空微博*/
     @Override
     public Boolean cleanWeibo() {
         weiboMapper.cleanWeiboData();
         return true;
     }
 
+    /*我的基金列表*/
     @Override
-    public List<FundVO> fundList(String type) {
+    public List<FundVO> fundList() {
+        Token token = ServletContextHolder.getToken();
         long start = System.currentTimeMillis();
-        Map<String, List<DictVO>> map = sysTreeDictService.listDicts(type);
-        List<DictVO> list = map.get(type);
+        List<FundOwn> list = fundOwnMapper.selectList(new QueryWrapper<FundOwn>().eq("user_id", token.getUserId()));
         List<FundVO> res = new ArrayList<>();
-        for (DictVO vo : list) {
+        for (FundOwn vo : list) {
             try {
-                String result = HttpRequestUtil.get(FUND_GZ + vo.getDdText() + ".js", null, null);//获取结果
+                String result = HttpRequestUtil.get(FUND_GZ + vo.getCode() + ".js", null, null);//获取结果
                 String json = result.substring(result.indexOf("{"), result.lastIndexOf("}") + 1);//获取json
                 FundVO fundVO = JSON.parseObject(json, FundVO.class);
-                fundVO.setId(vo.getDdId());
-                fundVO.setRemark(Double.valueOf(vo.getRemark()));
-                fundVO.setLy(BigDecimalUtils.mulFool(2, vo.getRemark(), fundVO.getGszzl() / 100));
+                fundVO.setId(vo.getId());
+                fundVO.setRemark(vo.getRemark());
+                fundVO.setHoldMoney(Double.parseDouble(vo.getHoldMoney()));
+                fundVO.setLy(BigDecimalUtils.mulFool(2, vo.getHoldMoney(), fundVO.getGszzl() / 100));
                 res.add(fundVO);//转为实体
             } catch (Exception e) {
                 log.error("查询异常", e);
@@ -277,15 +304,36 @@ public class SysServiceImpl implements ISysService {
         return res;
     }
 
+    /*修改持有金额*/
+    @Override
+    public Boolean updateHoldMoney(Long id, String holdMoney) {
+        FundOwn fundOwn = new FundOwn();
+        fundOwn.setId(id);
+        fundOwn.setHoldMoney(holdMoney);
+        fundOwnMapper.updateById(fundOwn);
+        return true;
+    }
+
+    /*修改备注*/
+    @Override
+    public Boolean updateRemark(Long id, String remark) {
+        FundOwn fundOwn = new FundOwn();
+        fundOwn.setId(id);
+        fundOwn.setRemark(remark);
+        fundOwnMapper.updateById(fundOwn);
+        return true;
+    }
+
+    /*更新基金列表*/
     @Override
     public Boolean updateAllFund() {
-        List<Fund> list=new ArrayList<>();
+        List<Fund> list = new ArrayList<>();
         long start = System.currentTimeMillis();
         String result = HttpRequestUtil.get(FUND_ALL, null, null);//获取结果
-        String json=result.substring(result.indexOf("["),result.lastIndexOf(";"));//json  基金列表
-        List<List> l=  JSON.parseArray(json,List.class);
-        l.forEach(data->{
-            Fund fund=new Fund();
+        String json = result.substring(result.indexOf("["), result.lastIndexOf(";"));//json  基金列表
+        List<List> l = JSON.parseArray(json, List.class);
+        l.forEach(data -> {
+            Fund fund = new Fund();
             fund.setCode(data.get(0).toString());
             fund.setShortPy(data.get(1).toString());
             fund.setName(data.get(2).toString());
@@ -293,8 +341,8 @@ public class SysServiceImpl implements ISysService {
             fund.setFullPy(data.get(4).toString());
             list.add(fund);
         });
-        List<List<Fund>> tempList= ListUtil.AssignBatchList(list, 5000);
-        for(List<Fund> res:tempList){
+        List<List<Fund>> tempList = ListUtil.AssignBatchList(list, 5000);
+        for (List<Fund> res : tempList) {
             fundMapper.batchInsertOrUpdate(res);
         }
         long end = System.currentTimeMillis();
@@ -302,64 +350,111 @@ public class SysServiceImpl implements ISysService {
         return true;
     }
 
+    /*分页查询所有基金列表*/
     @Override
     public IPage<Fund> getAllFund(FundDTO dto) {
-        Page<Fund> page=new Page<>(dto.getCurrent(),dto.getSize());
-        List<Fund> list=fundMapper.getAllFund(page,dto);
+        Page<Fund> page = new Page<>(dto.getCurrent(), dto.getSize());
+        List<Fund> list = fundMapper.getAllFund(page, dto);
         /**
-        list.forEach(l->{
-            try {
-                String result = HttpRequestUtil.get(FUND_DETAIL + l.getCode() + ".js", null, null);//获取结果
-                String rate = result.substring(result.indexOf("fund_Rate") + 11, result.indexOf("fund_Rate") + 15);
-                if(RegexUtils.checkDecimals(rate)){
-                    l.setBuyRate(rate);
-                }else {
-                    l.setBuyRate("/");
-                }
-            } catch (Exception e) {
-                l.setBuyRate("/");
-                e.printStackTrace();
-            }
-        });
+         list.forEach(l->{
+         try {
+         String result = HttpRequestUtil.get(FUND_DETAIL + l.getCode() + ".js", null, null);//获取结果
+         String rate = result.substring(result.indexOf("fund_Rate") + 11, result.indexOf("fund_Rate") + 15);
+         if(RegexUtils.checkDecimals(rate)){
+         l.setBuyRate(rate);
+         }else {
+         l.setBuyRate("/");
+         }
+         } catch (Exception e) {
+         l.setBuyRate("/");
+         e.printStackTrace();
+         }
+         });
          **/
         page.setRecords(list);
         return page;
     }
 
+    /*基金下拉选*/
+    @Override
+    @Cacheable(value = "fund",key = "'select_all'",unless = "#result == null")
+    public List<String> getFundSelect() {
+        List<String> res = new ArrayList<>();
+        List<Fund> list = fundMapper.getFundForZero();
+        list.forEach(l -> {
+            res.add(l.getCode() + "-" + l.getName());
+        });
+        return res;
+    }
+    /*新增基金*/
+    @Override
+    public boolean addFund(AddFundDTO dto) {
+        String fund=dto.getFund();
+        String[]arr=fund.split("-");
+        if(arr.length!=2){
+            throw new  ZxException("基金传值不符合要求");
+        }
+        Token token=ServletContextHolder.getToken();
+        FundOwn fundOwn=new FundOwn();
+        Integer count= fundOwnMapper.selectCount(new QueryWrapper<FundOwn>().eq("user_id",token.getUserId()).eq("code",arr[0]));
+        if(count!=0){
+            throw new ZxException("当前基金已存在列表中，请不要重复加入！");
+        }
+        fundOwn.setRemark(dto.getRemark());
+        fundOwn.setHoldMoney(dto.getHoldMoney());
+        fundOwn.setCode(arr[0]);
+        fundOwn.setName(arr[1]);
+        fundOwn.setUserId(token.getUserId());
+        fundOwn.setCreateTime(LocalDateTime.now());
+        fundOwn.setUpdateTime(LocalDateTime.now());
+        fundOwnMapper.insert(fundOwn);
+        return true;
+    }
+    /*删除基金*/
+    @Override
+    public boolean delFund(Long id) {
+        fundOwnMapper.deleteById(id);
+        return true;
+    }
+
+    /*基金类型*/
     @Override
     public List<String> getFundType() {
         return fundMapper.getFundType();
     }
 
+    /*获取费率为0的基金*/
     @Override
-    public List<Fund> getZeroRateFund(int num) throws Exception{
-        if(num<=0){
-            num=50;
+    public List<Fund> getZeroRateFund(int num) throws Exception {
+        if (num <= 0) {
+            num = 50;
         }
         log.info("开始执行");
-        long start=System.currentTimeMillis();
+        long start = System.currentTimeMillis();
         //多线程插入会有并发问题 需要加锁
-        List<Fund> res=Collections.synchronizedList(new ArrayList<>());
-        List<Fund> funds=fundMapper.getFundForZero();
+        List<Fund> res = Collections.synchronizedList(new ArrayList<>());
+        List<Fund> funds = fundMapper.getFundForZero();
         //大概5000多条，切分成100份，多线程去执行
-        List<List<Fund>> all= ListUtil.averageAssign(funds,num);
-        CountDownLatch countDownLatch=new CountDownLatch(num);
-        for(List<Fund> fl:all){
-            new Thread(()->{
-                handleZero(Collections.synchronizedList(fl),res);
+        List<List<Fund>> all = ListUtil.averageAssign(funds, num);
+        CountDownLatch countDownLatch = new CountDownLatch(num);
+        for (List<Fund> fl : all) {
+            new Thread(() -> {
+                handleZero(Collections.synchronizedList(fl), res);
                 countDownLatch.countDown();
             }).start();
         }
         //主线程等所有线程完成工作才继续执行后面的代码，当计算器减到0阻塞结束
         countDownLatch.await();
-        long end=System.currentTimeMillis();
-        FileUtil.writeFile(ZERO_FUND_PATH,JSON.toJSONString(res));
-        log.info("所有线程执行结束，耗时："+(end-start)/(60*1000)+"分钟。一共"+res.size()+"条。");
+        long end = System.currentTimeMillis();
+        FileUtil.writeFile(ZERO_FUND_PATH, JSON.toJSONString(res));
+        log.info("所有线程执行结束，耗时：" + (end - start) / (60 * 1000) + "分钟。一共" + res.size() + "条。");
         return res;
     }
 
-    /**处理多线程任务*/
-    public  void  handleZero(List<Fund> fl,List<Fund> res) {
+    /**
+     * 处理多线程任务
+     */
+    public void handleZero(List<Fund> fl, List<Fund> res) {
         for (Fund f : fl) {
             try {
                 String result = HttpRequestUtil.get(FUND_DETAIL + f.getCode() + ".js", null, null);//获取结果
@@ -375,8 +470,10 @@ public class SysServiceImpl implements ISysService {
         }
     }
 
-    /**处理多线程任务*/
-    public  void  handleZeroRank(List<Fund> fl,List<FundVO> res) {
+    /**
+     * 处理多线程任务
+     */
+    public void handleZeroRank(List<Fund> fl, List<FundVO> res) {
         for (Fund f : fl) {
             try {
                 String result = HttpRequestUtil.get(FUND_GZ + f.getCode() + ".js", null, null);//获取结果
@@ -384,34 +481,36 @@ public class SysServiceImpl implements ISysService {
                 FundVO fundVO = JSON.parseObject(json, FundVO.class);
                 res.add(fundVO);//转为实体
             } catch (Exception e) {
-                log.error(Thread.currentThread().getName()+"----"+f.getCode()+"异常");
+                log.error(Thread.currentThread().getName() + "----" + f.getCode() + "异常");
             }
         }
     }
+
+    /*费率为0的基金当日排行*/
     @Override
-    public List<FundVO> getZeroRateFundRank(int num)throws Exception{
-        if(num<=0){
-            num=50;
+    public List<FundVO> getZeroRateFundRank(int num) throws Exception {
+        if (num <= 0) {
+            num = 50;
         }
-        long start=System.currentTimeMillis();
-        String data= FileUtil.readFile(ZERO_FUND_PATH);
-        List<Fund> funds= JSONArray.parseArray(data,Fund.class);
-        List<FundVO> res=Collections.synchronizedList(new ArrayList<>());
+        long start = System.currentTimeMillis();
+        String data = FileUtil.readFile(ZERO_FUND_PATH);
+        List<Fund> funds = JSONArray.parseArray(data, Fund.class);
+        List<FundVO> res = Collections.synchronizedList(new ArrayList<>());
         //切分
-        List<List<Fund>> all= ListUtil.averageAssign(funds,num);
-        CountDownLatch countDownLatch=new CountDownLatch(num);
-        for(List<Fund> fl:all){
-            new Thread(()->{
-                handleZeroRank(Collections.synchronizedList(fl),res);
+        List<List<Fund>> all = ListUtil.averageAssign(funds, num);
+        CountDownLatch countDownLatch = new CountDownLatch(num);
+        for (List<Fund> fl : all) {
+            new Thread(() -> {
+                handleZeroRank(Collections.synchronizedList(fl), res);
                 countDownLatch.countDown();
             }).start();
         }
         //主线程等所有线程完成工作才继续执行后面的代码，当计算器减到0阻塞结束
         countDownLatch.await();
-        long end=System.currentTimeMillis();
+        long end = System.currentTimeMillis();
         Collections.sort(res);//倒序
-        FileUtil.writeFile(ZERO_FUND_RANK_PATH,JSON.toJSONString(res));
-        log.info("所有线程执行结束，耗时："+(end-start)+"毫秒。一共"+res.size()+"条。");
+        FileUtil.writeFile(ZERO_FUND_RANK_PATH, JSON.toJSONString(res));
+        log.info("所有线程执行结束，耗时：" + (end - start) + "毫秒。一共" + res.size() + "条。");
         return res;
     }
 }

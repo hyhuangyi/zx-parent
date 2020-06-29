@@ -27,12 +27,4 @@ public interface ISysTreeDictService  {
      * @return
      */
     Map<String,List<DictVO>> listSubDicts(String code, String value);
-
-    /**
-     * 修改备注
-     * @param id
-     * @param remark
-     * @return
-     */
-    boolean remark(Integer id,String remark);
 }

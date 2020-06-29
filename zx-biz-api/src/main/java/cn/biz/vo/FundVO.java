@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 @Data
 public class FundVO implements Comparable<FundVO>{
     @ApiModelProperty("id")
-    private Integer id;
+    private Long id;
     @Excel(name = "基金代码", width = 15, orderNum = "1")
     @ApiModelProperty("code")
     private String fundcode;
@@ -32,7 +32,9 @@ public class FundVO implements Comparable<FundVO>{
     @ApiModelProperty("估值时间")
     private String gztime;
     @ApiModelProperty("持有金额")
-    private double remark;
+    private double holdMoney;
+    @ApiModelProperty("备注")
+    private String remark;
     @ApiModelProperty("利润")
     private BigDecimal ly;
     @Override
