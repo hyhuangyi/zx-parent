@@ -14,10 +14,7 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
- * <p>
  * 基金表
- * </p>
- *
  * @author zx
  * @since 2020-06-02
  */

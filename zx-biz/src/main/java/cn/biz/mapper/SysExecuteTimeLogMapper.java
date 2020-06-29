@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
 
 /**
- *  Mapper 接口
+ * 操作日志Mapper 接口
  * @author huangy
  * @since 2019-11-18
  */

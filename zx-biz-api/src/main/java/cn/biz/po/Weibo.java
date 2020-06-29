@@ -10,17 +10,14 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
- * <p>
- *
- * </p>
- *
+ * 微博话题
  * @author zx
  * @since 2020-06-01
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@ApiModel(value = "Weibo对象", description = "Weibo")
+@ApiModel(value = "Weibo对象", description = "微博话题")
 public class Weibo implements Serializable {
 
     private static final long serialVersionUID = 1L;

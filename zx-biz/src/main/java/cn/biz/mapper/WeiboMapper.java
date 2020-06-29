@@ -10,10 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- * <p>
- *  Mapper 接口
- * </p>
- *
+ *  微博话题Mapper接口
  * @author zx
  * @since 2020-06-01
  */
