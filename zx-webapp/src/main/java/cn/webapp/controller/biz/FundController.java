@@ -103,12 +103,6 @@ public class FundController {
         return sysService.getFundType();
     }
 
-    @ApiOperation("费率为0的基金")
-    @GetMapping("/comm/fund/zero")
-    public List<Fund> zeroRateFund(@ApiParam("线程数量") @RequestParam Integer num)throws Exception{
-        return sysService.getZeroRateFund(num);
-    }
-
     @ApiOperation("费率为0的基金排行")
     @GetMapping("/fund/zero/rank")
     @PreAuthorize("hasAuthority('fund:list')")
@@ -117,8 +111,14 @@ public class FundController {
         return sysService.getZeroRateFundRank(num);
     }
 
+    @ApiOperation("费率为0的基金")
+    @GetMapping("/comm/fund/zero")
+    public List<Fund> zeroRateFund(@ApiParam("线程数量") @RequestParam Integer num)throws Exception{
+        return sysService.getZeroRateFund(num);
+    }
+
     @ApiOperation(value = "导出费率为0的基金排行")
-    @GetMapping(value = "/fund/zero/export")
+    @GetMapping(value = "/comm/fund/zero/export")
     public void exportZero(HttpServletResponse response)throws Exception{
         List<FundVO> list=sysService.getZeroRateFundRank(30);
         EasyPoiUtil.exportExcel(list,"fund","zero_fund",FundVO.class,"免费率列表.xls",response);
