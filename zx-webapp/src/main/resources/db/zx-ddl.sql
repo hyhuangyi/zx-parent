@@ -195,3 +195,18 @@ CREATE TABLE `fund` (
   PRIMARY KEY (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='基金表';
 
+-- ----------------------------
+-- Table structure for fund_own
+-- ----------------------------
+CREATE TABLE `fund_own` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `code` varchar(50) NOT NULL COMMENT '基金代码',
+  `name` varchar(50) DEFAULT NULL COMMENT '基金名称',
+  `user_id` bigint(20) DEFAULT NULL COMMENT '用户id',
+  `hold_money` varchar(50) NOT NULL DEFAULT '0' COMMENT '持有金额',
+  `remark` varchar(100) DEFAULT NULL COMMENT '备注',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=193 DEFAULT CHARSET=utf8 COMMENT='用户持有基金';
+
