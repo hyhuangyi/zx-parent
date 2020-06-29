@@ -2,14 +2,12 @@ package cn.biz.webMagic.magic;
 
 import cn.biz.webMagic.base.Agents;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.processor.PageProcessor;
 import java.util.List;
 
 @Slf4j
-@Component
 public class CSDN implements PageProcessor {
     private Site site = Site.me().setCharset("UTF-8").setRetryTimes(6).setCycleRetryTimes(10).setSleepTime(1000).setUserAgent(Agents.getRandom());
     @Override

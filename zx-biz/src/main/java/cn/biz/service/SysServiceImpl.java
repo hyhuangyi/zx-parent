@@ -48,7 +48,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import us.codecraft.webmagic.Spider;
-
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.OutputStream;
@@ -76,8 +75,6 @@ public class SysServiceImpl implements ISysService {
     private WeiboPipLine weiboPipLine;
     @Autowired
     private WeiboTopics weiboTopics;
-    @Autowired
-    private CSDN csdn;
 
     @Value("${spring.datasource.druid.url}")
     private String url;
@@ -255,7 +252,7 @@ public class SysServiceImpl implements ISysService {
                 break;
             }
             log.info("第" + page + "页准备执行第" + RedisUtil.get(RedisConst.CSDN_KEY + page) + "次，执行周期为" + minute + "分钟/次");
-            Spider.create(csdn).addUrl("https://blog.csdn.net/qq_37209293/article/list/" + page)
+            Spider.create(new CSDN()).addUrl("https://blog.csdn.net/qq_37209293/article/list/" + page)
                     .addPipeline(csdnPipeline).thread(1).runAsync();
         }
     }
