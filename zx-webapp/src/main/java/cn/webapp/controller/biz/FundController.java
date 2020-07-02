@@ -72,6 +72,7 @@ public class FundController {
     public boolean addFund(@ModelAttribute@Valid AddFundDTO addFundDTO) {
         return sysService.addFund(addFundDTO);
     }
+
     @ApiOperation("删除基金")
     @PostMapping("/fund/del")
     @PreAuthorize("hasAuthority('fund:list')")
@@ -87,6 +88,7 @@ public class FundController {
     public List<String> fundSelect() {
         return sysService.getFundSelect();
     }
+
     @ApiOperation("获取所有基金列表（分页）")
     @PostMapping("/fund/all")
     @PreAuthorize("hasAuthority('fund:list')")
