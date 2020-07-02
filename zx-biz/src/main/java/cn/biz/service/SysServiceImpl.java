@@ -287,9 +287,10 @@ public class SysServiceImpl implements ISysService {
                 String json = result.substring(result.indexOf("{"), result.lastIndexOf("}") + 1);//获取json
                 FundVO fundVO = JSON.parseObject(json, FundVO.class);
                 fundVO.setId(vo.getId());
-                fundVO.setRemark(vo.getRemark());
-                fundVO.setHoldMoney(Double.parseDouble(vo.getHoldMoney()));
-                fundVO.setLy(BigDecimalUtils.mulFool(2, vo.getHoldMoney(), fundVO.getGszzl() / 100));
+                fundVO.setRemark(vo.getRemark());//备注
+                fundVO.setHoldNum(Double.parseDouble(vo.getHoldNum()));//持有份额
+                fundVO.setHoldMoney(BigDecimalUtils.mulFool(2,fundVO.getDwjz(),fundVO.getHoldNum()).doubleValue());//持有金额
+                fundVO.setLy(BigDecimalUtils.mulFool(2, fundVO.getHoldMoney(), fundVO.getGszzl() / 100));//估值利润
                 res.add(fundVO);//转为实体
             } catch (Exception e) {
                 log.error("查询异常", e);
@@ -303,10 +304,10 @@ public class SysServiceImpl implements ISysService {
 
     /*修改持有金额*/
     @Override
-    public Boolean updateHoldMoney(Long id, String holdMoney) {
+    public Boolean updateHoldMoney(Long id, String holdNum) {
         FundOwn fundOwn = new FundOwn();
         fundOwn.setId(id);
-        fundOwn.setHoldMoney(holdMoney);
+        fundOwn.setHoldNum(holdNum);
         fundOwnMapper.updateById(fundOwn);
         return true;
     }
@@ -398,7 +399,7 @@ public class SysServiceImpl implements ISysService {
             throw new ZxException("当前基金已存在列表中，请不要重复加入！");
         }
         fundOwn.setRemark(dto.getRemark());
-        fundOwn.setHoldMoney(dto.getHoldMoney());
+        fundOwn.setHoldNum(dto.getHoldNum());
         fundOwn.setCode(arr[0]);
         fundOwn.setName(arr[1]);
         fundOwn.setUserId(token.getUserId());

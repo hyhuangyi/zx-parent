@@ -53,8 +53,8 @@ public class FundController {
     @PreAuthorize("hasAuthority('fund:list')")
     @OperateLog(operation = "修改金额", moduleName = LogModuleConst.FUND_MODULE)
     public boolean handleEdit(@ApiParam("主键id") @RequestParam @NotNull(message = "id不能为空") Long id,
-                              @ApiParam("holdMoney") @RequestParam @NotEmpty(message = "金额不能为空") String holdMoney) {
-        return sysService.updateHoldMoney(id,holdMoney);
+                              @ApiParam("holdNum") @RequestParam @NotEmpty(message = "持有份额不能为空") String holdNum) {
+        return sysService.updateHoldMoney(id,holdNum);
     }
 
     @ApiOperation("修改备注")

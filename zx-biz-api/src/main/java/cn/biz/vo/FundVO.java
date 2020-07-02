@@ -31,6 +31,8 @@ public class FundVO implements Comparable<FundVO>{
     @Excel(name = "估值时间", width = 15, orderNum = "5")
     @ApiModelProperty("估值时间")
     private String gztime;
+    @ApiModelProperty("持有份额")
+    private double holdNum;
     @ApiModelProperty("持有金额")
     private double holdMoney;
     @ApiModelProperty("备注")

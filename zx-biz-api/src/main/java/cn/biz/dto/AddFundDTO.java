@@ -12,5 +12,5 @@ public class AddFundDTO {
     @ApiModelProperty("备注")
     private String remark="-";
     @ApiModelProperty("持有金额")
-    private String holdMoney="0";
+    private String holdNum="0";
 }

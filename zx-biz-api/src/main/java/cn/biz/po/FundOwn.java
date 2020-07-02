@@ -38,8 +38,8 @@ public class FundOwn implements Serializable {
     @ApiModelProperty(value = "用户id")
     private Long userId;
 
-    @ApiModelProperty(value = "持有金额")
-    private String holdMoney;
+    @ApiModelProperty(value = "持有份额")
+    private String holdNum;
 
     @ApiModelProperty(value = "备注")
     private String remark;
