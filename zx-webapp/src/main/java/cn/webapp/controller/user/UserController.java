@@ -37,7 +37,7 @@ public class UserController {
     @TimeCount
     @PreAuthorize("hasAuthority('user:list')")
     @OperateLog(operation = "查询用户列表",moduleName = LogModuleConst.USER_MODULE)
-    public IPage<UserListVO> roleList(@ModelAttribute @Valid UserListDTO dto){
+    public IPage<UserListVO> userList(@ModelAttribute @Valid UserListDTO dto){
         return userService.getUserList(dto);
     }
 
