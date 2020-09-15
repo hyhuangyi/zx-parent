@@ -21,7 +21,7 @@ public class CSDN implements PageProcessor {
             page.putField("title", page.getHtml().xpath("//*[@id=\"mainBox\"]/main/div[1]/div/div/div[1]/h1/text()").toString());
             //page.putField("content",page.getHtml().xpath("//*[@id=\"content_views\"]/p/text()").all().toString());
         } else {// 列表页
-            List<String> list = page.getHtml().xpath("//*[@id=\"mainBox\"]/main/div[2]/div/p/a/@href").all();
+            List<String> list = page.getHtml().xpath("//*[@id=\"articleMeList-blog\"]/div[2]/div/h4/a/@href").all();
             page.addTargetRequests(list);
             page.setSkip(true); //设置skip之后，这个页面的结果不会被Pipeline处理
         }
