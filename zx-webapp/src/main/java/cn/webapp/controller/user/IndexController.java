@@ -5,10 +5,7 @@ import cn.biz.po.CdCity;
 import cn.biz.service.ISysUserService;
 import cn.common.pojo.monitor.Server;
 import cn.common.pojo.servlet.ServletContextHolder;
-import cn.webapp.aop.annotation.Decrypt;
-import cn.webapp.aop.annotation.Encrypt;
-import cn.webapp.aop.annotation.TimeCount;
-import cn.webapp.aop.annotation.ValidatedRequest;
+import cn.webapp.aop.annotation.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +36,7 @@ public class IndexController {
         return "aqs";
     }
 
+    @ServiceLimit(limitType = ServiceLimit.LimitType.IP)
     @ApiOperation("监控页面")
     @RequestMapping(value = "/comm/html/monitor", method = RequestMethod.GET)
     public String monitor(Model model) {

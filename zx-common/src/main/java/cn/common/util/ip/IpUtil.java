@@ -4,6 +4,8 @@ package cn.common.util.ip;
 import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.ByteArrayOutputStream;
@@ -24,6 +26,8 @@ public class IpUtil {
      * 描述：获取IP地址
      */
     public static String getIpAddress(HttpServletRequest request) {
+        //不传request
+       // HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 
         String ip = request.getHeader("x-forwarded-for");
 
