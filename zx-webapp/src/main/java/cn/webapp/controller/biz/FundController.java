@@ -5,10 +5,15 @@ import cn.biz.dto.FundDTO;
 import cn.biz.po.Fund;
 import cn.biz.service.ISysService;
 import cn.biz.vo.FundVO;
+import cn.biz.vo.StockVO;
 import cn.common.consts.LogModuleConst;
 import cn.common.util.file.EasyPoiUtil;
+import cn.common.util.http.HttpRequestUtil;
+import cn.common.util.math.NumberUtil;
 import cn.webapp.aop.annotation.OperateLog;
 import cn.webapp.aop.annotation.TimeCount;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -124,5 +129,35 @@ public class FundController {
     public void exportZero(HttpServletResponse response)throws Exception{
         List<FundVO> list=sysService.getZeroRateFundRank(30);
         EasyPoiUtil.exportExcel(list,"fund","zero_fund",FundVO.class,"免费率列表.xls",response);
+    }
+
+    @ApiOperation("获取大盘信息")
+    @GetMapping("/comm/stock")
+    public StockVO getStockInfo(){
+        String url="https://api.doctorxiong.club/v1/stock/board";
+        String res= HttpRequestUtil.get(url,null,null);
+        JSONObject obj=JSONObject.parseObject(res);
+        StockVO vo=new StockVO();
+        double cje=0.0;
+        if("200".equals(obj.get("code").toString())){
+            JSONArray array=JSONArray.parseArray(obj.get("data").toString());
+            for(Object o:array){
+                JSONObject j=JSONObject.parseObject(o.toString());
+                if(j.get("code").equals("sh000001")||j.get("code").equals("sz399001")){
+                    cje= NumberUtil.add(cje,j.get("turnover").toString());
+                }
+                if(j.get("code").equals("sh000001")){//上证
+                    vo.setSh000001(j.get("changePercent").toString()+" %");
+                }
+                if(j.get("code").equals("sz399001")){//深证
+                    vo.setSz399001(j.get("changePercent").toString()+" %");
+                }
+                if(j.get("code").equals("sz399006")){//创业板
+                    vo.setSz399006(j.get("changePercent").toString()+" %");
+                }
+            }
+            vo.setTurnover(NumberUtil.div(cje,10000)+" 亿");
+        }
+        return vo;
     }
 }
