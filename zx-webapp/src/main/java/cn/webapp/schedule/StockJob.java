@@ -4,8 +4,8 @@ import cn.biz.mapper.StockMapper;
 import cn.biz.po.Stock;
 import cn.biz.service.ISysService;
 import cn.biz.vo.StockVO;
-import cn.common.pojo.base.PageResultDO;
 import cn.common.util.date.DateUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 @Component
+@Slf4j
 public class StockJob {
     @Autowired
     private ISysService sysService;
@@ -33,7 +34,7 @@ public class StockJob {
     @Scheduled(cron="0 0/15 9,10,11,13,14,15 * * ?")
     public void cronJob(){
         String date= DateUtils.getStringDate(new Date(),"yyyy-MM-dd HH:mm");
-        String hm= DateUtils.getStringDate(new Date(),"hh:mm");
+        String hm= DateUtils.getStringDate(new Date(),"HH:mm");
         if(list.contains(hm)){
             return;
         }
@@ -47,5 +48,6 @@ public class StockJob {
         BeanUtils.copyProperties(stockVO,stock);
         stock.setDate(date);
         stockMapper.insert(stock);
+        log.info("========时间："+date+";两市成交额："+stock.getTurnOver()+";上证："+stock.getShangz()+";深证："+stock.getShenz()+";创业板："+stock.getChuangy()+"========");
     }
 }
