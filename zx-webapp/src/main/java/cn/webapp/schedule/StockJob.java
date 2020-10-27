@@ -30,7 +30,7 @@ public class StockJob {
         list.add("15:30");
         list.add("15:45");
     }
-    @Scheduled(cron="0 0/15 9,10,11,13,14,15 * * ? *")
+    @Scheduled(cron="0 0/15 9,10,11,13,14,15 * * ?")
     public void cronJob(){
         String hm= DateUtils.getStringDate(new Date(),"hh:mm");
         if(list.contains(hm)){
