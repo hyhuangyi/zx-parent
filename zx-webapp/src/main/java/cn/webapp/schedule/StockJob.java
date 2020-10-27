@@ -37,12 +37,10 @@ public class StockJob {
         if(list.contains(hm)){
             return;
         }
-        if(hm.equals("15:00")){
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        try {
+            Thread.sleep(30000);//休息30秒
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         StockVO stockVO=sysService.getStockInfo();
         Stock stock=new Stock();
