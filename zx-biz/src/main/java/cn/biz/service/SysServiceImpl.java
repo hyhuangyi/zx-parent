@@ -530,8 +530,6 @@ public class SysServiceImpl implements ISysService {
         String res= HttpRequestUtil.get(XX_STOCK,null,null);
         JSONObject obj=JSONObject.parseObject(res);
         StockVO vo=new StockVO();
-        String date= DateUtils.getStringDate(new Date(),"yyyy-MM-dd HH:mm");
-        vo.setDate(date);
         double cje=0.0;
         if("200".equals(obj.get("code").toString())){
             JSONArray array=JSONArray.parseArray(obj.get("data").toString());

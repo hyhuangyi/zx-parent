@@ -32,13 +32,22 @@ public class StockJob {
     }
     @Scheduled(cron="0 0/15 9,10,11,13,14,15 * * ?")
     public void cronJob(){
+        String date= DateUtils.getStringDate(new Date(),"yyyy-MM-dd HH:mm");
         String hm= DateUtils.getStringDate(new Date(),"hh:mm");
         if(list.contains(hm)){
             return;
         }
+        if(hm.equals("15:00")){
+            try {
+                Thread.sleep(1200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         StockVO stockVO=sysService.getStockInfo();
         Stock stock=new Stock();
         BeanUtils.copyProperties(stockVO,stock);
+        stock.setDate(date);
         stockMapper.insert(stock);
     }
 }
