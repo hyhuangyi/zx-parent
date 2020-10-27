@@ -12,6 +12,7 @@ import cn.biz.po.Fund;
 import cn.biz.po.FundOwn;
 import cn.biz.po.Weibo;
 import cn.biz.vo.FundVO;
+import cn.biz.vo.StockVO;
 import cn.biz.vo.TableListVO;
 import cn.biz.webMagic.base.ProxyDownloader;
 import cn.biz.webMagic.pipline.WeiboPipLine;
@@ -23,13 +24,16 @@ import cn.biz.webMagic.magic.CSDN;
 import cn.common.pojo.base.Token;
 import cn.common.pojo.servlet.ServletContextHolder;
 import cn.common.util.algorithm.ListUtil;
+import cn.common.util.date.DateUtils;
 import cn.common.util.file.AntZipUtil;
 import cn.common.util.file.FileUtil;
 import cn.common.util.http.HttpRequestUtil;
 import cn.common.util.math.BigDecimalUtils;
+import cn.common.util.math.NumberUtil;
 import cn.common.util.redis.RedisUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -54,6 +58,7 @@ import java.io.OutputStream;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
@@ -98,6 +103,10 @@ public class SysServiceImpl implements ISysService {
      * 基金估值
      **/
     public static final String FUND_GZ = "http://fundgz.1234567.com.cn/js/";
+    /**
+     * 小熊api 大盘信息
+     */
+    public static final String XX_STOCK="https://api.doctorxiong.club/v1/stock/board";
     /**
      * 输出基金费率0的结果地址
      **/
@@ -510,5 +519,39 @@ public class SysServiceImpl implements ISysService {
         FileUtil.writeFile(ZERO_FUND_RANK_PATH, JSON.toJSONString(res));
         log.info("所有线程执行结束，耗时：" + (end - start) + "毫秒。一共" + res.size() + "条。");
         return res;
+    }
+
+    /**
+     * 获取大盘信息
+     * @return
+     */
+    @Override
+    public StockVO getStockInfo() {
+        String res= HttpRequestUtil.get(XX_STOCK,null,null);
+        JSONObject obj=JSONObject.parseObject(res);
+        StockVO vo=new StockVO();
+        String date= DateUtils.getStringDate(new Date(),"yyyy-MM-dd HH:mm");
+        vo.setDate(date);
+        double cje=0.0;
+        if("200".equals(obj.get("code").toString())){
+            JSONArray array=JSONArray.parseArray(obj.get("data").toString());
+            for(Object o:array){
+                JSONObject j=JSONObject.parseObject(o.toString());
+                if(j.get("code").equals("sh000001")||j.get("code").equals("sz399001")){
+                    cje= NumberUtil.add(cje,j.get("turnover").toString());
+                }
+                if(j.get("code").equals("sh000001")){//上证
+                    vo.setShangz(Double.valueOf(j.get("changePercent").toString()));
+                }
+                if(j.get("code").equals("sz399001")){//深证
+                    vo.setShenz(Double.valueOf(j.get("changePercent").toString()));
+                }
+                if(j.get("code").equals("sz399006")){//创业板
+                    vo.setChuangy(Double.valueOf(j.get("changePercent").toString()));
+                }
+            }
+            vo.setTurnOver(NumberUtil.div(cje,10000));
+        }
+        return vo;
     }
 }

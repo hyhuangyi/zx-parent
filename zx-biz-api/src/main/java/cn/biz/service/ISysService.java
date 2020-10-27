@@ -7,6 +7,7 @@ import cn.biz.dto.WeiboDTO;
 import cn.biz.po.Fund;
 import cn.biz.po.Weibo;
 import cn.biz.vo.FundVO;
+import cn.biz.vo.StockVO;
 import cn.biz.vo.TableListVO;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import javax.servlet.http.HttpServletResponse;
@@ -49,4 +50,6 @@ public interface ISysService {
      List<Fund> getZeroRateFund(int num)throws Exception;
      /*费率为0的基金当日排行*/
      List<FundVO> getZeroRateFundRank(int num) throws Exception;
+     /*获取大盘信息*/
+     StockVO getStockInfo();
 }
