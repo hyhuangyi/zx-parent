@@ -4,10 +4,7 @@ import cn.biz.dto.AddFundDTO;
 import cn.biz.dto.FundDTO;
 import cn.biz.dto.TableListDTO;
 import cn.biz.dto.WeiboDTO;
-import cn.biz.mapper.FundMapper;
-import cn.biz.mapper.FundOwnMapper;
-import cn.biz.mapper.SysOperateLogMapper;
-import cn.biz.mapper.WeiboMapper;
+import cn.biz.mapper.*;
 import cn.biz.po.Fund;
 import cn.biz.po.FundOwn;
 import cn.biz.po.Weibo;
@@ -24,7 +21,6 @@ import cn.biz.webMagic.magic.CSDN;
 import cn.common.pojo.base.Token;
 import cn.common.pojo.servlet.ServletContextHolder;
 import cn.common.util.algorithm.ListUtil;
-import cn.common.util.date.DateUtils;
 import cn.common.util.file.AntZipUtil;
 import cn.common.util.file.FileUtil;
 import cn.common.util.http.HttpRequestUtil;
@@ -45,6 +41,7 @@ import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
+import com.beust.jcommander.internal.Maps;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -56,10 +53,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.OutputStream;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.CountDownLatch;
 
 @Service
@@ -80,6 +74,8 @@ public class SysServiceImpl implements ISysService {
     private WeiboPipLine weiboPipLine;
     @Autowired
     private WeiboTopics weiboTopics;
+    @Autowired
+    private StockMapper stockMapper;
 
     @Value("${spring.datasource.druid.url}")
     private String url;
@@ -115,6 +111,31 @@ public class SysServiceImpl implements ISysService {
      * 输出基金费率0的实时排名结果地址
      **/
     public static final String ZERO_FUND_RANK_PATH = "/home/zeroFundRank.txt";
+    /**
+     * 横坐标
+     */
+    private static final List<String> HZB=new ArrayList<>();
+    //初始化
+    static{
+        HZB.add("09:30");
+        HZB.add("09:45");
+        HZB.add("10:00");
+        HZB.add("10:15");
+        HZB.add("10:30");
+        HZB.add("10:45");
+        HZB.add("11:00");
+        HZB.add("11:15");
+        HZB.add("11:30");
+        HZB.add("13:00");
+        HZB.add("13:15");
+        HZB.add("13:30");
+        HZB.add("13:45");
+        HZB.add("14:00");
+        HZB.add("14:15");
+        HZB.add("14:30");
+        HZB.add("14:45");
+        HZB.add("15:00");
+    }
 
     /*生成代码*/
     @Override
@@ -551,5 +572,49 @@ public class SysServiceImpl implements ISysService {
             vo.setTurnOver(NumberUtil.div(cje,10000));
         }
         return vo;
+    }
+    
+    /**
+     * 获取大盘chart数据
+     * @param type
+     * @return
+     */
+    @Override
+    public Map getStockChartData(String type) {
+        List series = new ArrayList();
+        //展示最近7天
+        List<String> date=stockMapper.getDate();
+        if(date.size()==0){
+            return null;
+        }
+        //数据
+        List<Map> data=stockMapper.getData();
+        for(int i=0;i<date.size();i++){
+            Map m = new HashMap();
+            List<Double> turnOver = new ArrayList<>();
+            for (int j = 0; j < HZB.size(); j++) {
+                boolean isSetNull = true;
+                for (int k = 0; k < data.size(); k++) {
+                    if (date.get(i).equals(data.get(k).get("date")) && HZB.get(j).equals(data.get(k).get("hour"))) {
+                        turnOver.add((double) data.get(k).get("turnOver"));
+                        isSetNull = false;
+                        break;
+                    }
+                }
+                if (isSetNull) {
+                    turnOver.add(null);
+                }
+            }
+            m.put("data", turnOver);
+            m.put("name", date.get(i));
+            m.put("type", type);
+            series.add(m);
+        }
+        //结果集
+        Map result = Maps.newHashMap();
+        result.put("xAxis", HZB);
+        result.put("series", series);
+        result.put("legend", date);
+        return result;
     }
 }

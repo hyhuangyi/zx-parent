@@ -23,6 +23,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Map;
 
 @Api(tags = "基金相关接口")
 @RestController
@@ -131,5 +132,11 @@ public class FundController {
     @GetMapping("/comm/stock")
     public StockVO getStockInfo(){
         return sysService.getStockInfo();
+    }
+
+    @ApiOperation("获取大盘chart数据")
+    @GetMapping("comm/stock/chartData")
+    public Map getChartData(@RequestParam(required = false,defaultValue = "line") String type){
+       return sysService.getStockChartData(type);
     }
 }

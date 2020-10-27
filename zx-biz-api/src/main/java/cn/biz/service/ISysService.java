@@ -12,6 +12,7 @@ import cn.biz.vo.TableListVO;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Map;
 
 public interface ISysService {
      /*生成代码*/
@@ -52,4 +53,6 @@ public interface ISysService {
      List<FundVO> getZeroRateFundRank(int num) throws Exception;
      /*获取大盘信息*/
      StockVO getStockInfo();
+     /*获取大盘chart数据*/
+     Map getStockChartData(String type);
 }
