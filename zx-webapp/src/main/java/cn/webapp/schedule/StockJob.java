@@ -37,6 +37,7 @@ public class StockJob {
 
         String date= DateUtils.getStringDate(new Date(),"yyyy-MM-dd HH:mm");
         String hm= DateUtils.getStringDate(new Date(),"HH:mm");
+        //不在交易时间或者节假日、周末不做操作
         if(list.contains(hm)||!"0".equals(DateUtils.isHoliday(DateFormatUtils.format(new Date(),"yyyyMMdd")))){
             return;
         }
