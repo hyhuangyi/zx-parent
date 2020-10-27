@@ -39,7 +39,7 @@ public class StockJob {
         }
         if(hm.equals("15:00")){
             try {
-                Thread.sleep(1200);
+                Thread.sleep(2000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
