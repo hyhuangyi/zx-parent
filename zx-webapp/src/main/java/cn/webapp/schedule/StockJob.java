@@ -6,6 +6,7 @@ import cn.biz.service.ISysService;
 import cn.biz.vo.StockVO;
 import cn.common.util.date.DateUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -33,9 +34,10 @@ public class StockJob {
     }
     @Scheduled(cron="0 0/15 9,10,11,13,14,15 * * ?")
     public void cronJob(){
+
         String date= DateUtils.getStringDate(new Date(),"yyyy-MM-dd HH:mm");
         String hm= DateUtils.getStringDate(new Date(),"HH:mm");
-        if(list.contains(hm)){
+        if(list.contains(hm)||!"0".equals(DateUtils.isHoliday(DateFormatUtils.format(new Date(),"yyyyMMdd")))){
             return;
         }
         try {
