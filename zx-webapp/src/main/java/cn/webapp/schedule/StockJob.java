@@ -42,7 +42,11 @@ public class StockJob {
             return;
         }
         try {
-            Thread.sleep(30000);//休息30秒
+            if("09:30".equals(hm)||"15:00".equals(hm)){
+                Thread.sleep(90000);
+            }else {
+                Thread.sleep(30000);//休息30秒
+            }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
