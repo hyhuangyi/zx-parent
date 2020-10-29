@@ -30,7 +30,7 @@ public interface ISysService {
      /*清空微博*/
      Boolean cleanWeibo();
      /*我的基金列表*/
-     List<FundVO> fundList();
+     List<FundVO> fundList(long userId);
      /*修改持有金额*/
      Boolean updateHoldMoney(Long id,String holdMoney);
      /*修改备注*/

@@ -306,10 +306,9 @@ public class SysServiceImpl implements ISysService {
 
     /*我的基金列表*/
     @Override
-    public List<FundVO> fundList() {
-        Token token = ServletContextHolder.getToken();
+    public List<FundVO> fundList(long userId) {
         long start = System.currentTimeMillis();
-        List<FundOwn> list = fundOwnMapper.selectList(new QueryWrapper<FundOwn>().eq("user_id", token.getUserId()));
+        List<FundOwn> list = fundOwnMapper.selectList(new QueryWrapper<FundOwn>().eq("user_id", userId));
         List<FundVO> res = new ArrayList<>();
         for (FundOwn vo : list) {
             try {

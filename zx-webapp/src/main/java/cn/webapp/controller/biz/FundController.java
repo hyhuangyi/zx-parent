@@ -7,6 +7,8 @@ import cn.biz.service.ISysService;
 import cn.biz.vo.FundVO;
 import cn.biz.vo.StockVO;
 import cn.common.consts.LogModuleConst;
+import cn.common.pojo.base.Token;
+import cn.common.pojo.servlet.ServletContextHolder;
 import cn.common.util.file.EasyPoiUtil;
 import cn.webapp.aop.annotation.OperateLog;
 import cn.webapp.aop.annotation.TimeCount;
@@ -47,7 +49,8 @@ public class FundController {
     @PreAuthorize("hasAuthority('fund:list')")
     @OperateLog(operation = "查询我的基金列表", moduleName = LogModuleConst.FUND_MODULE)
     public List<FundVO> fundList() {
-       return sysService.fundList();
+        Token token = ServletContextHolder.getToken();
+        return sysService.fundList(token.getUserId());
     }
 
     @ApiOperation("修改金额")

@@ -41,6 +41,10 @@ public class MailUtil {
         this.from = from;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
     public boolean send(MailMessageObject message) {
         boolean rslt = false;
 
