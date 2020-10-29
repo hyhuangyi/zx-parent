@@ -32,6 +32,8 @@ public class EmailController {
     private String host;
     @Autowired
     private JavaMailSender mailSender;
+    @Autowired
+    private MailUtil mailUtil;
 
     @ApiOperation("测试发邮件")
     @RequestMapping(value = "/comm/sendMail",method = RequestMethod.POST)
@@ -48,10 +50,6 @@ public class EmailController {
     @PostMapping("/comm/mailUtil")
     @ResponseBody
     public void mail(String path){
-        MailUtil mailUtil=new MailUtil();
-        mailUtil.setUsername(name);
-        mailUtil.setPassword(password);
-        mailUtil.setHost(host);
         MailAddress address=new  MailAddress("zx",name);
         mailUtil.setFrom(address);
         MailMessageObject mailMessageObject=new MailMessageObject();

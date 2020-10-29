@@ -1,9 +1,9 @@
 package cn.common.util.mail;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
@@ -19,21 +19,26 @@ import java.util.Properties;
 /**
  * 邮件发送工具实现类
  *
- * @author Edmund
- * @since uncode-commons-base-api-1.2.0
  */
+@Component
+@Slf4j
 public class MailUtil {
-
-    private static final Logger logger = LoggerFactory.getLogger(MailUtil.class);
-
-    private String host;
-    private int port;
+    @Value("${spring.mail.username}")
     private String username;
+    @Value("${spring.mail.password}")
     private String password;
+    @Value("${spring.mail.host}")
+    private String host;
+
+    private int port;
     private MailAddress from;
 
     public MailUtil() {
         port = 25;
+    }
+
+    public void setFrom(MailAddress from) {
+        this.from = from;
     }
 
     public boolean send(MailMessageObject message) {
@@ -105,76 +110,4 @@ public class MailUtil {
 
         return rslt;
     }
-
-    /**
-     * @return the host
-     */
-    public String getHost() {
-        return host;
-    }
-
-    /**
-     * @param host the host to set
-     */
-    public void setHost(String host) {
-        this.host = host;
-    }
-
-    /**
-     * @return the port
-     */
-    public int getPort() {
-        return port;
-    }
-
-    /**
-     * @param port the port to set
-     */
-    public void setPort(int port) {
-        this.port = port;
-    }
-
-    /**
-     * @return the username
-     */
-    public String getUsername() {
-        return username;
-    }
-
-    /**
-     * @param username the username to set
-     */
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    /**
-     * @return the password
-     */
-    public String getPassword() {
-        return password;
-    }
-
-    /**
-     * @param password the password to set
-     */
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    /**
-     * @return the from
-     */
-    public MailAddress getFrom() {
-        return from;
-    }
-
-    /**
-     * @param from the from to set
-     */
-    public void setFrom(MailAddress from) {
-        this.from = from;
-    }
-
-
 }
