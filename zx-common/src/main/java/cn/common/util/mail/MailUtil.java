@@ -29,12 +29,12 @@ public class MailUtil {
     private String password;
     @Value("${spring.mail.host}")
     private String host;
-
+    @Value("${spring.mail.port}")
     private int port;
+
     private MailAddress from;
 
     public MailUtil() {
-        port = 25;
     }
 
     public void setFrom(MailAddress from) {
