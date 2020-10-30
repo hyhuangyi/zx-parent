@@ -26,10 +26,6 @@ import java.util.List;
 public class EmailController {
     @Value("${spring.mail.username}")
     private String name;
-    @Value("${spring.mail.password}")
-    private String password;
-    @Value("${spring.mail.host}")
-    private String host;
     @Autowired
     private JavaMailSender mailSender;
     @Autowired
