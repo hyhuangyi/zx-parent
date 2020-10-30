@@ -44,7 +44,7 @@ public class StockJob {
     /**
      * 记录两市成交额
      */
-    @Scheduled(cron = "0 0/15 9,10,11,13,14,15 * * ?")
+//    @Scheduled(cron = "0 0/15 9,10,11,13,14,15 * * ?")
     public void stockJob() {
 
         String date = DateUtils.getStringDate(new Date(), "yyyy-MM-dd HH:mm");
@@ -91,7 +91,7 @@ public class StockJob {
             context += "上涨超过1%的有：" + up.toString() + ";";
         }
         if (down.size() != 0) {
-            context += "下跌超过1%的有：" + up.toString();
+            context += "下跌超过1%的有：" + down.toString();
         }
         if (!"".equals(context)) {
             mailMessageObject.setContext(context);
