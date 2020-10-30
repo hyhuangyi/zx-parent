@@ -75,6 +75,9 @@ public class StockJob {
      */
     @Scheduled(cron = "0 0/30 9,10,11,13,14,15 * * ?")
     public void fundJob() {
+        if(!"0".equals(DateUtils.isHoliday(DateFormatUtils.format(new Date(), "yyyyMMdd")))){
+            return;
+        }
         List<String> up = new ArrayList<>();
         List<String> down = new ArrayList<>();
         List<FundVO> list = sysService.fundList(34L);//zx
