@@ -34,7 +34,7 @@ public class MailUtil {
     private MailAddress from;
 
     public MailUtil() {
-        port = 587;
+        port = 25;
     }
 
     public void setFrom(MailAddress from) {
