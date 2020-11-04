@@ -142,4 +142,21 @@ public class FundController {
     public Map getChartData(@RequestParam(required = false,defaultValue = "line") String type){
        return sysService.getStockChartData(type);
     }
+
+    @ApiOperation("根据type获取数据 1、macd金叉 2、连续3日上涨 3、布林突破上轨 4、市盈率最小")
+    @GetMapping("comm/stock/guoRenCode")
+    public List<String> getGrCodeByType(@RequestParam(required = false,defaultValue = "1") int type){
+        return sysService.getGrCodeByType(type);
+    }
+
+    @ApiOperation("获取macd金叉并且布林突破并且连续3日上涨的股票代码")
+    @GetMapping("comm/stock/getJiaoJiCode")
+    public List<String> getJiaoJiCode(){
+        List<String> list=getGrCodeByType(1);
+        List<String> list1=getGrCodeByType(2);
+        List<String> list2=getGrCodeByType(3);
+        list.retainAll(list1);
+        list.retainAll(list2);
+        return list;
+    }
 }

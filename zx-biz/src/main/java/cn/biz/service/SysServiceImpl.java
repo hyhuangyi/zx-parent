@@ -9,11 +9,13 @@ import cn.biz.po.Fund;
 import cn.biz.po.FundOwn;
 import cn.biz.po.Weibo;
 import cn.biz.vo.FundVO;
+import cn.biz.vo.GuorenVO;
 import cn.biz.vo.StockVO;
 import cn.biz.vo.TableListVO;
 import cn.biz.webMagic.base.ProxyDownloader;
 import cn.biz.webMagic.pipline.WeiboPipLine;
 import cn.biz.webMagic.magic.WeiboTopics;
+import cn.common.consts.GuoRenEnum;
 import cn.common.consts.RedisConst;
 import cn.common.exception.ZxException;
 import cn.biz.webMagic.pipline.CSDNPipeline;
@@ -103,6 +105,11 @@ public class SysServiceImpl implements ISysService {
      * 小熊api 大盘信息
      */
     public static final String XX_STOCK="https://api.doctorxiong.club/v1/stock/board";
+
+    /**
+     * 果仁网api
+     */
+    public static final String GUO_REN="https://guorn.com/language/query?query=";
     /**
      * 输出基金费率0的结果地址
      **/
@@ -615,5 +622,14 @@ public class SysServiceImpl implements ISysService {
         result.put("series", series);
         result.put("legend", date);
         return result;
+    }
+
+    @Override
+    public  List<String>  getGrCodeByType(int type) {
+        GuoRenEnum guoRenEnum=GuoRenEnum.getPrefixByType(type);
+        String res = HttpRequestUtil.get(GUO_REN+guoRenEnum.getPrefix(), null, null);
+        GuorenVO guorenVO = JSONObject.parseObject(res, GuorenVO.class);
+        List<String> resList= guorenVO.getData().getSheet_data().getRow().get(0).getData().get(1);
+        return resList;
     }
 }

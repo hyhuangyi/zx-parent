@@ -55,4 +55,6 @@ public interface ISysService {
      StockVO getStockInfo();
      /*获取大盘chart数据*/
      Map getStockChartData(String type);
+     /*根据type获取代码code列表*/
+     List<String>getGrCodeByType(int type);
 }
