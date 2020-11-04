@@ -624,6 +624,11 @@ public class SysServiceImpl implements ISysService {
         return result;
     }
 
+    /**
+     * 根据type获取代码code列表
+     * @param type
+     * @return
+     */
     @Override
     public  List<String>  getGrCodeByType(int type) {
         GuoRenEnum guoRenEnum=GuoRenEnum.getPrefixByType(type);
