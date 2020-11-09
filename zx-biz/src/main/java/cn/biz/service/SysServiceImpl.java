@@ -8,10 +8,7 @@ import cn.biz.mapper.*;
 import cn.biz.po.Fund;
 import cn.biz.po.FundOwn;
 import cn.biz.po.Weibo;
-import cn.biz.vo.FundVO;
-import cn.biz.vo.GuorenVO;
-import cn.biz.vo.StockVO;
-import cn.biz.vo.TableListVO;
+import cn.biz.vo.*;
 import cn.biz.webMagic.base.ProxyDownloader;
 import cn.biz.webMagic.pipline.WeiboPipLine;
 import cn.biz.webMagic.magic.WeiboTopics;
@@ -630,11 +627,20 @@ public class SysServiceImpl implements ISysService {
      * @return
      */
     @Override
-    public  List<String>  getGrCodeByType(int type) {
+    public  List<GuorenStockVO>  getGrCodeByType(int type) {
+        List<GuorenStockVO> result=new ArrayList<>();
         GuoRenEnum guoRenEnum=GuoRenEnum.getPrefixByType(type);
         String res = HttpRequestUtil.get(GUO_REN+guoRenEnum.getPrefix(), null, null);
         GuorenVO guorenVO = JSONObject.parseObject(res, GuorenVO.class);
-        List<String> resList= guorenVO.getData().getSheet_data().getRow().get(0).getData().get(1);
-        return resList;
+        List<String> code = guorenVO.getData().getSheet_data().getRow().get(0).getData().get(1);
+        List<String> name=guorenVO.getData().getSheet_data().getRow().get(1).getData().get(1);
+        List<Double> price=guorenVO.getData().getSheet_data().getMeas_data().get(0);
+        List<Double> rate=guorenVO.getData().getSheet_data().getMeas_data().get(1);
+        if(code.size()!=0){
+            for(int i=0;i<code.size();i++){
+                result.add(new GuorenStockVO(code.get(i),name.get(i),price.get(i),rate.get(i)));
+            }
+        }
+        return result;
     }
 }

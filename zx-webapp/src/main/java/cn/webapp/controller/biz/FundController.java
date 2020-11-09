@@ -5,6 +5,7 @@ import cn.biz.dto.FundDTO;
 import cn.biz.po.Fund;
 import cn.biz.service.ISysService;
 import cn.biz.vo.FundVO;
+import cn.biz.vo.GuorenStockVO;
 import cn.biz.vo.StockVO;
 import cn.common.consts.LogModuleConst;
 import cn.common.pojo.base.Token;
@@ -19,9 +20,12 @@ import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -30,6 +34,7 @@ import java.util.Map;
 @Api(tags = "基金相关接口")
 @RestController
 @Slf4j
+@Validated
 public class FundController {
     @Autowired
     private ISysService sysService;
@@ -145,16 +150,16 @@ public class FundController {
 
     @ApiOperation("根据type获取数据 1、macd金叉 2、连续3日上涨 3、布林突破上轨 4、市盈率最小")
     @GetMapping("comm/stock/guoRenCode")
-    public List<String> getGrCodeByType(@RequestParam(required = false,defaultValue = "1") int type){
+    public List<GuorenStockVO> getGrCodeByType(@RequestParam(required = false,defaultValue = "1") @Max(value = 4,message = "最大不超过4")@Min(value = 1,message = "最小不小于1") int type){
         return sysService.getGrCodeByType(type);
     }
 
     @ApiOperation("获取macd金叉并且布林突破并且连续3日上涨的股票代码")
     @GetMapping("comm/stock/getJiaoJiCode")
-    public List<String> getJiaoJiCode(){
-        List<String> list=getGrCodeByType(1);
-        List<String> list1=getGrCodeByType(2);
-        List<String> list2=getGrCodeByType(3);
+    public List<GuorenStockVO> getJiaoJiCode(){
+        List<GuorenStockVO> list=getGrCodeByType(1);
+        List<GuorenStockVO> list1=getGrCodeByType(2);
+        List<GuorenStockVO> list2=getGrCodeByType(3);
         list.retainAll(list1);
         list.retainAll(list2);
         return list;

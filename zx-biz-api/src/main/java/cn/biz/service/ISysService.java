@@ -7,6 +7,7 @@ import cn.biz.dto.WeiboDTO;
 import cn.biz.po.Fund;
 import cn.biz.po.Weibo;
 import cn.biz.vo.FundVO;
+import cn.biz.vo.GuorenStockVO;
 import cn.biz.vo.StockVO;
 import cn.biz.vo.TableListVO;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -56,5 +57,5 @@ public interface ISysService {
      /*获取大盘chart数据*/
      Map getStockChartData(String type);
      /*根据type获取代码code列表*/
-     List<String>getGrCodeByType(int type);
+     List<GuorenStockVO>getGrCodeByType(int type);
 }
