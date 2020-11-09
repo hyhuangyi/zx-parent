@@ -51,8 +51,8 @@ INSERT INTO `auth_menu` VALUES ('32', '系统监控', '7', 'monitor', '0', 'el-i
 INSERT INTO `auth_menu` VALUES ('33', '微博话题', '0', 'weibo', '0', 'el-icon-pear', '3', '0', 'weibo:list', '2020-06-01 16:37:28', '2020-06-02 20:27:03');
 INSERT INTO `auth_menu` VALUES ('34', '天天基金', '0', 'ttFund', '0', 'el-icon-orange', '3', '0', ' ', '2020-06-02 20:19:55', '2020-06-02 20:26:18');
 INSERT INTO `auth_menu` VALUES ('35', '我的基金', '34', 'fund-my', '0', 'el-icon-football', '1', '0', 'fund:list', '2020-06-02 20:22:40', '2020-06-02 20:27:53');
-INSERT INTO `auth_menu` VALUES ('36', '免费率基', '34', 'fund-zero', '0', 'el-icon-basketball', '3', '0', ' ', '2020-06-08 18:20:20', '2020-06-08 18:21:46');
-INSERT INTO `auth_menu` VALUES ('37', '强势股票', '34', 'stock', '0', 'el-icon-sunny', '4', '0', 'stock:list ', '2020-06-08 18:20:20', '2020-06-08 18:21:46');
+INSERT INTO `auth_menu` VALUES ('36', '免费率基', '34', 'fund-zero', '0', 'el-icon-basketball', '4', '0', ' ', '2020-06-08 18:20:20', '2020-06-08 18:21:46');
+INSERT INTO `auth_menu` VALUES ('37', '强势股票', '34', 'stock', '0', 'el-icon-sunny', '2', '0', 'stock:list ', '2020-06-08 18:20:20', '2020-06-08 18:21:46');
 -- ----------------------------
 -- Records of auth_role_menu
 -- ----------------------------
