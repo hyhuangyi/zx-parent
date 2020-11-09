@@ -47,7 +47,7 @@ public class NumberUtil {
     public static double sub(double v1, String v2) {// 减法  
         BigDecimal b1 = new BigDecimal(Double.toString(v1));  
         BigDecimal b2 = new BigDecimal(v2);  
-        return b1.subtract(b2).doubleValue();  
+        return b1.subtract(b2).doubleValue();
     } 
     public static double stringSub(String v1, double v2) {// 减法  
         BigDecimal b1 = new BigDecimal(v1);  
@@ -69,10 +69,10 @@ public class NumberUtil {
         BigDecimal b2 = new BigDecimal(Double.toString(v2));  
         return b1.subtract(b2).doubleValue();  
     } 
-    public static double mul(double v1, double v2) {// 乘法  
+    public static double mul(double v1, double v2,int scale) {// 乘法
         BigDecimal b1 = new BigDecimal(Double.toString(v1));  
         BigDecimal b2 = new BigDecimal(Double.toString(v2));  
-        return b1.multiply(b2).doubleValue();  
+        return b1.multiply(b2).setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue();
     }  
     public static double IintegerMul(Integer v1, double v2) {// 乘法  
         BigDecimal b1 = new BigDecimal(Double.toString(v1));  

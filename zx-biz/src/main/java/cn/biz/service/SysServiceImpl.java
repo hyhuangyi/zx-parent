@@ -636,9 +636,10 @@ public class SysServiceImpl implements ISysService {
         List<String> name=guorenVO.getData().getSheet_data().getRow().get(1).getData().get(1);
         List<Double> price=guorenVO.getData().getSheet_data().getMeas_data().get(0);
         List<Double> rate=guorenVO.getData().getSheet_data().getMeas_data().get(1);
+        List<String> industry=guorenVO.getData().getSheet_data().getRow().get(2).getData().get(1);
         if(code.size()!=0){
             for(int i=0;i<code.size();i++){
-                result.add(new GuorenStockVO(code.get(i),name.get(i),price.get(i),rate.get(i)));
+                result.add(new GuorenStockVO(code.get(i),name.get(i),price.get(i),NumberUtil.mul(rate.get(i),100,2),industry.get(i)));
             }
         }
         return result;

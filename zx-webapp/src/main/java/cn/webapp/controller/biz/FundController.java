@@ -31,7 +31,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Map;
 
-@Api(tags = "基金相关接口")
+@Api(tags = "基金股票相关接口")
 @RestController
 @Slf4j
 @Validated
@@ -163,5 +163,12 @@ public class FundController {
         list.retainAll(list1);
         list.retainAll(list2);
         return list;
+    }
+
+    @ApiOperation(value = "导出强势股票(macd金叉&&布林突破&&连续3日上涨)")
+    @GetMapping(value = "/comm/stock/jiaoji/export")
+    public void exportJiaoji(HttpServletResponse response){
+        List<GuorenStockVO> list=getJiaoJiCode();
+        EasyPoiUtil.exportExcel(list,"强势票","macd金叉&&布林突破&&连续3日上涨",GuorenStockVO.class,"强势票.xls",response);
     }
 }
