@@ -162,7 +162,7 @@ public class FundController {
            return sysService.getGrCodeByType(type);
        }
     }
-    @ApiOperation(value = "导出强势股票(macd金叉&&布林突破&&连续3日上涨)")
+    @ApiOperation(value = "导出果仁数据(0、macd金叉&&布林突破&&连续3日上涨 1、macd金叉 2、连续3日上涨 3、布林突破上轨 4、市盈率最小)")
     @GetMapping(value = "/comm/stock/export")
     public void exportStock(HttpServletResponse response,@RequestParam(required = false,defaultValue = "1") @Max(value = 4,message = "最大不超过4")@Min(value = 0,message = "最小不小于0") int type){
         List<GuorenStockVO> list=getGrCodeByType(type);
