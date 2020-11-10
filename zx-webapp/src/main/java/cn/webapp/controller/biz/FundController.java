@@ -7,6 +7,7 @@ import cn.biz.service.ISysService;
 import cn.biz.vo.FundVO;
 import cn.biz.vo.GuorenStockVO;
 import cn.biz.vo.StockVO;
+import cn.common.consts.GuoRenEnum;
 import cn.common.consts.LogModuleConst;
 import cn.common.pojo.base.Token;
 import cn.common.pojo.servlet.ServletContextHolder;
@@ -147,28 +148,25 @@ public class FundController {
     public Map getChartData(@RequestParam(required = false,defaultValue = "line") String type){
        return sysService.getStockChartData(type);
     }
-
-    @ApiOperation("根据type获取数据 1、macd金叉 2、连续3日上涨 3、布林突破上轨 4、市盈率最小")
+    @ApiOperation("根据type获取数据 0、macd金叉&&布林突破&&连续3日上涨 1、macd金叉 2、连续3日上涨 3、布林突破上轨 4、市盈率最小")
     @GetMapping("comm/stock/guoRenCode")
-    public List<GuorenStockVO> getGrCodeByType(@RequestParam(required = false,defaultValue = "1") @Max(value = 4,message = "最大不超过4")@Min(value = 1,message = "最小不小于1") int type){
-        return sysService.getGrCodeByType(type);
+    public List<GuorenStockVO> getGrCodeByType(@RequestParam(required = false,defaultValue = "1") @Max(value = 4,message = "最大不超过4")@Min(value = 0,message = "最小不小于0") int type){
+       if(type==0){
+           List<GuorenStockVO> list=sysService.getGrCodeByType(1);
+           List<GuorenStockVO> list1=sysService.getGrCodeByType(2);
+           List<GuorenStockVO> list2=sysService.getGrCodeByType(3);
+           list.retainAll(list1);
+           list.retainAll(list2);
+           return list;
+       }else {
+           return sysService.getGrCodeByType(type);
+       }
     }
-
-    @ApiOperation("获取macd金叉并且布林突破并且连续3日上涨的股票代码")
-    @GetMapping("comm/stock/getJiaoJiCode")
-    public List<GuorenStockVO> getJiaoJiCode(){
-        List<GuorenStockVO> list=getGrCodeByType(1);
-        List<GuorenStockVO> list1=getGrCodeByType(2);
-        List<GuorenStockVO> list2=getGrCodeByType(3);
-        list.retainAll(list1);
-        list.retainAll(list2);
-        return list;
-    }
-
     @ApiOperation(value = "导出强势股票(macd金叉&&布林突破&&连续3日上涨)")
-    @GetMapping(value = "/comm/stock/jiaoji/export")
-    public void exportJiaoji(HttpServletResponse response){
-        List<GuorenStockVO> list=getJiaoJiCode();
-        EasyPoiUtil.exportExcel(list,"强势票","macd金叉&&布林突破&&连续3日上涨",GuorenStockVO.class,"强势票.xls",response);
+    @GetMapping(value = "/comm/stock/export")
+    public void exportStock(HttpServletResponse response,@RequestParam(required = false,defaultValue = "1") @Max(value = 4,message = "最大不超过4")@Min(value = 0,message = "最小不小于0") int type){
+        List<GuorenStockVO> list=getGrCodeByType(type);
+        GuoRenEnum guoRenEnum= GuoRenEnum.getPrefixByType(type);
+        EasyPoiUtil.exportExcel(list,guoRenEnum.getPrefix(),guoRenEnum.getPrefix(),GuorenStockVO.class,guoRenEnum.getPrefix()+".xls",response);
     }
 }

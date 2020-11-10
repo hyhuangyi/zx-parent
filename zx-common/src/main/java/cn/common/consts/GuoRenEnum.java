@@ -4,6 +4,7 @@ package cn.common.consts;
  * 果仁枚举
  */
 public enum GuoRenEnum {
+    QS_CODE(0,"macd金叉&&布林突破&&连续3日上涨"),
     MACD_JINCHA( 1, "macd金叉"),
     THREE_UP( 2, "连续3日上涨"),
     BULIN_TUPO( 3, "布林突破上轨"),
