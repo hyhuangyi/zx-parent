@@ -144,12 +144,12 @@ public class FundController {
     }
 
     @ApiOperation("获取大盘chart数据")
-    @GetMapping("comm/stock/chartData")
+    @GetMapping("/comm/stock/chartData")
     public Map getChartData(@RequestParam(required = false,defaultValue = "line") String type){
        return sysService.getStockChartData(type);
     }
     @ApiOperation("根据type获取数据 0、macd金叉&&布林突破&&连续3日上涨 1、macd金叉 2、连续3日上涨 3、布林突破上轨 4、市盈率最小")
-    @GetMapping("comm/stock/guoRenCode")
+    @GetMapping("/comm/stock/guoRenCode")
     public List<GuorenStockVO> getGrCodeByType(@RequestParam(required = false,defaultValue = "1") @Max(value = 4,message = "最大不超过4")@Min(value = 0,message = "最小不小于0") int type){
        if(type==0){
            List<GuorenStockVO> list=sysService.getGrCodeByType(1);
