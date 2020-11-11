@@ -4,7 +4,7 @@ import cn.afterturn.easypoi.excel.annotation.Excel;
 import lombok.Data;
 
 @Data
-public class GuorenStockVO {
+public class GuorenStockVO implements Comparable<GuorenStockVO> {
     @Excel(name = "股票代码", width = 15, orderNum = "1")
     private String code;
     @Excel(name = "股票名称", width = 15, orderNum = "2")
@@ -22,5 +22,17 @@ public class GuorenStockVO {
         this.price = price;
         this.rate = rate;
         this.industry = industry;
+    }
+
+    @Override
+    public int compareTo(GuorenStockVO o) {
+        double i=o.getRate()-this.getRate();
+        if(i==0){
+            return 0;
+        }else if(i>0){
+            return 1;
+        }else {
+            return -1;
+        }
     }
 }

@@ -29,6 +29,8 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -148,23 +150,26 @@ public class FundController {
     public Map getChartData(@RequestParam(required = false,defaultValue = "line") String type){
        return sysService.getStockChartData(type);
     }
-    @ApiOperation("根据type获取数据 0、macd金叉&&布林突破&&连续3日上涨 1、macd金叉 2、连续3日上涨 3、布林突破上轨 4、市盈率最小")
+    @ApiOperation("根据type获取数据 0、macd金叉&&布林突破&&连续3日上涨 1、macd金叉 2、连续3日上涨 3、布林突破上轨 4、市盈率最小 5、当日涨停股票 6、银行市净率最小")
     @GetMapping("/comm/stock/guoRenCode")
-    public List<GuorenStockVO> getGrCodeByType(@RequestParam(required = false,defaultValue = "1") @Max(value = 4,message = "最大不超过4")@Min(value = 0,message = "最小不小于0") int type){
+    public List<GuorenStockVO> getGrCodeByType(@RequestParam(required = false,defaultValue = "1") @Max(value = 6,message = "最大不超过6")@Min(value = 0,message = "最小不小于0") int type){
+       List<GuorenStockVO> res;
        if(type==0){
            List<GuorenStockVO> list=sysService.getGrCodeByType(1);
            List<GuorenStockVO> list1=sysService.getGrCodeByType(2);
            List<GuorenStockVO> list2=sysService.getGrCodeByType(3);
            list.retainAll(list1);
            list.retainAll(list2);
-           return list;
+           res=list;
        }else {
-           return sysService.getGrCodeByType(type);
+           res= sysService.getGrCodeByType(type);
        }
+        Collections.sort(res);
+       return res;
     }
-    @ApiOperation(value = "导出果仁数据(0、macd金叉&&布林突破&&连续3日上涨 1、macd金叉 2、连续3日上涨 3、布林突破上轨 4、市盈率最小)")
+    @ApiOperation(value = "导出果仁数据(0、macd金叉&&布林突破&&连续3日上涨 1、macd金叉 2、连续3日上涨 3、布林突破上轨 4、市盈率最小 5、当日涨停股票 6、银行市净率最小)")
     @GetMapping(value = "/comm/stock/export")
-    public void exportStock(HttpServletResponse response,@RequestParam(required = false,defaultValue = "1") @Max(value = 4,message = "最大不超过4")@Min(value = 0,message = "最小不小于0") int type){
+    public void exportStock(HttpServletResponse response,@RequestParam(required = false,defaultValue = "1") @Max(value =6,message = "最大不超过6")@Min(value = 0,message = "最小不小于0") int type){
         List<GuorenStockVO> list=getGrCodeByType(type);
         GuoRenEnum guoRenEnum= GuoRenEnum.getPrefixByType(type);
         EasyPoiUtil.exportExcel(list,guoRenEnum.getPrefix(),guoRenEnum.getPrefix(),GuorenStockVO.class,guoRenEnum.getPrefix()+".xls",response);
