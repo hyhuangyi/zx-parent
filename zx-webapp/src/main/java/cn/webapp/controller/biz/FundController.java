@@ -164,7 +164,7 @@ public class FundController {
        }else {
            res= sysService.getGrCodeByType(type);
        }
-        Collections.sort(res);
+        Collections.sort(res);//按涨幅倒序
        return res;
     }
     @ApiOperation(value = "导出果仁数据(0、macd金叉&&布林突破&&连续3日上涨 1、macd金叉 2、连续3日上涨 3、布林突破上轨 4、市盈率最小 5、当日涨停股票 6、银行市净率最小)")
