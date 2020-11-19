@@ -70,9 +70,9 @@ public class StockJob {
     }
 
     /**
-     *
+     * 基金涨停提示
      */
-    @Scheduled(cron = "0 0/30 9,10,11,13,14,15 * * ?")
+    //@Scheduled(cron = "0 0/30 9,10,11,13,14,15 * * ?")
     public void fundJob() {
         if(!"0".equals(DateUtils.isHoliday(DateFormatUtils.format(new Date(), "yyyyMMdd")))){
             return;
