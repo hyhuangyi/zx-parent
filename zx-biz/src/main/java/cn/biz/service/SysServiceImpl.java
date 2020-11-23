@@ -672,7 +672,7 @@ public class SysServiceImpl implements ISysService {
             //排除st和退市的
             if (l.getName().contains("ST") || l.getName().contains("退")) {
             } else {
-                if (l.getCurrent_year_percent() < yearPercent && l.getPercent() > percent) {
+                if (l.getCurrent_year_percent() <= yearPercent && l.getPercent() >= percent) {
                     res.add(l);
                 }
             }
