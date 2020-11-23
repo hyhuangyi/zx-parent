@@ -6,10 +6,7 @@ import cn.biz.dto.TableListDTO;
 import cn.biz.dto.WeiboDTO;
 import cn.biz.po.Fund;
 import cn.biz.po.Weibo;
-import cn.biz.vo.FundVO;
-import cn.biz.vo.GuorenStockVO;
-import cn.biz.vo.StockVO;
-import cn.biz.vo.TableListVO;
+import cn.biz.vo.*;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -58,4 +55,6 @@ public interface ISysService {
      Map getStockChartData(String type);
      /*根据type获取代码code列表*/
      List<GuorenStockVO>getGrCodeByType(int type);
+     /*获取年内涨幅少的股票*/
+     List<XueqiuVO.DataBean.ListBean> getXueqiuList(double percent,int yearPercent);
 }

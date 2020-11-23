@@ -7,6 +7,7 @@ import cn.biz.service.ISysService;
 import cn.biz.vo.FundVO;
 import cn.biz.vo.GuorenStockVO;
 import cn.biz.vo.StockVO;
+import cn.biz.vo.XueqiuVO;
 import cn.common.consts.GuoRenEnum;
 import cn.common.consts.LogModuleConst;
 import cn.common.pojo.base.Token;
@@ -173,5 +174,11 @@ public class FundController {
         List<GuorenStockVO> list=getGrCodeByType(type);
         GuoRenEnum guoRenEnum= GuoRenEnum.getPrefixByType(type);
         EasyPoiUtil.exportExcel(list,guoRenEnum.getPrefix(),guoRenEnum.getPrefix(),GuorenStockVO.class,guoRenEnum.getPrefix()+".xls",response);
+    }
+
+    @ApiOperation(value = "获取雪球股票列表")
+    @GetMapping("/comm/getXueqiuList")
+    public List<XueqiuVO.DataBean.ListBean> getXqList(@RequestParam(required = false,defaultValue = "5") double percent,@RequestParam(required = false, defaultValue = "0") int yearPercent){
+        return sysService.getXueqiuList(percent,yearPercent);
     }
 }

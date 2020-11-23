@@ -101,12 +101,17 @@ public class SysServiceImpl implements ISysService {
     /**
      * 小熊api 大盘信息
      */
-    public static final String XX_STOCK="https://api.doctorxiong.club/v1/stock/board";
+    public static final String XX_STOCK = "https://api.doctorxiong.club/v1/stock/board";
 
     /**
      * 果仁网api
      */
-    public static final String GUO_REN="https://guorn.com/language/query?query=";
+    public static final String GUO_REN = "https://guorn.com/language/query?query=";
+
+    /**
+     * 雪球api
+     */
+    public static final String XUE_QIU = "https://xueqiu.com/service/v5/stock/screener/quote/list?page=1&size=5000&order=asc&orderby=current_year_percent&order_by=current_year_percent&market=CN&type=sh_sz";
     /**
      * 输出基金费率0的结果地址
      **/
@@ -118,9 +123,10 @@ public class SysServiceImpl implements ISysService {
     /**
      * 横坐标
      */
-    private static final List<String> HZB=new ArrayList<>();
+    private static final List<String> HZB = new ArrayList<>();
+
     //初始化
-    static{
+    static {
         HZB.add("09:30");
         HZB.add("09:45");
         HZB.add("10:00");
@@ -322,7 +328,7 @@ public class SysServiceImpl implements ISysService {
                 fundVO.setId(vo.getId());
                 fundVO.setRemark(vo.getRemark());//备注
                 fundVO.setHoldNum(Double.parseDouble(vo.getHoldNum()));//持有份额
-                fundVO.setHoldMoney(BigDecimalUtils.mulFool(2,fundVO.getDwjz(),fundVO.getHoldNum()).doubleValue());//持有金额
+                fundVO.setHoldMoney(BigDecimalUtils.mulFool(2, fundVO.getDwjz(), fundVO.getHoldNum()).doubleValue());//持有金额
                 fundVO.setLy(BigDecimalUtils.mulFool(2, fundVO.getHoldMoney(), fundVO.getGszzl() / 100));//估值利润
                 res.add(fundVO);//转为实体
             } catch (Exception e) {
@@ -408,7 +414,7 @@ public class SysServiceImpl implements ISysService {
 
     /*基金下拉选*/
     @Override
-    @Cacheable(value = "fund",key = "'select_all'",unless = "#result == null")
+    @Cacheable(value = "fund", key = "'select_all'", unless = "#result == null")
     public List<String> getFundSelect() {
         List<String> res = new ArrayList<>();
         List<Fund> list = fundMapper.getFundForZero();
@@ -417,18 +423,19 @@ public class SysServiceImpl implements ISysService {
         });
         return res;
     }
+
     /*新增基金*/
     @Override
     public boolean addFund(AddFundDTO dto) {
-        String fund=dto.getFund();
-        String[]arr=fund.split("-");
-        if(arr.length!=2){
-            throw new  ZxException("基金传值不符合要求");
+        String fund = dto.getFund();
+        String[] arr = fund.split("-");
+        if (arr.length != 2) {
+            throw new ZxException("基金传值不符合要求");
         }
-        Token token=ServletContextHolder.getToken();
-        FundOwn fundOwn=new FundOwn();
-        Integer count= fundOwnMapper.selectCount(new QueryWrapper<FundOwn>().eq("user_id",token.getUserId()).eq("code",arr[0]));
-        if(count!=0){
+        Token token = ServletContextHolder.getToken();
+        FundOwn fundOwn = new FundOwn();
+        Integer count = fundOwnMapper.selectCount(new QueryWrapper<FundOwn>().eq("user_id", token.getUserId()).eq("code", arr[0]));
+        if (count != 0) {
             throw new ZxException("当前基金已存在列表中，请不要重复加入！");
         }
         fundOwn.setRemark(dto.getRemark());
@@ -441,6 +448,7 @@ public class SysServiceImpl implements ISysService {
         fundOwnMapper.insert(fundOwn);
         return true;
     }
+
     /*删除基金*/
     @Override
     public boolean delFund(Long id) {
@@ -547,38 +555,40 @@ public class SysServiceImpl implements ISysService {
 
     /**
      * 获取大盘信息
+     *
      * @return
      */
     @Override
     public StockVO getStockInfo() {
-        String res= HttpRequestUtil.get(XX_STOCK,null,null);
-        JSONObject obj=JSONObject.parseObject(res);
-        StockVO vo=new StockVO();
-        double cje=0.0;
-        if("200".equals(obj.get("code").toString())){
-            JSONArray array=JSONArray.parseArray(obj.get("data").toString());
-            for(Object o:array){
-                JSONObject j=JSONObject.parseObject(o.toString());
-                if(j.get("code").equals("sh000001")||j.get("code").equals("sz399001")){
-                    cje= NumberUtil.add(cje,j.get("turnover").toString());
+        String res = HttpRequestUtil.get(XX_STOCK, null, null);
+        JSONObject obj = JSONObject.parseObject(res);
+        StockVO vo = new StockVO();
+        double cje = 0.0;
+        if ("200".equals(obj.get("code").toString())) {
+            JSONArray array = JSONArray.parseArray(obj.get("data").toString());
+            for (Object o : array) {
+                JSONObject j = JSONObject.parseObject(o.toString());
+                if (j.get("code").equals("sh000001") || j.get("code").equals("sz399001")) {
+                    cje = NumberUtil.add(cje, j.get("turnover").toString());
                 }
-                if(j.get("code").equals("sh000001")){//上证
+                if (j.get("code").equals("sh000001")) {//上证
                     vo.setShangz(Double.valueOf(j.get("changePercent").toString()));
                 }
-                if(j.get("code").equals("sz399001")){//深证
+                if (j.get("code").equals("sz399001")) {//深证
                     vo.setShenz(Double.valueOf(j.get("changePercent").toString()));
                 }
-                if(j.get("code").equals("sz399006")){//创业板
+                if (j.get("code").equals("sz399006")) {//创业板
                     vo.setChuangy(Double.valueOf(j.get("changePercent").toString()));
                 }
             }
-            vo.setTurnOver(NumberUtil.div(cje,10000));
+            vo.setTurnOver(NumberUtil.div(cje, 10000));
         }
         return vo;
     }
-    
+
     /**
      * 获取大盘chart数据
+     *
      * @param type
      * @return
      */
@@ -586,13 +596,13 @@ public class SysServiceImpl implements ISysService {
     public Map getStockChartData(String type) {
         List series = new ArrayList();
         //展示最近7天
-        List<String> date=stockMapper.getDate();
-        if(date.size()==0){
+        List<String> date = stockMapper.getDate();
+        if (date.size() == 0) {
             return null;
         }
         //数据
-        List<Map> data=stockMapper.getData();
-        for(int i=0;i<date.size();i++){
+        List<Map> data = stockMapper.getData();
+        for (int i = 0; i < date.size(); i++) {
             Map m = new HashMap();
             List<Double> turnOver = new ArrayList<>();
             for (int j = 0; j < HZB.size(); j++) {
@@ -623,25 +633,50 @@ public class SysServiceImpl implements ISysService {
 
     /**
      * 根据type获取代码code列表
+     *
      * @param type
      * @return
      */
     @Override
-    public  List<GuorenStockVO>  getGrCodeByType(int type) {
-        List<GuorenStockVO> result=new ArrayList<>();
-        GuoRenEnum guoRenEnum=GuoRenEnum.getPrefixByType(type);
-        String res = HttpRequestUtil.get(GUO_REN+guoRenEnum.getPrefix(), null, null);
+    public List<GuorenStockVO> getGrCodeByType(int type) {
+        List<GuorenStockVO> result = new ArrayList<>();
+        GuoRenEnum guoRenEnum = GuoRenEnum.getPrefixByType(type);
+        String res = HttpRequestUtil.get(GUO_REN + guoRenEnum.getPrefix(), null, null);
         GuorenVO guorenVO = JSONObject.parseObject(res, GuorenVO.class);
         List<String> code = guorenVO.getData().getSheet_data().getRow().get(0).getData().get(1);
-        List<String> name=guorenVO.getData().getSheet_data().getRow().get(1).getData().get(1);
-        List<Double> price=guorenVO.getData().getSheet_data().getMeas_data().get(0);
-        List<Double> rate=guorenVO.getData().getSheet_data().getMeas_data().get(1);
-        List<String> industry=guorenVO.getData().getSheet_data().getRow().get(2).getData().get(1);
-        if(code.size()!=0){
-            for(int i=0;i<code.size();i++){
-                result.add(new GuorenStockVO(code.get(i),name.get(i),price.get(i),NumberUtil.mul(rate.get(i),100,2),industry.get(i)));
+        List<String> name = guorenVO.getData().getSheet_data().getRow().get(1).getData().get(1);
+        List<Double> price = guorenVO.getData().getSheet_data().getMeas_data().get(0);
+        List<Double> rate = guorenVO.getData().getSheet_data().getMeas_data().get(1);
+        List<String> industry = guorenVO.getData().getSheet_data().getRow().get(2).getData().get(1);
+        if (code.size() != 0) {
+            for (int i = 0; i < code.size(); i++) {
+                result.add(new GuorenStockVO(code.get(i), name.get(i), price.get(i), NumberUtil.mul(rate.get(i), 100, 2), industry.get(i)));
             }
         }
         return result;
+    }
+
+    /**
+     * 获取年内涨幅少的股票
+     * @param percent 当日涨幅
+     * @param yearPercent  年内涨幅
+     * @return
+     */
+    @Override
+    public List<XueqiuVO.DataBean.ListBean> getXueqiuList(double percent, int yearPercent) {
+        String json = HttpRequestUtil.get(XUE_QIU, null, null);
+        XueqiuVO vo = JSONObject.parseObject(json, XueqiuVO.class);
+        List<XueqiuVO.DataBean.ListBean> list = vo.getData().getList();
+        List<XueqiuVO.DataBean.ListBean> res = new ArrayList();
+        for (XueqiuVO.DataBean.ListBean l : list) {
+            //排除st和退市的
+            if (l.getName().contains("ST") || l.getName().contains("退")) {
+            } else {
+                if (l.getCurrent_year_percent() < yearPercent && l.getPercent() > percent) {
+                    res.add(l);
+                }
+            }
+        }
+        return res;
     }
 }

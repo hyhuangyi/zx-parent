@@ -4,7 +4,7 @@ import lombok.Data;
 import java.util.List;
 
 /**
- * 果仁网  智能小国 api
+ * 果仁网  智能小果 api
  */
 @Data
 public class GuorenVO {
