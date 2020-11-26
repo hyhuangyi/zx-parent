@@ -13,7 +13,6 @@ import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
-
 import java.lang.reflect.Method;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -62,6 +61,7 @@ public class ExecutorConfig implements SchedulingConfigurer, AsyncConfigurer {
 
     }
 
+    /** 异步处理 */
     @Override
     public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
         TaskScheduler taskScheduler = taskScheduler();
