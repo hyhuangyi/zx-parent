@@ -56,7 +56,7 @@ public class SysTask implements Serializable {
     @ApiModelProperty(value = "更新时间")
     private LocalDateTime updateTime;
 
-    @ApiModelProperty(value = "是否删除")
+    @ApiModelProperty(value = "是否删除 0未删除 1删除")
     private String isDel;
 
 }
