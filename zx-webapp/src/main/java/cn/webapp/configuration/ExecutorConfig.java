@@ -73,7 +73,7 @@ public class ExecutorConfig implements SchedulingConfigurer, AsyncConfigurer {
      *
      * @return ThreadPoolTaskScheduler 线程池
      */
-    @Bean(destroyMethod = "shutdown")
+    @Bean(name="taskScheduler",destroyMethod = "shutdown")
     public ThreadPoolTaskScheduler taskScheduler() {
         ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
         scheduler.setPoolSize(config.getCorePoolSize());
