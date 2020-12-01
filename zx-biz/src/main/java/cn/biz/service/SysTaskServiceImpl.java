@@ -32,10 +32,10 @@ public class SysTaskServiceImpl implements ISysTaskService {
                    scheduler.scheduleJob(jobDetail,cronTrigger);
                }
            }
-           // 启动
-           if (!scheduler.isShutdown()) {
-               scheduler.start();
-           }
        }
+        // 启动
+        if (!scheduler.isShutdown()) {
+            scheduler.start();
+        }
     }
 }

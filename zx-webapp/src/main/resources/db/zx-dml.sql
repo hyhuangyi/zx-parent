@@ -14,6 +14,11 @@ INSERT INTO `auth_role` VALUES ('1', 'ROLE_ADMIN', '超级管理员', '0', '2019
 INSERT INTO `auth_user_role` VALUES ('1', '1', '1', '0', '2019-11-19 19:01:21', '2019-11-20 10:55:14');
 
 -- ----------------------------
+-- Records of sys_task
+-- ----------------------------
+INSERT INTO `sys_task` VALUES ('1', 'zx_test', '每5秒执行一次', '*/5 * * * * ?', 'cn.biz.quartz.QuartzJob', '1', '1', '0', '2020-11-27 22:23:09', '0', '2020-11-27 22:23:13', '0');
+
+-- ----------------------------
 -- Records of auth_menu
 -- ----------------------------
 INSERT INTO `auth_menu` VALUES ('1', '系统首页', '0', 'dashboard', '0', 'el-icon-lx-home', '1', '0', '', '2019-11-22 11:41:42', '2020-05-26 13:33:21');
