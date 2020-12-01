@@ -12,6 +12,7 @@ import cn.common.consts.GuoRenEnum;
 import cn.common.consts.LogModuleConst;
 import cn.common.pojo.base.Token;
 import cn.common.pojo.servlet.ServletContextHolder;
+import cn.common.util.date.DateUtils;
 import cn.common.util.file.EasyPoiUtil;
 import cn.webapp.aop.annotation.OperateLog;
 import cn.webapp.aop.annotation.TimeCount;
@@ -30,10 +31,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Api(tags = "基金股票相关接口")
 @RestController
@@ -180,5 +178,13 @@ public class FundController {
     @GetMapping("/comm/getXueqiuList")
     public List<XueqiuVO.DataBean.ListBean> getXqList(@RequestParam(required = false,defaultValue = "5") double percent,@RequestParam(required = false, defaultValue = "0") int yearPercent){
         return sysService.getXueqiuList(percent,yearPercent);
+    }
+
+    @ApiOperation(value = "导出雪球股票列表")
+    @GetMapping("/comm/exportXueqiu")
+    public void exportXueqiu(HttpServletResponse response,@RequestParam(required = false,defaultValue = "5") double percent,@RequestParam(required = false, defaultValue = "0") int yearPercent){
+        String date=DateUtils.getStringDateShort();
+        List<XueqiuVO.DataBean.ListBean> list= sysService.getXueqiuList(percent,yearPercent);
+        EasyPoiUtil.exportExcel(list,date+"-强势票",date+"强势票", XueqiuVO.DataBean.ListBean.class,date+"强势票.xls",response);
     }
 }
