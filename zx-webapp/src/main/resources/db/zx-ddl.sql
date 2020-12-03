@@ -233,7 +233,7 @@ CREATE TABLE `sys_task` (
   `param` text COMMENT '参数  json字符串',
   `cron_expression` varchar(255) DEFAULT NULL COMMENT 'cron表达式',
   `bean_class` varchar(255) DEFAULT NULL COMMENT '任务执行时调用哪个类的方法 包名+类名',
-  `job_status` varchar(20) CHARACTER SET utf16 DEFAULT '0' COMMENT '任务状态 0启用 1禁用',
+  `job_status` varchar(20) DEFAULT '0' COMMENT '任务状态 0启用 1禁用',
   `job_group` varchar(255) DEFAULT NULL COMMENT '任务分组',
   `create_user` varchar(64) DEFAULT NULL COMMENT '创建者',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
