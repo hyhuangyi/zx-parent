@@ -5,6 +5,7 @@ import cn.common.exception.ZxException;
 import cn.common.pojo.base.ResultDO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -12,13 +13,17 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindException;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
 import java.util.Set;
+import java.util.stream.Collectors;
+
 /**
  * 全局异常处理
  * Created by huangYi on 2018/7/9
@@ -101,6 +106,20 @@ public class GlobalExceptionHandler {
     public ResultDO handle(BindException e){
         log.error("绑定参数异常",e);
         return new ResultDO("0",e.getFieldError().getDefaultMessage());
+    }
+
+    /**
+     * 处理请求参数格式错误 @RequestBody上validate失败后抛出的异常是
+     * MethodArgumentNotValidException异常。
+     * @param e
+     * @return
+     */
+    @ExceptionHandler
+    @ResponseBody
+    public ResultDO handle(MethodArgumentNotValidException e){
+        log.error("绑定参数异常",e);
+        String message = e.getBindingResult().getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining(","));
+        return new ResultDO("0",message);
     }
 
     @ExceptionHandler
