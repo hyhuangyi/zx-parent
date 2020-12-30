@@ -5,10 +5,8 @@ import cn.biz.dto.FundDTO;
 import cn.biz.po.Fund;
 import cn.biz.service.ISysService;
 import cn.biz.vo.FundVO;
-import cn.biz.vo.GuorenStockVO;
 import cn.biz.vo.StockVO;
 import cn.biz.vo.XueqiuVO;
-import cn.common.consts.GuoRenEnum;
 import cn.common.consts.LogModuleConst;
 import cn.common.pojo.base.Token;
 import cn.common.pojo.servlet.ServletContextHolder;
@@ -27,8 +25,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.*;
@@ -148,30 +144,6 @@ public class FundController {
     @GetMapping("/comm/stock/chartData")
     public Map getChartData(@RequestParam(required = false,defaultValue = "line") String type){
        return sysService.getStockChartData(type);
-    }
-    @ApiOperation("根据type获取数据 0、macd金叉&&布林突破&&连续3日上涨 1、macd金叉 2、连续3日上涨 3、布林突破上轨 4、市盈率最小 5、当日涨停股票 6、银行市净率最小 7、布林突破下轨")
-    @GetMapping("/comm/stock/guoRenCode")
-    public List<GuorenStockVO> getGrCodeByType(@RequestParam(required = false,defaultValue = "1") @Max(value = 7,message = "最大不超过7")@Min(value = 0,message = "最小不小于0") int type){
-       List<GuorenStockVO> res;
-       if(type==0){
-           List<GuorenStockVO> list=sysService.getGrCodeByType(1);
-           List<GuorenStockVO> list1=sysService.getGrCodeByType(2);
-           List<GuorenStockVO> list2=sysService.getGrCodeByType(3);
-           list.retainAll(list1);
-           list.retainAll(list2);
-           res=list;
-       }else {
-           res= sysService.getGrCodeByType(type);
-       }
-        Collections.sort(res);//按涨幅倒序
-       return res;
-    }
-    @ApiOperation(value = "导出果仁数据(0、macd金叉&&布林突破&&连续3日上涨 1、macd金叉 2、连续3日上涨 3、布林突破上轨 4、市盈率最小 5、当日涨停股票 6、银行市净率最小 7、布林突破下轨)")
-    @GetMapping(value = "/comm/stock/export")
-    public void exportStock(HttpServletResponse response,@RequestParam(required = false,defaultValue = "1") @Max(value =7,message = "最大不超过7")@Min(value = 0,message = "最小不小于0") int type){
-        List<GuorenStockVO> list=getGrCodeByType(type);
-        GuoRenEnum guoRenEnum= GuoRenEnum.getPrefixByType(type);
-        EasyPoiUtil.exportExcel(list,guoRenEnum.getPrefix(),guoRenEnum.getPrefix(),GuorenStockVO.class,guoRenEnum.getPrefix()+".xls",response);
     }
 
     @ApiOperation(value = "获取雪球股票列表")

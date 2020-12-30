@@ -57,8 +57,7 @@ INSERT INTO `auth_menu` VALUES ('33', '微博话题', '0', 'weibo', '0', 'el-ico
 INSERT INTO `auth_menu` VALUES ('34', '天天基金', '0', 'ttFund', '0', 'el-icon-orange', '3', '0', ' ', '2020-06-02 20:19:55', '2020-06-02 20:26:18');
 INSERT INTO `auth_menu` VALUES ('35', '我的基金', '34', 'fund-my', '0', 'el-icon-football', '1', '0', 'fund:list', '2020-06-02 20:22:40', '2020-06-02 20:27:53');
 INSERT INTO `auth_menu` VALUES ('36', '免费率基', '34', 'fund-zero', '0', 'el-icon-basketball', '4', '0', ' ', '2020-06-08 18:20:20', '2020-06-08 18:21:46');
-INSERT INTO `auth_menu` VALUES ('37', '果仁数据', '34', 'guoren', '0', 'el-icon-sunny', '2', '0', 'guoren:list', '2020-06-08 18:20:20', '2020-06-08 18:21:46');
-INSERT INTO `auth_menu` VALUES ('38', '雪球数据', '34', 'xueqiu', '0', 'el-icon-soccer', '2', '0', 'xueqiu:list', '2020-06-08 18:20:20', '2020-06-08 18:21:46');
+INSERT INTO `auth_menu` VALUES ('37', '雪球数据', '34', 'xueqiu', '0', 'el-icon-soccer', '2', '0', 'xueqiu:list', '2020-06-08 18:20:20', '2020-06-08 18:21:46');
 -- ----------------------------
 -- Records of auth_role_menu
 -- ----------------------------
@@ -99,7 +98,6 @@ INSERT INTO `auth_role_menu` VALUES ('618', '1', '34', '2020-05-15 16:54:48', '2
 INSERT INTO `auth_role_menu` VALUES ('619', '1', '35', '2020-05-15 16:54:48', '2020-05-15 16:54:48');
 INSERT INTO `auth_role_menu` VALUES ('620', '1', '36', '2020-05-15 16:54:48', '2020-05-15 16:54:48');
 INSERT INTO `auth_role_menu` VALUES ('621', '1', '37', '2020-05-15 16:54:48', '2020-05-15 16:54:48');
-INSERT INTO `auth_role_menu` VALUES ('622', '1', '38', '2020-05-15 16:54:48', '2020-05-15 16:54:48');
 -- ----------------------------
 -- Records of sys_tree_dict
 -- ----------------------------
