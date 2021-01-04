@@ -1,20 +1,26 @@
 package cn.webapp.schedule;
 
 import cn.biz.mapper.StockMapper;
+import cn.biz.mapper.XqDataMapper;
 import cn.biz.po.Stock;
+import cn.biz.po.XqData;
 import cn.biz.service.ISysService;
 import cn.biz.vo.FundVO;
 import cn.biz.vo.StockVO;
+import cn.biz.vo.XueqiuVO;
 import cn.common.util.date.DateUtils;
 import cn.common.util.mail.MailAddress;
 import cn.common.util.mail.MailMessageObject;
 import cn.common.util.mail.MailUtil;
+import cn.common.util.math.XMathUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,6 +32,8 @@ public class StockJob {
     private ISysService sysService;
     @Autowired
     private StockMapper stockMapper;
+    @Autowired
+    private XqDataMapper xqDataMapper;
     @Autowired
     private MailUtil mailUtil;
 
@@ -70,7 +78,7 @@ public class StockJob {
     }
 
     /**
-     * 基金涨停提示
+     * 基金涨跌提示
      */
     //@Scheduled(cron = "0 0/30 9,10,11,13,14,15 * * ?")
     public void fundJob() {
@@ -106,5 +114,31 @@ public class StockJob {
             mailMessageObject.setTo(listAddress);
             mailUtil.send(mailMessageObject);
         }
+    }
+
+    /**
+     * 存入每天数据 涨幅大于3的
+     * 每天半小时执行一次（9-15）
+     */
+    @Scheduled(cron = "0 0/30 9,10,11,13,14,15 * * ?")
+    public void xqStock(){
+        String today =new SimpleDateFormat("yyyy-MM-dd").format(new Date());//当日日期
+        String hm = DateUtils.getStringDate(new Date(), "HH:mm");
+        if(list.contains(hm) ||!"0".equals(DateUtils.isHoliday(today))){//排除不在交易时间或者节假日、周末
+             return;
+        }
+        try {
+            Thread.sleep(60*1000);//休眠1分钟
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        List<XqData> add=new ArrayList<>();//入库的数据
+        //今年涨幅小于10倍 当日涨幅大于3
+        List<XueqiuVO.DataBean.ListBean> list=sysService.getXueqiuList(3,10000);
+        for(XueqiuVO.DataBean.ListBean bean:list){
+            add.add(new XqData(bean.getSymbol(),bean.getName(),bean.getPercent(),bean.getCurrent(),bean.getCurrent_year_percent(),XMathUtil.divide(bean.getMarket_capital(),"100000000"),bean.getTurnover_rate(),today));
+        }
+        xqDataMapper.delete(new QueryWrapper<XqData>().eq("date",today));
+        xqDataMapper.insertBatch(add);
     }
 }
