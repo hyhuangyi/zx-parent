@@ -2,7 +2,9 @@ package cn.webapp.controller.biz;
 
 import cn.biz.dto.AddFundDTO;
 import cn.biz.dto.FundDTO;
+import cn.biz.dto.XqHistoryDTO;
 import cn.biz.po.Fund;
+import cn.biz.po.XqData;
 import cn.biz.service.ISysService;
 import cn.biz.vo.FundVO;
 import cn.biz.vo.StockVO;
@@ -158,5 +160,11 @@ public class FundController {
         String date=DateUtils.getStringDateShort();
         List<XueqiuVO.DataBean.ListBean> list= sysService.getXueqiuList(percent,yearPercent);
         EasyPoiUtil.exportExcel(list,date+"-强势票",date+"强势票", XueqiuVO.DataBean.ListBean.class,date+"强势票.xls",response);
+    }
+
+    @ApiOperation(value = "获取雪球历史数据列表")
+    @GetMapping("/comm/getXqHistory")
+    public IPage<XqData> getXqHistory(@Validated@ModelAttribute XqHistoryDTO dto){
+        return sysService.getXqHistoryList(dto);
     }
 }

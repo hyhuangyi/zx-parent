@@ -1,11 +1,9 @@
 package cn.biz.service;
 
-import cn.biz.dto.AddFundDTO;
-import cn.biz.dto.FundDTO;
-import cn.biz.dto.TableListDTO;
-import cn.biz.dto.WeiboDTO;
+import cn.biz.dto.*;
 import cn.biz.po.Fund;
 import cn.biz.po.Weibo;
+import cn.biz.po.XqData;
 import cn.biz.vo.*;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import javax.servlet.http.HttpServletResponse;
@@ -55,4 +53,6 @@ public interface ISysService {
      Map getStockChartData(String type);
      /*获取年内涨幅少的股票*/
      List<XueqiuVO.DataBean.ListBean> getXueqiuList(double percent,int yearPercent);
+     /*获取雪球历史数据*/
+     IPage<XqData> getXqHistoryList(XqHistoryDTO dto);
 }

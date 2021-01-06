@@ -242,3 +242,20 @@ CREATE TABLE `sys_task` (
   `is_del` varchar(20) DEFAULT '0' COMMENT '是否删除 1删除 0未删除',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=33 DEFAULT CHARSET=utf8 COMMENT='定时任务表';
+
+-- ----------------------------
+-- Table structure for xq_data
+-- ----------------------------
+DROP TABLE IF EXISTS `xq_data`;
+CREATE TABLE `xq_data` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `symbol` varchar(50) DEFAULT NULL COMMENT '代码',
+  `name` varchar(50) DEFAULT NULL COMMENT '名称',
+  `percent` varchar(50) DEFAULT NULL COMMENT '最新涨幅',
+  `current` varchar(50) DEFAULT NULL COMMENT '最新价',
+  `current_year_percent` varchar(50) DEFAULT NULL COMMENT '年初至今',
+  `market_capital` varchar(50) DEFAULT NULL COMMENT '市值',
+  `turnover_rate` varchar(50) DEFAULT NULL COMMENT '换手率',
+  `date` varchar(20) DEFAULT NULL COMMENT '日期',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7268 DEFAULT CHARSET=utf8 COMMENT='雪球数据';

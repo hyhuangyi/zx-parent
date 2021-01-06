@@ -1,13 +1,11 @@
 package cn.biz.service;
 
-import cn.biz.dto.AddFundDTO;
-import cn.biz.dto.FundDTO;
-import cn.biz.dto.TableListDTO;
-import cn.biz.dto.WeiboDTO;
+import cn.biz.dto.*;
 import cn.biz.mapper.*;
 import cn.biz.po.Fund;
 import cn.biz.po.FundOwn;
 import cn.biz.po.Weibo;
+import cn.biz.po.XqData;
 import cn.biz.vo.*;
 import cn.biz.webMagic.base.ProxyDownloader;
 import cn.biz.webMagic.pipline.WeiboPipLine;
@@ -74,6 +72,8 @@ public class SysServiceImpl implements ISysService {
     private WeiboTopics weiboTopics;
     @Autowired
     private StockMapper stockMapper;
+    @Autowired
+    private XqDataMapper xqDataMapper;
 
     @Value("${spring.datasource.druid.url}")
     private String url;
@@ -651,5 +651,17 @@ public class SysServiceImpl implements ISysService {
             }
         }
         return res;
+    }
+
+    /**
+     * 获取雪球历史数据
+     * @param dto
+     * @return
+     */
+    @Override
+    public IPage<XqData> getXqHistoryList(XqHistoryDTO dto) {
+        Page<XqData> page = new Page<>(dto.getCurrent(), dto.getSize());
+        IPage<XqData> list =xqDataMapper.selectPage(page,new QueryWrapper<XqData>().eq("date",dto.getDate()).ge("percent",dto.getPercent()));
+        return list;
     }
 }
