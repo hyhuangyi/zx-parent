@@ -17,5 +17,6 @@
       LEFT JOIN xq_data b ON a. NAME = b. NAME
       GROUP BY
         a. NAME
+      ORDER BY  count desc
     </select>
 </mapper>
