@@ -1,6 +1,7 @@
 package cn.biz.po;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import java.io.Serializable;
@@ -50,6 +51,9 @@ public class XqData implements Serializable {
 
     @ApiModelProperty(value = "日期")
     private String date;
+
+    @TableField(exist = false)
+    private Long count;
 
     public XqData() {
     }

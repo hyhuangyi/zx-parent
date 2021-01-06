@@ -661,7 +661,8 @@ public class SysServiceImpl implements ISysService {
     @Override
     public IPage<XqData> getXqHistoryList(XqHistoryDTO dto) {
         Page<XqData> page = new Page<>(dto.getCurrent(), dto.getSize());
-        IPage<XqData> list =xqDataMapper.selectPage(page,new QueryWrapper<XqData>().eq("date",dto.getDate()).ge("percent",dto.getPercent()));
-        return list;
+        List<XqData> list =xqDataMapper.getXqHistoryList(page,dto);
+        page.setRecords(list);
+        return page;
     }
 }
