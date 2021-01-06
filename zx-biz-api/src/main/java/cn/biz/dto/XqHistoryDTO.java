@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Data
 public class XqHistoryDTO extends PagingQuest {
@@ -12,6 +13,6 @@ public class XqHistoryDTO extends PagingQuest {
     @NotEmpty(message = "日期不能为空")
     private String date;
     @ApiModelProperty("涨幅")
-    @NotEmpty(message = "涨幅不能为空")
-    private String percent;
+    @NotNull(message = "涨幅不能为空")
+    private Double percent;
 }
