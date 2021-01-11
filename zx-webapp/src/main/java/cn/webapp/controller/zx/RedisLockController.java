@@ -129,7 +129,7 @@ public class RedisLockController {
                     System.out.println(Thread.currentThread().getName() + ":" + "扣除成功" + "剩余：" + remaind);
                     //处理后续逻辑
                 }else {
-                    System.out.println(Thread.currentThread().getName() + ":" + "扣除失败" + "剩余：" + remaind);
+                    System.out.println(Thread.currentThread().getName() + ":" + "扣除失败" + "剩余：" + 0);
                     //直接返回
                 }
             }).start();
