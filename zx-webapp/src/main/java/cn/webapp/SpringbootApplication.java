@@ -34,7 +34,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @ServletComponentScan(basePackages = "cn.webapp")
 /*使用@ServletComponentScan注解后 Servlet可以直接通过@WebServlet注解自动注册
 Filter可以直接通过@WebFilter注解自动注册，Listener可以直接通过@WebListener 注解自动注册*/
-@NacosPropertySource(dataId = "zx", autoRefreshed = true)
+@NacosPropertySource(dataId = "zx-boot", autoRefreshed = true)
 public class SpringbootApplication extends SpringBootServletInitializer {
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
