@@ -88,6 +88,22 @@ public  class RedisUtil {
 			}
 		}
 	}
+	/**
+	 * 获取指定前缀的所有key
+	 * @param key
+	 * @return
+	 */
+	public static Set<Object> keys(String key) {
+		return redisUtil.redisTemplate.keys(key);
+	}
+	/**
+	 * 删除前缀所有key
+	 * @param prefix
+	 * @return
+	 */
+	public static long del(String prefix) {
+		return redisUtil.redisTemplate.delete(keys(prefix));
+	}
 	// ============================String=============================
 	/**
 	 * 普通缓存获取
