@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.web.context.request.async.DeferredResult;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -26,7 +27,7 @@ import java.util.List;
 @Configuration
 @EnableSwagger2
 @Profile({"dev","prod"})
-public class SwaggerConfig {
+public class SwaggerConfig implements WebMvcConfigurer {
     /**
      * swagger2的配置文件，这里可以配置swagger2的一些基本的内容，比如扫描的包等等
      * @return

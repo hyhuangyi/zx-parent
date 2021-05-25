@@ -114,19 +114,18 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
-        <!--springfox -->
+
+        <!--swagger2-->
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-spring-boot-starter</artifactId>
+            <version>2.0.4</version>
+        </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
             <version>2.7.0</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>guava</artifactId>
-                    <groupId>com.google.guava</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
-        <!--swagger2-->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
@@ -150,8 +149,8 @@
         </dependency>
         <!--rabbitmq-->
         <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-amqp</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
         <!--生成二维码相关包-->
         <dependency>
@@ -377,7 +376,7 @@
             <version>2.3.2</version>
         </dependency>
         <!--  ftp析有关 -->
-         <dependency>
+        <dependency>
             <groupId>ftp4j</groupId>
             <artifactId>ftp4j</artifactId>
             <version>1.7.2</version>

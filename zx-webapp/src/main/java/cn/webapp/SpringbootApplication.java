@@ -2,6 +2,7 @@ package cn.webapp;
 
 import cn.biz.po.CdCity;
 import com.alibaba.nacos.spring.context.annotation.config.NacosPropertySource;
+import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -30,24 +31,29 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement//开启事务
 @ImportResource("classpath:spring/*.xml")
 @MapperScan(basePackages = {"cn.biz.mapper"})
-@ComponentScan(basePackages={"cn.webapp","cn.common","cn.biz"})
+@ComponentScan(basePackages = {"cn.webapp", "cn.common", "cn.biz"})
 @ServletComponentScan(basePackages = "cn.webapp")
 /*使用@ServletComponentScan注解后 Servlet可以直接通过@WebServlet注解自动注册
 Filter可以直接通过@WebFilter注解自动注册，Listener可以直接通过@WebListener 注解自动注册*/
 @NacosPropertySource(dataId = "zx-boot", autoRefreshed = true)
+@Slf4j
 public class SpringbootApplication extends SpringBootServletInitializer {
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-        return  builder.sources(SpringbootApplication.class);
+        return builder.sources(SpringbootApplication.class);
     }
 
     public static void main(String[] args) {
-      ApplicationContext context= SpringApplication.run(SpringbootApplication.class, args);
-      CdCity city=(CdCity) context.getBean("city");
-      System.out.println("code="+city.getCode()+";fullName="+city.getFullName());
+        ApplicationContext context = SpringApplication.run(SpringbootApplication.class, args);
+        CdCity city = (CdCity) context.getBean("city");
+        log.info("code=" + city.getCode() + ";fullName=" + city.getFullName());
+        log.info("open http://127.0.0.1:8088/zx/doc.html");
+        log.info("open http://127.0.0.1:8088/zx/swagger-ui.html");
     }
+
     /**
      * 解决springBoot Invalid character found in the request target 特殊字符传参报错
+     *
      * @return
      */
     @Bean
