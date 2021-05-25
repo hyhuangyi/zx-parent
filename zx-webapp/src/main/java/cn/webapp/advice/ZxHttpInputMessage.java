@@ -2,9 +2,8 @@ package cn.webapp.advice;
 
 import cn.common.exception.ZxException;
 import cn.common.util.encrypt.RSAUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpInputMessage;
 import java.io.BufferedReader;
@@ -17,9 +16,9 @@ import java.util.stream.Collectors;
  * Author:zx 解决流只能读一次问题
  * DateTime:2019/4/9
  **/
+@Slf4j
 public class ZxHttpInputMessage implements HttpInputMessage {
 
-    private Logger log = LoggerFactory.getLogger(this.getClass());
     private HttpHeaders headers;
     private InputStream body;
 
