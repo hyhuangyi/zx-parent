@@ -4,8 +4,7 @@ import cn.common.exception.ZxException;
 import cn.webapp.aop.annotation.Decrypt;
 import cn.webapp.configuration.bean.SecretKeyConfig;
 import com.alibaba.fastjson.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpInputMessage;
@@ -20,9 +19,8 @@ import java.lang.reflect.Type;
  * RequestBodyAdvice，针对所有以@RequestBody的参数，在读取请求body之前或者在body转换成对象之前可以做相应的增强
  **/
 @ControllerAdvice
+@Slf4j
 public class ZxRequestBodyAdvice implements RequestBodyAdvice {
-
-    private Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private SecretKeyConfig secretKeyConfig;
@@ -42,10 +40,10 @@ public class ZxRequestBodyAdvice implements RequestBodyAdvice {
         /*是否解密 客户端公钥加密,服务端这里私钥解密*/
         if (methodParameter.getMethod().isAnnotationPresent(Decrypt.class) && secretKeyConfig.isOpen()) {//是
             try {
-                return new ZxHttpInputMessage(httpInputMessage,secretKeyConfig.getPrivateKey());
+                return new ZxHttpInputMessage(httpInputMessage, secretKeyConfig.getPrivateKey());
             } catch (Exception e) {
-                log.error(e.getMessage(),e);
-               throw new ZxException("解密异常");
+                log.error(e.getMessage(), e);
+                throw new ZxException("解密异常");
             }
         }
         return httpInputMessage;
