@@ -108,7 +108,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler
     public ResultDO handle(BindException e) {
         log.error("控制层捕获BindException,[{}]", e.getMessage());
-        return new ResultDO("0", e.getFieldError().getDefaultMessage());
+        String message = e.getBindingResult().getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining(","));
+        return new ResultDO("0",message);
     }
 
     /**
