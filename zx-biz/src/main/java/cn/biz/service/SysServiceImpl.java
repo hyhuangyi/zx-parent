@@ -22,6 +22,7 @@ import cn.common.util.file.FileUtil;
 import cn.common.util.http.HttpRequestUtil;
 import cn.common.util.math.BigDecimalUtils;
 import cn.common.util.math.NumberUtil;
+import cn.common.util.math.XMathUtil;
 import cn.common.util.redis.RedisUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -39,6 +40,7 @@ import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 import com.beust.jcommander.internal.Maps;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
@@ -111,6 +113,11 @@ public class SysServiceImpl implements ISysService {
      * 雪球api
      */
     public static final String XUE_QIU = "https://xueqiu.com/service/v5/stock/screener/quote/list?page=1&size=5000&order=asc&orderby=current_year_percent&order_by=current_year_percent&market=CN&type=sh_sz";
+
+    /**
+     * 雪球个股实时数据
+     */
+    public static final String XUE_QIU_REALTIME_STOCK = "https://stock.xueqiu.com/v5/stock/realtime/quotec.json";
     /**
      * 输出基金费率0的结果地址
      **/
@@ -664,5 +671,35 @@ public class SysServiceImpl implements ISysService {
         List<XqData> list =xqDataMapper.getXqHistoryList(page,dto);
         page.setRecords(list);
         return page;
+    }
+
+    /**
+     * 获取个股实时信息
+     * @param codes
+     * @return
+     */
+    @Override
+    public Map<String, String> getRealTimeInfo(String codes) {
+        Map req=new HashMap<>();
+        Map res=new HashMap<>();
+        String[] codeArr=codes.split(",");
+        List temp=new ArrayList();
+        for(String str:codeArr){
+            if(str.startsWith("S")){
+                temp.add(str);
+            }else if(str.startsWith("6")){
+                temp.add("SH"+str);
+            }else {
+                temp.add("SZ"+str);
+            }
+        }
+        req.put("symbol",StringUtils.join(temp,","));
+        String result= HttpRequestUtil.get(XUE_QIU_REALTIME_STOCK,req,null);
+        String arr=JSONObject.parseObject(result).get("data").toString();
+        List<XueqiuVO.DataBean.ListBean> list=  JSONArray.parseArray(arr, XueqiuVO.DataBean.ListBean.class);
+        list.forEach(l->{
+            res.put(l.getSymbol(),"涨幅："+l.getPercent()+"%  换手率："+l.getTurnover_rate()+"%  成交额："+XMathUtil.divide(l.getAmount(),"100000000")+"亿");
+        });
+        return res;
     }
 }

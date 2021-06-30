@@ -167,4 +167,10 @@ public class FundController {
     public IPage<XqData> getXqHistory(@Validated@ModelAttribute XqHistoryDTO dto){
         return sysService.getXqHistoryList(dto);
     }
+
+    @ApiOperation(value = "获取个股实时信息 多个用逗号隔开")
+    @GetMapping("/comm/realTime/info")
+    public Map<String,String>realTimeInfo(@RequestParam String codes){
+        return sysService.getRealTimeInfo(codes);
+    }
 }

@@ -55,4 +55,6 @@ public interface ISysService {
      List<XueqiuVO.DataBean.ListBean> getXueqiuList(double percent,int yearPercent);
      /*获取雪球历史数据*/
      IPage<XqData> getXqHistoryList(XqHistoryDTO dto);
+     /*获取个股实时信息*/
+     Map<String,String>getRealTimeInfo(String codes);
 }
