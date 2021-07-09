@@ -20,8 +20,8 @@ import java.net.URLEncoder;
 @Slf4j
 public class DingdingNotifyUtil {
 
-    private static String url="https://oapi.dingtalk.com/robot/send?access_token=31d756dc11a9fa23d850879416cb1e7c097a2def004f62d81b274a8970ae8638";
-    private static String secret="SECf495fcaaf44bfae5bb95eee177adf9545d3ac4ae670920bc607d46514ff6d274";
+    public static String url="https://oapi.dingtalk.com/robot/send?access_token=31d756dc11a9fa23d850879416cb1e7c097a2def004f62d81b274a8970ae8638";
+    public static String secret="SECf495fcaaf44bfae5bb95eee177adf9545d3ac4ae670920bc607d46514ff6d274";
     /**
      * 钉钉通知
      */
