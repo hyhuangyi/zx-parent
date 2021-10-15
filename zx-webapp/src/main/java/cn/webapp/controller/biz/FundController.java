@@ -170,7 +170,7 @@ public class FundController {
 
     @ApiOperation(value = "获取个股实时信息 多个用逗号隔开")
     @GetMapping("/comm/realTime/info")
-    public Map<String,String>realTimeInfo(@RequestParam String codes){
-        return sysService.getRealTimeInfo(codes);
+    public Map<String,String>realTimeInfo(@RequestParam String codes,@RequestParam(required = false,defaultValue = "0") int type){
+        return sysService.getRealTimeInfo(codes,type);
     }
 }

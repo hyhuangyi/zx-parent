@@ -56,5 +56,5 @@ public interface ISysService {
      /*获取雪球历史数据*/
      IPage<XqData> getXqHistoryList(XqHistoryDTO dto);
      /*获取个股实时信息*/
-     Map<String,String>getRealTimeInfo(String codes);
+     Map<String,String>getRealTimeInfo(String codes,int type);
 }

@@ -679,7 +679,7 @@ public class SysServiceImpl implements ISysService {
      * @return
      */
     @Override
-    public Map<String, String> getRealTimeInfo(String codes) {
+    public Map<String, String> getRealTimeInfo(String codes,int type) {
         Map req=new HashMap<>();
         Map res=new HashMap<>();
         String[] codeArr=codes.split(",");
@@ -698,7 +698,11 @@ public class SysServiceImpl implements ISysService {
         String arr=JSONObject.parseObject(result).get("data").toString();
         List<XueqiuVO.DataBean.ListBean> list=  JSONArray.parseArray(arr, XueqiuVO.DataBean.ListBean.class);
         list.forEach(l->{
-            res.put(l.getSymbol(),"涨幅："+l.getPercent()+"%  换手率："+l.getTurnover_rate()+"%  成交额："+XMathUtil.divide(l.getAmount(),"100000000")+"亿");
+            if(type==0){
+                res.put(l.getSymbol(),l.getPercent());
+            }else {
+                res.put(l.getSymbol(),"涨幅："+l.getPercent()+"%  换手率："+l.getTurnover_rate()+"%  成交额："+XMathUtil.divide(l.getAmount(),"100000000")+"亿");
+            }
         });
         return res;
     }
