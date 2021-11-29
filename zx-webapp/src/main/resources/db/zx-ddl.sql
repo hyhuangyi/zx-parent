@@ -248,14 +248,18 @@ CREATE TABLE `sys_task` (
 -- ----------------------------
 DROP TABLE IF EXISTS `xq_data`;
 CREATE TABLE `xq_data` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `symbol` varchar(50) DEFAULT NULL COMMENT '代码',
-  `name` varchar(50) DEFAULT NULL COMMENT '名称',
-  `percent` varchar(50) DEFAULT NULL COMMENT '最新涨幅',
-  `current` varchar(50) DEFAULT NULL COMMENT '最新价',
-  `current_year_percent` varchar(50) DEFAULT NULL COMMENT '年初至今',
-  `market_capital` varchar(50) DEFAULT NULL COMMENT '市值',
-  `turnover_rate` varchar(50) DEFAULT NULL COMMENT '换手率',
-  `date` varchar(20) DEFAULT NULL COMMENT '日期',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7268 DEFAULT CHARSET=utf8 COMMENT='雪球数据';
+  `date` varchar(50) NOT NULL COMMENT '日期',
+  `symbol` varchar(50) NOT NULL COMMENT '代码',
+  `name` varchar(50) NOT NULL COMMENT '名称',
+  `current` decimal(11,4) DEFAULT NULL COMMENT '现价',
+  `percent` decimal(11,4) DEFAULT NULL COMMENT '涨幅',
+  `amplitude` decimal(11,4) DEFAULT NULL COMMENT '振幅',
+  `amount` decimal(11,4) DEFAULT NULL COMMENT '成交额',
+  `volume_ratio` decimal(11,4) DEFAULT NULL COMMENT '量比',
+  `turnover_rate` decimal(11,4) DEFAULT NULL COMMENT '换手',
+  `market_capital` decimal(11,4) DEFAULT NULL COMMENT '市值',
+  `current_year_percent` decimal(11,4) DEFAULT NULL COMMENT '年初至今',
+  `create_time` varchar(50) DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`date`,`symbol`),
+  KEY `date` (`date`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='股票历史记录';
