@@ -16,6 +16,7 @@ import cn.common.util.date.DateUtils;
 import cn.common.util.file.EasyPoiUtil;
 import cn.webapp.aop.annotation.OperateLog;
 import cn.webapp.aop.annotation.TimeCount;
+import cn.webapp.schedule.StockJob;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -25,10 +26,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Api(tags = "基金股票相关接口")
@@ -38,6 +41,8 @@ import java.util.*;
 public class FundController {
     @Autowired
     private ISysService sysService;
+    @Autowired
+    private StockJob stockJob;
 
     @TimeCount
     @ApiOperation("更新所有基金列表")
@@ -45,7 +50,7 @@ public class FundController {
     @PreAuthorize("hasAuthority('fund:list')")
     @OperateLog(operation = "更新所有基金列表", moduleName = LogModuleConst.FUND_MODULE)
     public Boolean update() {
-       return sysService.updateAllFund();
+        return sysService.updateAllFund();
     }
 
     @TimeCount
@@ -64,7 +69,7 @@ public class FundController {
     @OperateLog(operation = "修改金额", moduleName = LogModuleConst.FUND_MODULE)
     public boolean handleEdit(@ApiParam("主键id") @RequestParam @NotNull(message = "id不能为空") Long id,
                               @ApiParam("holdNum") @RequestParam @NotEmpty(message = "持有份额不能为空") String holdNum) {
-        return sysService.updateHoldMoney(id,holdNum);
+        return sysService.updateHoldMoney(id, holdNum);
     }
 
     @ApiOperation("修改备注")
@@ -72,14 +77,15 @@ public class FundController {
     @PreAuthorize("hasAuthority('fund:list')")
     @OperateLog(operation = "修改备注", moduleName = LogModuleConst.FUND_MODULE)
     public boolean handleEditRemark(@ApiParam("主键id") @RequestParam @NotNull(message = "id不能为空") Long id,
-                              @ApiParam(value = "remark",defaultValue = "") @RequestParam  String remark) {
-        return sysService.updateRemark(id,remark);
+                                    @ApiParam(value = "remark", defaultValue = "") @RequestParam String remark) {
+        return sysService.updateRemark(id, remark);
     }
+
     @ApiOperation("新增基金")
     @PostMapping("/fund/add")
     @PreAuthorize("hasAuthority('fund:list')")
     @OperateLog(operation = "新增基金", moduleName = LogModuleConst.FUND_MODULE)
-    public boolean addFund(@ModelAttribute@Valid AddFundDTO addFundDTO) {
+    public boolean addFund(@ModelAttribute @Valid AddFundDTO addFundDTO) {
         return sysService.addFund(addFundDTO);
     }
 
@@ -119,58 +125,66 @@ public class FundController {
     @GetMapping("/fund/zero/rank")
     @PreAuthorize("hasAuthority('fund:list')")
     @OperateLog(operation = "费率为0的基金排行", moduleName = LogModuleConst.FUND_MODULE)
-    public List<FundVO> zeroRateFundRank(@ApiParam("线程数量") @RequestParam Integer num)throws Exception{
+    public List<FundVO> zeroRateFundRank(@ApiParam("线程数量") @RequestParam Integer num) throws Exception {
         return sysService.getZeroRateFundRank(num);
     }
 
     @ApiOperation("费率为0的基金")
     @GetMapping("/comm/fund/zero")
-    public List<Fund> zeroRateFund(@ApiParam("线程数量") @RequestParam Integer num)throws Exception{
+    public List<Fund> zeroRateFund(@ApiParam("线程数量") @RequestParam Integer num) throws Exception {
         return sysService.getZeroRateFund(num);
     }
 
     @ApiOperation(value = "导出费率为0的基金排行")
     @GetMapping(value = "/comm/fund/zero/export")
-    public void exportZero(HttpServletResponse response)throws Exception{
-        List<FundVO> list=sysService.getZeroRateFundRank(30);
-        EasyPoiUtil.exportExcel(list,"fund","zero_fund",FundVO.class,"免费率列表.xls",response);
+    public void exportZero(HttpServletResponse response) throws Exception {
+        List<FundVO> list = sysService.getZeroRateFundRank(30);
+        EasyPoiUtil.exportExcel(list, "fund", "zero_fund", FundVO.class, "免费率列表.xls", response);
     }
 
     @ApiOperation("获取大盘信息")
     @GetMapping("/comm/stock")
-    public StockVO getStockInfo(){
+    public StockVO getStockInfo() {
         return sysService.getStockInfo();
     }
 
     @ApiOperation("获取大盘chart数据")
     @GetMapping("/comm/stock/chartData")
-    public Map getChartData(@RequestParam(required = false,defaultValue = "line") String type){
-       return sysService.getStockChartData(type);
+    public Map getChartData(@RequestParam(required = false, defaultValue = "line") String type) {
+        return sysService.getStockChartData(type);
     }
 
     @ApiOperation(value = "获取雪球股票列表")
     @GetMapping("/comm/getXueqiuList")
-    public List<XueqiuVO.DataBean.ListBean> getXqList(@RequestParam(required = false,defaultValue = "5") double percent,@RequestParam(required = false, defaultValue = "0") int yearPercent){
-        return sysService.getXueqiuList(percent,yearPercent);
+    public List<XueqiuVO.DataBean.ListBean> getXqList(@RequestParam(required = false, defaultValue = "5") double percent, @RequestParam(required = false, defaultValue = "0") int yearPercent) {
+        return sysService.getXueqiuList(percent, yearPercent);
     }
 
     @ApiOperation(value = "导出雪球股票列表")
     @GetMapping("/comm/exportXueqiu")
-    public void exportXueqiu(HttpServletResponse response,@RequestParam(required = false,defaultValue = "5") double percent,@RequestParam(required = false, defaultValue = "0") int yearPercent){
-        String date=DateUtils.getStringDateShort();
-        List<XueqiuVO.DataBean.ListBean> list= sysService.getXueqiuList(percent,yearPercent);
-        EasyPoiUtil.exportExcel(list,date+"-强势票",date+"强势票", XueqiuVO.DataBean.ListBean.class,date+"强势票.xls",response);
+    public void exportXueqiu(HttpServletResponse response, @RequestParam(required = false, defaultValue = "5") double percent, @RequestParam(required = false, defaultValue = "0") int yearPercent) {
+        String date = DateUtils.getStringDateShort();
+        List<XueqiuVO.DataBean.ListBean> list = sysService.getXueqiuList(percent, yearPercent);
+        EasyPoiUtil.exportExcel(list, date + "-强势票", date + "强势票", XueqiuVO.DataBean.ListBean.class, date + "强势票.xls", response);
     }
 
     @ApiOperation(value = "获取雪球历史数据列表")
     @GetMapping("/comm/getXqHistory")
-    public IPage<XqData> getXqHistory(@Validated@ModelAttribute XqHistoryDTO dto){
+    public IPage<XqData> getXqHistory(@Validated @ModelAttribute XqHistoryDTO dto) {
         return sysService.getXqHistoryList(dto);
     }
 
     @ApiOperation(value = "获取个股实时信息 多个用逗号隔开")
     @GetMapping("/comm/realTime/info")
-    public Map<String,String>realTimeInfo(@RequestParam String codes,@RequestParam(required = false,defaultValue = "0") int type){
-        return sysService.getRealTimeInfo(codes,type);
+    public Map<String, String> realTimeInfo(@RequestParam String codes, @RequestParam(required = false, defaultValue = "0") int type) {
+        return sysService.getRealTimeInfo(codes, type);
+    }
+
+    @ApiOperation(value = "手动触发雪球数据")
+    @GetMapping("/comm/xqData/hand")
+    public Boolean xqDataHand() {
+        String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());//当日日期
+        stockJob.handXqData(today);
+        return true;
     }
 }

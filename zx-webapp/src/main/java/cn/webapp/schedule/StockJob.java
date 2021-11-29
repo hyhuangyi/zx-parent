@@ -121,13 +121,17 @@ public class StockJob {
      * 存入每天数据
      * 每天半小时执行一次（9-15）
      */
-    @Scheduled(cron = "0 0/5 9,10,11,13,14,15 * * ?")
+    @Scheduled(cron = "0 0/15 9,10,11,13,14,15 * * ?")
     public void xqStock() {
         String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());//当日日期
         String hm = DateUtils.getStringDate(new Date(), "HH:mm");
         if (list.contains(hm) || !"0".equals(DateUtils.isHoliday(today))) {//排除不在交易时间或者节假日、周末
             return;
         }
+        handXqData(today);
+    }
+
+    public void handXqData(String today) {
         List<XqData> add = new ArrayList<>();//入库的数据
         //全部数据
         List<XueqiuVO.DataBean.ListBean> list = sysService.getXueqiuList(null, null);
