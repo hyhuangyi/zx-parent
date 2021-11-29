@@ -52,7 +52,7 @@ public interface ISysService {
      /*获取大盘chart数据*/
      Map getStockChartData(String type);
      /*获取年内涨幅少的股票*/
-     List<XueqiuVO.DataBean.ListBean> getXueqiuList(double percent,int yearPercent);
+     List<XueqiuVO.DataBean.ListBean> getXueqiuList(Double percent,Integer yearPercent);
      /*获取雪球历史数据*/
      IPage<XqData> getXqHistoryList(XqHistoryDTO dto);
      /*获取个股实时信息*/

@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -24,9 +26,9 @@ public class XqData implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "主键")
-    @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    @ApiModelProperty(value = "日期")
+    @TableId(value = "date", type = IdType.AUTO)
+    private String date;
 
     @ApiModelProperty(value = "代码")
     private String symbol;
@@ -34,38 +36,34 @@ public class XqData implements Serializable {
     @ApiModelProperty(value = "名称")
     private String name;
 
-    @ApiModelProperty(value = "最新涨幅")
-    private Double percent;
-
-    @ApiModelProperty(value = "最新价")
+    @ApiModelProperty(value = "现价")
     private Double current;
 
-    @ApiModelProperty(value = "年初至今")
-    private Double currentYearPercent;
+    @ApiModelProperty(value = "涨幅")
+    private Double percent;
+
+    @ApiModelProperty(value = "振幅")
+    private Double amplitude;
+
+    @ApiModelProperty(value = "成交额")
+    private String amount;
+
+    @ApiModelProperty(value = "量比")
+    private Double volumeRatio;
+
+    @ApiModelProperty(value = "换手")
+    private Double turnoverRate;
 
     @ApiModelProperty(value = "市值")
     private String marketCapital;
 
-    @ApiModelProperty(value = "换手率")
-    private Double turnoverRate;
+    @ApiModelProperty(value = "年初至今")
+    private Double currentYearPercent;
 
-    @ApiModelProperty(value = "日期")
-    private String date;
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
+    @ApiModelProperty(value = "创建时间")
+    private LocalDateTime createTime;
 
     @TableField(exist = false)
     private Long count;
-
-    public XqData() {
-    }
-
-    public XqData(String symbol, String name, Double percent, Double current, Double currentYearPercent, String marketCapital, Double turnoverRate, String date) {
-        this.symbol = symbol;
-        this.name = name;
-        this.percent = percent;
-        this.current = current;
-        this.currentYearPercent = currentYearPercent;
-        this.marketCapital = marketCapital;
-        this.turnoverRate = turnoverRate;
-        this.date = date;
-    }
 }

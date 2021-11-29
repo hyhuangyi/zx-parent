@@ -47,6 +47,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import us.codecraft.webmagic.Spider;
+
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.OutputStream;
@@ -636,25 +637,29 @@ public class SysServiceImpl implements ISysService {
         result.put("legend", date);
         return result;
     }
+
     /**
      * 获取年内涨幅少的股票
-     * @param percent 当日涨幅
-     * @param yearPercent  年内涨幅
+     *
+     * @param percent     当日涨幅
+     * @param yearPercent 年内涨幅
      * @return
      */
     @Override
-    public List<XueqiuVO.DataBean.ListBean> getXueqiuList(double percent, int yearPercent) {
-        String json = HttpRequestUtil.get(XUE_QIU, null, null);
+    public List<XueqiuVO.DataBean.ListBean> getXueqiuList(Double percent, Integer yearPercent) {
+        Map<String, String> head = new HashMap();
+        head.put("Host", "xueqiu.com");
+        head.put("Accept", "application/json");
+        head.put("User-Agent", "Xueqiu iPhone 11.8");
+        String json = HttpRequestUtil.get(XUE_QIU, null, head);
         XueqiuVO vo = JSONObject.parseObject(json, XueqiuVO.class);
         List<XueqiuVO.DataBean.ListBean> list = vo.getData().getList();
         List<XueqiuVO.DataBean.ListBean> res = new ArrayList();
         for (XueqiuVO.DataBean.ListBean l : list) {
-            //排除st和退市的
-            if (l.getName().contains("ST") || l.getName().contains("退")) {
-            } else {
-                if (l.getCurrent_year_percent() <= yearPercent && l.getPercent() >= percent) {
-                    res.add(l);
-                }
+            if (percent == null || yearPercent == null) {
+                res.add(l);
+            } else if (l.getCurrent_year_percent() <= yearPercent && l.getPercent() >= percent) {
+                res.add(l);
             }
         }
         return res;
@@ -662,46 +667,48 @@ public class SysServiceImpl implements ISysService {
 
     /**
      * 获取雪球历史数据
+     *
      * @param dto
      * @return
      */
     @Override
     public IPage<XqData> getXqHistoryList(XqHistoryDTO dto) {
         Page<XqData> page = new Page<>(dto.getCurrent(), dto.getSize());
-        List<XqData> list =xqDataMapper.getXqHistoryList(page,dto);
+        List<XqData> list = xqDataMapper.getXqHistoryList(page, dto);
         page.setRecords(list);
         return page;
     }
 
     /**
      * 获取个股实时信息
+     *
      * @param codes
      * @return
      */
     @Override
-    public Map<String, String> getRealTimeInfo(String codes,int type) {
-        Map req=new HashMap<>();
-        Map res=new HashMap<>();
-        String[] codeArr=codes.split(",");
-        List temp=new ArrayList();
-        for(String str:codeArr){
-            if(str.startsWith("S")){
+    public Map<String, String> getRealTimeInfo(String codes, int type) {
+        Map req = new HashMap<>();
+        Map res = new HashMap<>();
+        String[] codeArr = codes.split(",");
+        List temp = new ArrayList();
+        for (String str : codeArr) {
+            if (str.startsWith("S")) {
                 temp.add(str);
-            }else if(str.startsWith("6")){
-                temp.add("SH"+str);
-            }else {
-                temp.add("SZ"+str);
+            } else if (str.startsWith("6")) {
+                temp.add("SH" + str);
+            } else {
+                temp.add("SZ" + str);
             }
         }
-        req.put("symbol",StringUtils.join(temp,","));
-        String result= HttpRequestUtil.get(XUE_QIU_REALTIME_STOCK,req,null);
-        String arr=JSONObject.parseObject(result).get("data").toString();
-        List<XueqiuVO.DataBean.ListBean> list=  JSONArray.parseArray(arr, XueqiuVO.DataBean.ListBean.class);
-        list.forEach(l->{
-            if(type==0){
-                res.put(l.getSymbol(),l.getPercent());
-            }else {
-                res.put(l.getSymbol(),"涨幅："+l.getPercent()+"%  换手率："+l.getTurnover_rate()+"%  成交额："+XMathUtil.divide(l.getAmount(),"100000000")+"亿");
+        req.put("symbol", StringUtils.join(temp, ","));
+        String result = HttpRequestUtil.get(XUE_QIU_REALTIME_STOCK, req, null);
+        String arr = JSONObject.parseObject(result).get("data").toString();
+        List<XueqiuVO.DataBean.ListBean> list = JSONArray.parseArray(arr, XueqiuVO.DataBean.ListBean.class);
+        list.forEach(l -> {
+            if (type == 0) {
+                res.put(l.getSymbol(), l.getPercent());
+            } else {
+                res.put(l.getSymbol(), "涨幅：" + l.getPercent() + "%  换手率：" + l.getTurnover_rate() + "%  成交额：" + XMathUtil.divide(l.getAmount(), "100000000") + "亿");
             }
         });
         return res;

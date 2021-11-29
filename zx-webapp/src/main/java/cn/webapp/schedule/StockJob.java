@@ -20,7 +20,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -53,7 +55,6 @@ public class StockJob {
      */
     @Scheduled(cron = "0 0/15 9,10,11,13,14,15 * * ?")
     public void stockJob() {
-
         String date = DateUtils.getStringDate(new Date(), "yyyy-MM-dd HH:mm");
         String hm = DateUtils.getStringDate(new Date(), "HH:mm");
         //不在交易时间或者节假日、周末不做操作
@@ -82,7 +83,7 @@ public class StockJob {
      */
     //@Scheduled(cron = "0 0/30 9,10,11,13,14,15 * * ?")
     public void fundJob() {
-        if(!"0".equals(DateUtils.isHoliday(DateFormatUtils.format(new Date(), "yyyyMMdd")))){
+        if (!"0".equals(DateUtils.isHoliday(DateFormatUtils.format(new Date(), "yyyyMMdd")))) {
             return;
         }
         List<String> up = new ArrayList<>();
@@ -117,28 +118,36 @@ public class StockJob {
     }
 
     /**
-     * 存入每天数据 涨幅大于3的
+     * 存入每天数据
      * 每天半小时执行一次（9-15）
      */
-    @Scheduled(cron = "0 0/30 9,10,11,13,14,15 * * ?")
-    public void xqStock(){
-        String today =new SimpleDateFormat("yyyy-MM-dd").format(new Date());//当日日期
+    @Scheduled(cron = "0 0/5 9,10,11,13,14,15 * * ?")
+    public void xqStock() {
+        String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());//当日日期
         String hm = DateUtils.getStringDate(new Date(), "HH:mm");
-        if(list.contains(hm) ||!"0".equals(DateUtils.isHoliday(today))){//排除不在交易时间或者节假日、周末
-             return;
+        if (list.contains(hm) || !"0".equals(DateUtils.isHoliday(today))) {//排除不在交易时间或者节假日、周末
+            return;
         }
-        try {
-            Thread.sleep(60*1000);//休眠1分钟
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        List<XqData> add = new ArrayList<>();//入库的数据
+        //全部数据
+        List<XueqiuVO.DataBean.ListBean> list = sysService.getXueqiuList(null, null);
+        for (XueqiuVO.DataBean.ListBean bean : list) {
+            XqData data = new XqData()
+                    .setDate(today)
+                    .setCreateTime(LocalDateTime.now())
+                    .setAmount(XMathUtil.divide(bean.getAmount(), "100000000"))
+                    .setAmplitude(bean.getAmplitude())
+                    .setCurrent(bean.getCurrent())
+                    .setCurrentYearPercent(bean.getCurrent_year_percent())
+                    .setMarketCapital(XMathUtil.divide(bean.getMarket_capital(), "100000000"))
+                    .setName(bean.getName())
+                    .setPercent(bean.getPercent())
+                    .setSymbol(bean.getSymbol())
+                    .setTurnoverRate(bean.getTurnover_rate())
+                    .setVolumeRatio(bean.getVolume_ratio());
+            add.add(data);
         }
-        List<XqData> add=new ArrayList<>();//入库的数据
-        //今年涨幅小于10倍 当日涨幅大于3
-        List<XueqiuVO.DataBean.ListBean> list=sysService.getXueqiuList(3,10000);
-        for(XueqiuVO.DataBean.ListBean bean:list){
-            add.add(new XqData(bean.getSymbol(),bean.getName(),bean.getPercent(),bean.getCurrent(),bean.getCurrent_year_percent(),XMathUtil.divide(bean.getMarket_capital(),"100000000"),bean.getTurnover_rate(),today));
-        }
-        xqDataMapper.delete(new QueryWrapper<XqData>().eq("date",today));
+        xqDataMapper.delete(new QueryWrapper<XqData>().eq("date", today));
         xqDataMapper.insertBatch(add);
     }
 }
