@@ -26,7 +26,6 @@ import java.util.List;
  */
 @Configuration
 @EnableSwagger2
-@Profile({"dev","prod"})
 public class SwaggerConfig implements WebMvcConfigurer {
     /**
      * swagger2的配置文件，这里可以配置swagger2的一些基本的内容，比如扫描的包等等
