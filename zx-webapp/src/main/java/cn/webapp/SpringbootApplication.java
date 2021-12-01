@@ -1,7 +1,6 @@
 package cn.webapp;
 
 import cn.biz.po.CdCity;
-import com.alibaba.nacos.spring.context.annotation.config.NacosPropertySource;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -35,7 +34,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @ServletComponentScan(basePackages = "cn.webapp")
 /*使用@ServletComponentScan注解后 Servlet可以直接通过@WebServlet注解自动注册
 Filter可以直接通过@WebFilter注解自动注册，Listener可以直接通过@WebListener 注解自动注册*/
-@NacosPropertySource(dataId = "zx-boot", autoRefreshed = true)
 @Slf4j
 public class SpringbootApplication extends SpringBootServletInitializer {
     @Override

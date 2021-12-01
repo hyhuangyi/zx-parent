@@ -1,0 +1,37 @@
+spring:
+  application:
+    name: zx
+  banner:
+    location: classpath:banner/banner3.txt
+  main:
+    allow-bean-definition-overriding: true
+  cloud:
+    nacos:
+      config:
+        file-extension: yml
+        group: zx
+        namespace: zx
+        prefix: zx-parent
+        server-addr: 150.158.86.218:8848
+        extension-configs:
+          - data-id: db-common.yml
+            group: common
+            refresh: true
+          - data-id: redis-common.yml
+            group: common
+            refresh: true
+          - data-id: mq-common.yml
+            group: common
+            refresh: true
+      discovery:
+        namespace: zx
+        server-addr: 150.158.86.218:8848
+  profiles:
+    active: application
+
+#日志存放地址
+logback:
+  loghome: /home/log
+logging:
+  config: classpath:logback-spring.xml
+
