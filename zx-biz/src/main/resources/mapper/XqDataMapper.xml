@@ -2,21 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.biz.mapper.XqDataMapper">
     <select id="getXqHistoryList" resultType="cn.biz.po.XqData">
-     SELECT
-        a.*, count(1) as count
-     FROM
-        (
-            SELECT
-                *
-            FROM
-                xq_data
-            WHERE
-                date = #{dto.date}
-            AND percent >= #{dto.percent}
-        ) a
-      LEFT JOIN xq_data b ON a. NAME = b. NAME
-      GROUP BY
-        a. NAME
-      ORDER BY  count desc
+     SELECT * FROM
+     xq_data
+     WHERE
+     date = #{dto.date}
+     AND percent >= #{dto.percent}
     </select>
 </mapper>
