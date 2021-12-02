@@ -2,6 +2,7 @@ package cn.common.util;
 
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Component;
 
 /**
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Component;
  * 配置文件类
  */
 @Component
+@RefreshScope
 public class PropertyPlaceUtil {
 
     @Value("${file.export.path}")
