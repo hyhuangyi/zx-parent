@@ -5,6 +5,7 @@ import cn.biz.webMagic.base.Agents;
 import cn.common.util.PropertyPlaceUtil;
 import cn.common.util.comm.RegexUtils;
 import cn.common.util.date.DateUtils;
+import cn.common.util.math.NumberUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.util.Lists;
 import org.jsoup.Jsoup;
@@ -38,7 +39,7 @@ public class WeiboTopics implements PageProcessor {
 
     public void process(Page page) {
         List<Weibo> res= Lists.newArrayList();
-        List<String> list = page.getHtml().xpath("//*[@id=\"pl_feedlist_index\"]/div[1]/div").all();
+        List<String> list = page.getHtml().xpath("//*[@id=\"pl_feedlist_index\"]/div[4]/div").all();
         for(String s:list){
             try {
                 Weibo weibo=new Weibo();
@@ -79,19 +80,24 @@ public class WeiboTopics implements PageProcessor {
                     source=e_source.get(e_source.size()-1).text();
                 }
                 //转发
-                String forward=document.select("div[class=card-act]").select("ul").select("li").get(1).select("a").text().substring(2).trim();
+                String forward=document.select("div[class=card-act]").select("ul").select("li").get(0).select("a").text().trim();
                 //评论
-                String comment=document.select("div[class=card-act]").select("ul").select("li").get(2).select("a").text().substring(2).trim();
+                String comment=document.select("div[class=card-act]").select("ul").select("li").get(1).select("a").text().trim();
                 //点赞
-                String upvote=document.select("div[class=card-act]").select("ul").select("li").get(3).select("a").select("em").text().trim();
-                //图片
-                String pic1=document.select("div[class=pic]").select("img").attr("src");
-                String pic2=document.select("div[class=media media-piclist]").select("img").attr("src");
-                if(!"".equals(pic2)){//只取一张
-                    pics=pic2;
-                }else {
-                    pics=pic1;
+                String upvote=document.select("div[class=card-act]").select("ul").select("li").get(2).select("a").text().trim();
+                if(RegexUtils.checkChinese(forward)){
+                    forward="0";
                 }
+                if(RegexUtils.checkChinese(comment)){
+                    comment="0";
+                }
+                if(RegexUtils.checkChinese(upvote)){
+                    upvote="0";
+                }
+                //图片
+
+                pics=document.select("div[class=media media-piclist]").select("img").attr("src");
+
                 //组装对象
                 weibo=weibo.setUserId(uid).setScreenName(name).setRepostsCount(forward.equals("")?"0":forward).
                         setCommentsCount(comment.equals("")?"0":comment).setAttitudesCount(upvote.equals("")?"0":upvote).
@@ -104,7 +110,7 @@ public class WeiboTopics implements PageProcessor {
         }
         page.putField("list", res);
         //下一页
-        List<String> url=page.getHtml().xpath("//*[@id=\"pl_feedlist_index\"]/div[2]/div/a[@class='next']/@href").all();
+        List<String> url=page.getHtml().xpath("//*[@class=\"m-page\"]/div/a[@class='next']/@href").all();
         page.addTargetRequests(url);
     }
 }
