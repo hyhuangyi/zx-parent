@@ -10,7 +10,7 @@ spring:
       config:
         file-extension: yml
         group: zx
-        namespace: zx
+        namespace: tencent
         prefix: zx-parent
         server-addr: 150.158.86.218:8848
         extension-configs:
