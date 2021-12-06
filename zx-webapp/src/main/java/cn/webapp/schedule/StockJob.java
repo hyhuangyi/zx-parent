@@ -119,7 +119,7 @@ public class StockJob {
 
     /**
      * 存入每天数据
-     * 每天半小时执行一次（9-15）
+     * 每隔15分钟执行一次（9-15）
      */
     @Scheduled(cron = "0 0/15 9,10,11,13,14,15 * * ?")
     public void xqStock() {
@@ -127,6 +127,11 @@ public class StockJob {
         String hm = DateUtils.getStringDate(new Date(), "HH:mm");
         if (list.contains(hm) || !"0".equals(DateUtils.isHoliday(today))) {//排除不在交易时间或者节假日、周末
             return;
+        }
+        try {
+            Thread.sleep(30*1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         handXqData(today);
     }
