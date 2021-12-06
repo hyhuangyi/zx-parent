@@ -122,11 +122,11 @@ public class SysServiceImpl implements ISysService {
     /**
      * 输出基金费率0的结果地址
      **/
-    public static final String ZERO_FUND_PATH = "/home/zeroFund.txt";
+    public static final String ZERO_FUND_PATH = "/home/zx/fund/zeroFund.txt";
     /**
      * 输出基金费率0的实时排名结果地址
      **/
-    public static final String ZERO_FUND_RANK_PATH = "/home/zeroFundRank.txt";
+    public static final String ZERO_FUND_RANK_PATH = "/home/zx/fund/zeroFundRank.txt";
     /**
      * 横坐标
      */
