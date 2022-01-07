@@ -263,3 +263,17 @@ CREATE TABLE `xq_data` (
   PRIMARY KEY (`date`,`symbol`),
   KEY `date` (`date`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='股票历史记录';
+
+-- ----------------------------
+-- Table structure for stock_info
+-- ----------------------------
+CREATE TABLE `stock_info` (
+  `ts_code` varchar(50) NOT NULL COMMENT 'ts_code',
+  `symbol` varchar(50) NOT NULL COMMENT '代码',
+  `name` varchar(50) NOT NULL COMMENT '名称',
+  `area` varchar(500) DEFAULT NULL COMMENT '地域',
+  `industry` varchar(50) DEFAULT NULL COMMENT '行业',
+  `list_date` varchar(50) DEFAULT NULL COMMENT '上市时间',
+  PRIMARY KEY (`ts_code`,`symbol`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='股票信息';
+
