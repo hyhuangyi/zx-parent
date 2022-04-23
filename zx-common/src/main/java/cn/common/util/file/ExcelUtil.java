@@ -17,14 +17,14 @@ public class ExcelUtil {
      * @param response   返回请求信息
      * @param filedNames execl标题名
      * @param titleName  生成的execl文件的名称
-     * @param failList   插入的数据
+     * @param list   插入的数据
      * @throws Exception 异常
      */
     public static void createExcelByListMap(HttpServletResponse response, String[] filedNames,
-                                       String titleName, List<Map<String, String>> failList) throws Exception {
+                                       String titleName, List<Map<String, String>> list) throws Exception {
         List<LinkedHashMap> linkedHashMapList = new LinkedList<>();
         //转换
-        for (Map<String, String> map : failList) {
+        for (Map<String, String> map : list) {
             LinkedHashMap linkedHashMap = new LinkedHashMap();
             linkedHashMap = getMapValueForLinkedHashMap(map);
             linkedHashMapList.add(linkedHashMap);
@@ -72,7 +72,7 @@ public class ExcelUtil {
         // HSSFWorkbook wb = new HSSFWorkbook();
         // 第二步，在webbook中添加一个sheet,对应Excel文件中的sheet
         final XSSFSheet sheet = wb.createSheet(titleName);
-        // 设置表格默认列宽度为25个字节
+        // 设置表格默认列宽度为25个字节XSSFWorkbook
         sheet.setDefaultColumnWidth(25);
         sheet.autoSizeColumn(0);
         // 第三步，在sheet中添加表头第0行,注意老版本poi对Excel的行数列数有限制short
