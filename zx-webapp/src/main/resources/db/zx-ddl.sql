@@ -186,8 +186,8 @@ CREATE TABLE `weibo` (
 DROP TABLE IF EXISTS `fund`;
 CREATE TABLE `fund` (
   `code` varchar(20) NOT NULL COMMENT '基金代码',
-  `short_py` varchar(30) NOT NULL COMMENT '短拼',
-  `full_py` varchar(80) NOT NULL COMMENT '全拼',
+  `short_py` varchar(100) NOT NULL COMMENT '短拼',
+  `full_py` varchar(100) NOT NULL COMMENT '全拼',
   `name` varchar(40) NOT NULL COMMENT '基金名称',
   `type` varchar(20) NOT NULL COMMENT '基金类型',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
