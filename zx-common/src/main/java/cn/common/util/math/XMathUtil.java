@@ -7,11 +7,15 @@ import java.math.BigDecimal;
  * @description 提供常用的数值加减乘除计算 , 及多个数值的求和 , 平均值 , 最大最小值计算
  */
 public class XMathUtil {
-    /** 默认的除法精确度 */
+    /**
+     * 默认的除法精确度
+     */
     private static final int DEF_DIV_SCALE = 2;
+
 
     /**
      * 精确加法运算
+     *
      * @param v1 被加数
      * @param v2 加数
      * @return 两个参数的和(BigDecimal)
@@ -27,75 +31,8 @@ public class XMathUtil {
     }
 
     /**
-     * 精确减法运算
-     * @param v1 被减数
-     * @param v2 减数
-     * @return 两个参数的差(BigDecimal)
-     */
-    public static BigDecimal subtract(BigDecimal v1, BigDecimal v2) {
-        if (null == v1) {
-            v1 = BigDecimal.ZERO;
-        }
-        if (null == v2) {
-            v2 = BigDecimal.ZERO;
-        }
-        return v1.subtract(v2);
-    }
-
-    /**
-     * 精确乘法运算
-     * @param v1 被乘数
-     * @param v2 乘数
-     * @return 两个参数的积(BigDecimal)
-     */
-    public static BigDecimal multiply(BigDecimal v1, BigDecimal v2) {
-        if (null == v1) {
-            v1 = BigDecimal.ONE;
-        }
-        if (null == v2) {
-            v2 = BigDecimal.ONE;
-        }
-        return v1.multiply(v2);
-    }
-
-    /**
-     * ( 相对 )精确除法运算 , 当发生除不尽情况时 , 精确到 小数点以后2位 , 以后数字四舍五入
-     * @param v1 被除数
-     * @param v2 除数
-     * @return 两个参数的商(BigDecimal)
-     */
-    public static BigDecimal divide(BigDecimal v1, BigDecimal v2) {
-        return v1.divide(v2, DEF_DIV_SCALE, BigDecimal.ROUND_HALF_UP);
-    }
-
-    /**
-     * ( 相对 )精确除法运算 . 当发生除不尽情况时 , 由scale参数指 定精度 , 以后数字四舍五入
-     * @param v1 被除数
-     * @param v2 除数
-     * @param scale 表示表示需要精确到小数点以后几位
-     * @return 两个参数的商(BigDecimal)
-     */
-    public static BigDecimal divide(BigDecimal v1, BigDecimal v2, Integer scale) {
-        if (null == v1) {
-            return BigDecimal.ZERO;
-        }
-        if (null == v2) {
-            v2 = BigDecimal.ONE;
-        }
-
-        if (v2.compareTo(BigDecimal.ZERO) == 0) {
-            throw new IllegalArgumentException("除数不能为0");
-        }
-
-        if (scale < 0) {
-            throw new IllegalArgumentException("精确度不能小于0");
-        }
-
-        return v1.divide(v2, scale, BigDecimal.ROUND_HALF_UP);
-    }
-
-    /**
      * 精确加法运算
+     *
      * @param v1 被加数
      * @param v2 加数
      * @return 两个参数的和(String)
@@ -112,9 +49,26 @@ public class XMathUtil {
         return String.valueOf(add(b1, b2));
     }
 
+    /**
+     * 精确减法运算
+     *
+     * @param v1 被减数
+     * @param v2 减数
+     * @return 两个参数的差(BigDecimal)
+     */
+    public static BigDecimal subtract(BigDecimal v1, BigDecimal v2) {
+        if (null == v1) {
+            v1 = BigDecimal.ZERO;
+        }
+        if (null == v2) {
+            v2 = BigDecimal.ZERO;
+        }
+        return v1.subtract(v2);
+    }
 
     /**
      * 精确减法运算
+     *
      * @param v1 被减数
      * @param v2 减数
      * @return 两个参数的差(String)
@@ -133,6 +87,25 @@ public class XMathUtil {
 
     /**
      * 精确乘法运算
+     *
+     * @param v1 被乘数
+     * @param v2 乘数
+     * @return 两个参数的积(BigDecimal)
+     */
+    public static BigDecimal multiply(BigDecimal v1, BigDecimal v2) {
+        if (null == v1) {
+            v1 = BigDecimal.ONE;
+        }
+        if (null == v2) {
+            v2 = BigDecimal.ONE;
+        }
+        return v1.multiply(v2);
+    }
+
+
+    /**
+     * 精确乘法运算
+     *
      * @param v1 被乘数
      * @param v2 乘数
      * @return 两个参数的积(String)
@@ -150,23 +123,98 @@ public class XMathUtil {
     }
 
     /**
+     * ( 相对 )精确除法运算 . 当发生除不尽情况时 , 由scale参数指 定精度 , 以后数字四舍五入
+     *
+     * @param v1    被除数
+     * @param v2    除数
+     * @param scale 表示表示需要精确到小数点以后几位
+     * @return 两个参数的商(BigDecimal)
+     */
+    public static BigDecimal divide(BigDecimal v1, BigDecimal v2, Integer scale) {
+        if (null == v2) {
+            v2 = BigDecimal.ONE;
+        }
+
+        if (null == v1 || v2.compareTo(BigDecimal.ZERO) == 0) {
+            return BigDecimal.ZERO;
+        }
+        if (scale < 0) {
+            throw new IllegalArgumentException("精确度不能小于0");
+        }
+
+        return v1.divide(v2, scale, BigDecimal.ROUND_HALF_UP);
+    }
+
+
+    /**
+     * ( 相对 )精确除法运算 . 当发生除不尽情况时 , 由scale参数指 定精度 , 以后数字四舍五入
+     *
+     * @param v1    被除数
+     * @param v2    除数
+     * @param scale 表示表示需要精确到小数点以后几位
+     * @return 两个参数的商(String)
+     */
+    public static String divide(String v1, String v2, Integer scale) {
+        if (null == v2) {
+            v2 = "1";
+        }
+        if (null == v1 || Integer.parseInt(v2) == 0) {
+            return "0";
+        }
+        BigDecimal b1 = new BigDecimal(v1.trim());
+        BigDecimal b2 = new BigDecimal(v2.trim());
+        return String.valueOf(divide(b1, b2, scale));
+    }
+
+
+    /**
      * ( 相对 )精确除法运算 , 当发生除不尽情况时 , 精确到 小数点以后2位 , 以后数字四舍五入
+     *
      * @param v1 被除数
-     * @param v2 除数
      * @return 两个参数的商(String)
      */
     public static String divide(String v1, String v2) {
         return divide(v1, v2, DEF_DIV_SCALE);
     }
 
+    /**=====================================================================以上是几本加减乘除================================================================**/
     /**
-     * ( 相对 )精确除法运算 . 当发生除不尽情况时 , 由scale参数指 定精度 , 以后数字四舍五入
-     * @param v1 被除数
-     * @param v2 除数
-     * @param scale 表示表示需要精确到小数点以后几位
-     * @return 两个参数的商(String)
+     * 向上取整
+     *
+     * @param v1
+     * @param v2
+     * @param scale
+     * @return
      */
-    public static String divide(String v1, String v2, Integer scale) {
+    public static BigDecimal divideCeiling(BigDecimal v1, BigDecimal v2, Integer scale) {
+        if (null == v1) {
+            return BigDecimal.ZERO;
+        }
+        if (null == v2) {
+            v2 = BigDecimal.ONE;
+        }
+
+        if (v2.compareTo(BigDecimal.ZERO) == 0) {
+            throw new IllegalArgumentException("除数不能为0");
+        }
+
+        if (scale < 0) {
+            throw new IllegalArgumentException("精确度不能小于0");
+        }
+
+        return v1.divide(v2, scale, BigDecimal.ROUND_CEILING);
+    }
+
+    /**
+     * 向上取整
+     *
+     * @param v1
+     * @param v2
+     * @param scale
+     * @return
+     */
+
+    public static String divideCeiling(String v1, String v2, Integer scale) {
         if (null == v1) {
             return "0";
         }
@@ -175,11 +223,12 @@ public class XMathUtil {
         }
         BigDecimal b1 = new BigDecimal(v1.trim());
         BigDecimal b2 = new BigDecimal(v2.trim());
-        return String.valueOf(divide(b1, b2, scale));
+        return String.valueOf(divideCeiling(b1, b2, scale));
     }
 
     /**
      * 精确加法运算 , 计算多个数值总和 , 若其中有null值则忽略
+     *
      * @param valList 被加数集合
      * @return 两个参数的和(BigDecimal)
      */
@@ -200,6 +249,7 @@ public class XMathUtil {
 
     /**
      * 精确加法运算 , 计算多个数值总和 , 若其中有null值则忽略
+     *
      * @param valList 被加数集合
      * @return 两个参数的和(String)
      */
@@ -221,18 +271,20 @@ public class XMathUtil {
 
     /**
      * 平均数
+     *
      * @param valList
      * @return
      */
     public static BigDecimal avg(BigDecimal... valList) {
         if (null != valList && valList.length != 0) {
-            return divide(sum(BigDecimal.ZERO, valList), new BigDecimal(valList.length));
+            return divide(sum(BigDecimal.ZERO, valList), new BigDecimal(valList.length),DEF_DIV_SCALE);
         }
         return BigDecimal.ZERO;
     }
 
     /**
      * 平均数
+     *
      * @param valList
      * @return
      */
@@ -245,6 +297,7 @@ public class XMathUtil {
 
     /**
      * 最大值
+     *
      * @param v1
      * @param valList
      * @return
@@ -264,50 +317,7 @@ public class XMathUtil {
 
     /**
      * 最大值
-     * @param valList
-     * @return
-     */
-    public static BigDecimal maxArr(BigDecimal... valList) {
-        if (null == valList || valList.length == 0) {
-            return null;
-        }
-
-        return max(valList[0], valList);
-    }
-
-    /**
-     * 最小值
-     * @param v1
-     * @param valList
-     * @return
-     */
-    public static BigDecimal min(BigDecimal v1, BigDecimal... valList) {
-        BigDecimal min = v1;
-        if (null == valList || valList.length == 0) {
-            return min;
-        }
-        for (BigDecimal val : valList) {
-            if (null != val && val.compareTo(min) < 0) {
-                min = val;
-            }
-        }
-        return min;
-    }
-
-    /**
-     * 最小值
-     * @param valList
-     * @return
-     */
-    public static BigDecimal minArr(BigDecimal... valList) {
-        if (null == valList || valList.length == 0) {
-            return null;
-        }
-        return min(valList[0], valList);
-    }
-
-    /**
-     * 最大值
+     *
      * @param v1
      * @param valList
      * @return
@@ -329,8 +339,24 @@ public class XMathUtil {
         return String.valueOf(maxBd);
     }
 
+
     /**
      * 最大值
+     *
+     * @param valList
+     * @return
+     */
+    public static BigDecimal maxArr(BigDecimal... valList) {
+        if (null == valList || valList.length == 0) {
+            return null;
+        }
+
+        return max(valList[0], valList);
+    }
+
+    /**
+     * 最大值
+     *
      * @param valList
      * @return
      */
@@ -343,6 +369,27 @@ public class XMathUtil {
 
     /**
      * 最小值
+     *
+     * @param v1
+     * @param valList
+     * @return
+     */
+    public static BigDecimal min(BigDecimal v1, BigDecimal... valList) {
+        BigDecimal min = v1;
+        if (null == valList || valList.length == 0) {
+            return min;
+        }
+        for (BigDecimal val : valList) {
+            if (null != val && val.compareTo(min) < 0) {
+                min = val;
+            }
+        }
+        return min;
+    }
+
+    /**
+     * 最小值
+     *
      * @param v1
      * @param valList
      * @return
@@ -364,8 +411,24 @@ public class XMathUtil {
         return String.valueOf(minBd);
     }
 
+
     /**
      * 最小值
+     *
+     * @param valList
+     * @return
+     */
+    public static BigDecimal minArr(BigDecimal... valList) {
+        if (null == valList || valList.length == 0) {
+            return null;
+        }
+        return min(valList[0], valList);
+    }
+
+
+    /**
+     * 最小值
+     *
      * @param valList
      * @return
      */
@@ -378,10 +441,12 @@ public class XMathUtil {
 
     /**
      * 判断字符串是否为空(不依赖第三方)
+     *
      * @param str
      * @return
      */
     private static boolean isBlank(String str) {
         return null == str || str.trim().length() == 0;
     }
+
 }
