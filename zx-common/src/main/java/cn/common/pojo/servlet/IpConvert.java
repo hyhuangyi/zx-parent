@@ -3,6 +3,8 @@ package cn.common.pojo.servlet;
 
 import ch.qos.logback.classic.pattern.ClassicConverter;
 import ch.qos.logback.classic.spi.ILoggingEvent;
+import cn.common.util.ip.IpUtil;
+
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -44,6 +46,7 @@ public class IpConvert extends ClassicConverter {
     }
 
     static {
-        getIp();
+        //getIp();
+        localip= IpUtil.getIpAddress(ServletContextHolder.getRequest());
     }
 }

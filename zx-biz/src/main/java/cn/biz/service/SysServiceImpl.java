@@ -20,6 +20,7 @@ import cn.common.util.algorithm.ListUtil;
 import cn.common.util.file.AntZipUtil;
 import cn.common.util.file.FileUtil;
 import cn.common.util.http.HttpRequestUtil;
+import cn.common.util.ip.IpUtil;
 import cn.common.util.math.BigDecimalUtils;
 import cn.common.util.math.NumberUtil;
 import cn.common.util.math.XMathUtil;
@@ -687,6 +688,7 @@ public class SysServiceImpl implements ISysService {
      */
     @Override
     public Map<String, String> getRealTimeInfo(String codes, int type) {
+        log.info("访问ip={}", IpUtil.getIpAddress(ServletContextHolder.getRequest()));
         Map req = new HashMap<>();
         Map res = new HashMap<>();
         String[] codeArr = codes.split(",");
