@@ -1,5 +1,6 @@
 package cn.common.util.date;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,8 +18,8 @@ import java.util.*;
 /**
  * Created by huangy on 2018/8/17.
  */
+@Slf4j
 public class DateUtils {
-    private static Logger logger = LoggerFactory.getLogger(DateUtils.class);
 
     /**
      * 获取现在时间
@@ -291,16 +292,16 @@ public class DateUtils {
     /**
      * 时间前推分钟,其中JJ表示分钟或者小时.
      */
-    public static String getPreTime(String sj1, String jj,int type) {
+    public static String getPreTime(String sj1, String jj, int type) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String mydate1 = "";
         try {
             Date date1 = format.parse(sj1);
-            long Time=0;
-            if(type==0){//分钟
+            long Time = 0;
+            if (type == 0) {//分钟
                 Time = (date1.getTime() / 1000) - Integer.parseInt(jj) * 60;
-            }else {//小时
-                Time=(date1.getTime()/1000)-Integer.parseInt(jj)*60*60;
+            } else {//小时
+                Time = (date1.getTime() / 1000) - Integer.parseInt(jj) * 60 * 60;
             }
             date1.setTime(Time * 1000);
             mydate1 = format.format(date1);
@@ -311,30 +312,31 @@ public class DateUtils {
 
     /**
      * 解析微博日期
+     *
      * @param date
      * @return
      */
-    public static String parseWeiboDate(String date){
-        SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        String temp="";
-        if(date.indexOf("刚刚")!=-1||date.indexOf("秒")!=-1){
+    public static String parseWeiboDate(String date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        String temp = "";
+        if (date.indexOf("刚刚") != -1 || date.indexOf("秒") != -1) {
             return dateFormat.format(new Date());
-        }else if(date.indexOf("今天")!=-1){
-            temp= date.substring(date.indexOf("今天")+2).trim().substring(0,5);
-            return DateUtils.getStringDate(new Date(),"yyyy-MM-dd")+" "+temp;
-        }else if(date.indexOf("分钟")!=-1){
-            temp=date.substring(0,date.indexOf("分钟"));
-            return DateUtils.getPreTime(dateFormat.format(new Date()),temp,0);
-        } else if(date.indexOf("小时")!=-1){
-            temp=date.substring(0,date.indexOf("小时"));
-            return DateUtils.getPreTime(dateFormat.format(new Date()),temp,1);
-        }else if(date.indexOf("年")!=-1&&date.indexOf("月")!=-1&&date.indexOf("日")!=-1){
-            temp=date.substring(0,17);
-            return temp.substring(0,4)+"-"+temp.substring(5,17).replace("月","-").replace("日","");
-        } else if(date.indexOf("月")!=-1&&date.indexOf("日")!=-1){
-            temp=date.substring(0,12);
-            return DateUtils.getStringDate(new Date(),"yyyy")+"-"+temp.substring(0,12).replace("月","-").replace("日","");
-        }else {
+        } else if (date.indexOf("今天") != -1) {
+            temp = date.substring(date.indexOf("今天") + 2).trim().substring(0, 5);
+            return DateUtils.getStringDate(new Date(), "yyyy-MM-dd") + " " + temp;
+        } else if (date.indexOf("分钟") != -1) {
+            temp = date.substring(0, date.indexOf("分钟"));
+            return DateUtils.getPreTime(dateFormat.format(new Date()), temp, 0);
+        } else if (date.indexOf("小时") != -1) {
+            temp = date.substring(0, date.indexOf("小时"));
+            return DateUtils.getPreTime(dateFormat.format(new Date()), temp, 1);
+        } else if (date.indexOf("年") != -1 && date.indexOf("月") != -1 && date.indexOf("日") != -1) {
+            temp = date.substring(0, 17);
+            return temp.substring(0, 4) + "-" + temp.substring(5, 17).replace("月", "-").replace("日", "");
+        } else if (date.indexOf("月") != -1 && date.indexOf("日") != -1) {
+            temp = date.substring(0, 12);
+            return DateUtils.getStringDate(new Date(), "yyyy") + "-" + temp.substring(0, 12).replace("月", "-").replace("日", "");
+        } else {
             return date;
         }
     }
@@ -666,6 +668,7 @@ public class DateUtils {
     /**
      * 0 上班  1周末 2节假日
      * 是否是节假日
+     *
      * @return 返回结果
      */
     public static String isHoliday(String date) {
@@ -673,7 +676,7 @@ public class DateUtils {
         BufferedReader reader = null;
         String result = null;
         StringBuffer sbf = new StringBuffer();
-        httpUrl = httpUrl + "?d=" +date;
+        httpUrl = httpUrl + "?d=" + date;
         try {
             URL url = new URL(httpUrl);
             HttpURLConnection connection = (HttpURLConnection) url
@@ -690,13 +693,17 @@ public class DateUtils {
             result = sbf.toString();
         } catch (Exception e) {
             e.printStackTrace();
+            String week = getWeek(date);
+            if (StringUtils.isNotBlank(week) && (week.contains("六") || week.contains("日"))) {
+                return "1";
+            } else {
+                return "0";
+            }
         }
         return result;
     }
 
-    /*
     public static void main(String[] args) {
-        System.out.println(getNearlyPeriod(1,true));
-        System.out.println(strToDate("2018-8-9"));
-    }*/
+        System.out.println(getWeek("2023-06-24"));
+    }
 }
