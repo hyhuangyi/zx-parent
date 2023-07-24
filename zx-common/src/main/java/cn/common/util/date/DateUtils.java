@@ -503,7 +503,7 @@ public class DateUtils {
         // int hour=c.get(Calendar.DAY_OF_WEEK);
         // hour中存的就是星期几了，其范围 1~7
         // 1=星期日 7=星期六，其他类推
-        return new SimpleDateFormat("EEEE").format(c.getTime());
+        return new SimpleDateFormat("EEEE",Locale.CHINA).format(c.getTime());
     }
 
     public static String getWeekStr(String sdate) {
