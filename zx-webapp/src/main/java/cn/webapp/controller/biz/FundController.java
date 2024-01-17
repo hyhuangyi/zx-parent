@@ -67,8 +67,7 @@ public class FundController {
     @PostMapping("/fund/edit")
     @PreAuthorize("hasAuthority('fund:list')")
     @OperateLog(operation = "修改金额", moduleName = LogModuleConst.FUND_MODULE)
-    public boolean handleEdit(@ApiParam("主键id") @RequestParam @NotNull(message = "id不能为空") Long id,
-                              @ApiParam("holdNum") @RequestParam @NotEmpty(message = "持有份额不能为空") String holdNum) {
+    public boolean handleEdit(@ApiParam("主键id") @RequestParam @NotNull(message = "id不能为空") Long id, @ApiParam("holdNum") @RequestParam @NotEmpty(message = "持有份额不能为空") String holdNum) {
         return sysService.updateHoldMoney(id, holdNum);
     }
 
@@ -76,8 +75,7 @@ public class FundController {
     @PostMapping("/fund/editRemark")
     @PreAuthorize("hasAuthority('fund:list')")
     @OperateLog(operation = "修改备注", moduleName = LogModuleConst.FUND_MODULE)
-    public boolean handleEditRemark(@ApiParam("主键id") @RequestParam @NotNull(message = "id不能为空") Long id,
-                                    @ApiParam(value = "remark", defaultValue = "") @RequestParam String remark) {
+    public boolean handleEditRemark(@ApiParam("主键id") @RequestParam @NotNull(message = "id不能为空") Long id, @ApiParam(value = "remark", defaultValue = "") @RequestParam String remark) {
         return sysService.updateRemark(id, remark);
     }
 
@@ -146,6 +144,13 @@ public class FundController {
     @GetMapping("/comm/stock")
     public StockVO getStockInfo() {
         return sysService.getStockInfo();
+    }
+
+
+    @ApiOperation("获取大盘信息V2")
+    @GetMapping("/comm/stockV2")
+    public StockVO getStockInfoV2() {
+        return sysService.getStockInfoV2();
     }
 
     @ApiOperation("获取大盘chart数据")

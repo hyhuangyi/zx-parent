@@ -52,6 +52,7 @@ import us.codecraft.webmagic.Spider;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.OutputStream;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.CountDownLatch;
@@ -210,12 +211,10 @@ public class SysServiceImpl implements ISysService {
 
                 if (pc.getModuleName() != null) {
                     // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
-                    return projectPath + "/src/main/resources/mapper/" + pc.getModuleName()
-                            + "/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
+                    return projectPath + "/src/main/resources/mapper/" + pc.getModuleName() + "/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
                 } else {
                     // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
-                    return projectPath + "/src/main/resources/mapper/"
-                            + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
+                    return projectPath + "/src/main/resources/mapper/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
                 }
             }
         });
@@ -300,8 +299,7 @@ public class SysServiceImpl implements ISysService {
                 break;
             }
             log.info("第" + page + "页准备执行第" + RedisUtil.get(RedisConst.CSDN_KEY + page) + "次，执行周期为" + minute + "分钟/次");
-            Spider.create(new CSDN()).addUrl("https://blog.csdn.net/qq_37209293/article/list/" + page)
-                    .addPipeline(csdnPipeline).thread(1).runAsync();
+            Spider.create(new CSDN()).addUrl("https://blog.csdn.net/qq_37209293/article/list/" + page).addPipeline(csdnPipeline).thread(1).runAsync();
         }
     }
 
@@ -310,9 +308,7 @@ public class SysServiceImpl implements ISysService {
     @Async("myTaskAsyncPool")
     public void handleWeibo(String key) {
         String baseUrl = "https://s.weibo.com/weibo?q=%23" + key + "%23";
-        Spider.create(weiboTopics).addUrl(baseUrl).addPipeline(weiboPipLine)
-                .setDownloader(ProxyDownloader.newIpDownloader())
-                .thread(1).runAsync();
+        Spider.create(weiboTopics).addUrl(baseUrl).addPipeline(weiboPipLine).setDownloader(ProxyDownloader.newIpDownloader()).thread(1).runAsync();
     }
 
     /*清空微博*/
@@ -592,6 +588,40 @@ public class SysServiceImpl implements ISysService {
             vo.setTurnOver(NumberUtil.div(cje, 10000));
         }
         return vo;
+    }
+
+    @Override
+    public StockVO getStockInfoV2() {
+        StockVO res = new StockVO();
+        Map<String, String> head = new HashMap<>();
+        head.put("Host", "xueqiu.com");
+        head.put("Accept", "application/json");
+        head.put("User-Agent", "Xueqiu iPhone 15.8");
+        Map<String, String> req = new HashMap<>();
+        req.put("symbol", "SH000001,SZ399001,SZ399006");
+        String json = HttpRequestUtil.get(XUE_QIU_REALTIME_STOCK, req, head);
+        JSONArray array = JSON.parseObject(json).getJSONArray("data");
+        BigDecimal amount = BigDecimal.ZERO;
+        for (Object l : array) {
+            JSONObject jsonObject = JSON.parseObject(l.toString());
+            String symbol = jsonObject.getString("symbol");
+            double percent = jsonObject.getDoubleValue("percent");
+            double current = jsonObject.getDoubleValue("current");
+            if (symbol.contains("000001")) {
+                res.setShangz(percent);
+            } else if (symbol.contains("399001")) {
+                res.setShenz(percent);
+            } else {
+                res.setChuangy(percent);
+            }
+            System.out.println(symbol + "=》current:" + current + " percent:" + percent);
+            if (symbol.contains("000001") || symbol.contains("399001")) {
+                amount = amount.add(jsonObject.getBigDecimal("amount"));
+            }
+        }
+        System.out.println("amount=>" + XMathUtil.divide(amount, BigDecimal.valueOf(100000000), 2));
+        res.setTurnOver(amount.doubleValue());
+        return res;
     }
 
     /**
