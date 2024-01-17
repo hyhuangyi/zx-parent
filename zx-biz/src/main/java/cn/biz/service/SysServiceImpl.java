@@ -620,7 +620,7 @@ public class SysServiceImpl implements ISysService {
             }
         }
         System.out.println("amount=>" + XMathUtil.divide(amount, BigDecimal.valueOf(100000000), 2));
-        res.setTurnOver(amount.doubleValue());
+        res.setTurnOver(XMathUtil.divide(amount, BigDecimal.valueOf(100000000), 2).doubleValue());
         return res;
     }
 
