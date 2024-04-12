@@ -1,6 +1,7 @@
 package cn.common.util.dingding;
 
 
+import cn.common.util.date.DateUtils;
 import cn.common.util.dingding.msg.At;
 import cn.common.util.dingding.msg.MarkDownContent;
 import cn.common.util.dingding.msg.MarkDownMsg;
@@ -16,6 +17,7 @@ import org.apache.http.impl.client.HttpClients;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.net.URLEncoder;
+import java.util.Date;
 
 @Slf4j
 public class DingdingNotifyUtil {
@@ -76,6 +78,9 @@ public class DingdingNotifyUtil {
     }
 
     public static void main(String[] args) {
-        sendDingding("测试", "test", url,secret);
+        StringBuilder builder = new StringBuilder();
+        builder.append("**黄梓萱**").append("\n\n").append("出生日期: ").append("2024-02-18 20:24").append("\n\n").append("当前日期: ").append(DateUtils.getStringDate(new Date(),"yyyy-MM-dd HH:mm")).append("\n\n");
+        builder.append("出生时长: ").append(DateUtils.getDaysByBorn(2024,2,18,20,24));
+        sendDingding("黄梓萱", builder.toString(), url,secret);
     }
 }

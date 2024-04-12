@@ -13,6 +13,8 @@ import java.net.URL;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -703,6 +705,17 @@ public class DateUtils {
         return result;
     }
 
+    public static String getDaysByBorn(Integer year,Integer month,Integer day,Integer hour,Integer minute){
+        LocalDateTime bornDateTime = LocalDateTime.of(year, month, day, hour, minute);
+        LocalDateTime nowDateTime = LocalDateTime.now();
+        Duration duration = Duration.between(bornDateTime, nowDateTime);
+        long days = duration.toDays(); //相差的天数
+        long hours = duration.toHours(); //相差小时
+        long minutes = duration.toMinutes(); //相差分钟
+        String res=days +" 天 "+hours%24+" 小时 "+minutes%60+" 分钟";
+        System.out.println(res);
+        return res;
+    }
     public static void main(String[] args) {
         System.out.println(getWeek("2023-06-24"));
     }
