@@ -70,7 +70,7 @@ public class StockJob {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        StockVO stockVO = sysService.getStockInfo();
+        StockVO stockVO = sysService.getStockInfoV2();
         Stock stock = new Stock();
         BeanUtils.copyProperties(stockVO, stock);
         stock.setDate(date);
