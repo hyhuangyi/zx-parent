@@ -20,9 +20,9 @@ spring:
           - data-id: redis-common.yml
             group: common
             refresh: true
-          - data-id: mq-common.yml
-            group: common
-            refresh: true
+#          - data-id: mq-common.yml
+#            group: common
+#            refresh: true
       discovery:
         namespace: zx
         server-addr: 150.158.86.218:8848
