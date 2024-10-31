@@ -5,13 +5,9 @@ import cn.biz.mapper.XqDataMapper;
 import cn.biz.po.Stock;
 import cn.biz.po.XqData;
 import cn.biz.service.ISysService;
-import cn.biz.vo.FundVO;
 import cn.biz.vo.StockVO;
 import cn.biz.vo.XueqiuVO;
 import cn.common.util.date.DateUtils;
-import cn.common.util.mail.MailAddress;
-import cn.common.util.mail.MailMessageObject;
-import cn.common.util.mail.MailUtil;
 import cn.common.util.math.XMathUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
@@ -36,8 +32,7 @@ public class StockJob {
     private StockMapper stockMapper;
     @Autowired
     private XqDataMapper xqDataMapper;
-    @Autowired
-    private MailUtil mailUtil;
+
 
     private static List<String> list = new ArrayList<>();
 
@@ -78,50 +73,12 @@ public class StockJob {
         log.info("========时间：" + date + ";两市成交额：" + stock.getTurnOver() + ";上证：" + stock.getShangz() + ";深证：" + stock.getShenz() + ";创业板：" + stock.getChuangy() + "========");
     }
 
-    /**
-     * 基金涨跌提示
-     */
-    //@Scheduled(cron = "0 0/30 9,10,11,13,14,15 * * ?")
-    public void fundJob() {
-        if (!"0".equals(DateUtils.isHoliday(DateFormatUtils.format(new Date(), "yyyy-MM-dd")))) {
-            return;
-        }
-        List<String> up = new ArrayList<>();
-        List<String> down = new ArrayList<>();
-        List<FundVO> list = sysService.fundList(34L);//zx
-        String context = "";
-        for (FundVO vo : list) {
-            if (vo.getGszzl() > 1) {
-                up.add(vo.getName() + ":" + vo.getGszzl());
-            } else if (vo.getGszzl() < -1) {
-                down.add(vo.getName() + ":" + vo.getGszzl());
-            }
-        }
-        MailMessageObject mailMessageObject = new MailMessageObject();
-        if (up.size() != 0) {
-            context += "上涨超过1%的有：" + up.toString() + ";";
-        }
-        if (down.size() != 0) {
-            context += "下跌超过1%的有：" + down.toString();
-        }
-        if (!"".equals(context)) {
-            mailMessageObject.setContext(context);
-            mailMessageObject.setSubject("涨跌助手");
-            MailAddress address = new MailAddress("zx", mailUtil.getUsername());
-            List<MailAddress> listAddress = new ArrayList<>();
-            listAddress.add(address);
-            mailUtil.setFrom(address);
-            mailMessageObject.setCc(listAddress);
-            mailMessageObject.setTo(listAddress);
-            mailUtil.send(mailMessageObject);
-        }
-    }
 
     /**
      * 存入每天数据
      * 每隔15分钟执行一次（9-15）
      */
-    @Scheduled(cron = "0 0/15 9,10,11,13,14,15 * * ?")
+    //@Scheduled(cron = "0 0/15 9,10,11,13,14,15 * * ?")
     public void xqStock() {
         String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());//当日日期
         String hm = DateUtils.getStringDate(new Date(), "HH:mm");
