@@ -35,3 +35,4 @@ logback:
 logging:
   config: classpath:logback-spring.xml
 
+#开启nacos pom里nacos jar打开 bootstrap打开
