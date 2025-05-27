@@ -7,10 +7,16 @@ import cn.biz.po.XqData;
 import cn.biz.service.ISysService;
 import cn.biz.vo.StockVO;
 import cn.biz.vo.XueqiuVO;
+import cn.common.pojo.servlet.ServletContextHolder;
 import cn.common.util.date.DateUtils;
+import cn.common.util.http.HttpRequestUtil;
+import cn.common.util.ip.IpUtil;
 import cn.common.util.math.XMathUtil;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +25,9 @@ import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+
+import static cn.biz.service.SysServiceImpl.XUE_QIU_REALTIME_STOCK;
 
 @Component
 @Slf4j
@@ -78,7 +84,7 @@ public class StockJob {
      * 存入每天数据
      * 每隔15分钟执行一次（9-15）
      */
-    //@Scheduled(cron = "0 0/15 9,10,11,13,14,15 * * ?")
+    @Scheduled(cron = "0 0/15 9,10,11,13,14,15 * * ?")
     public void xqStock() {
         String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());//当日日期
         String hm = DateUtils.getStringDate(new Date(), "HH:mm");
@@ -92,11 +98,17 @@ public class StockJob {
         }
         handXqData(today);
     }
-
+    private final static String codes = "SZ000858,SH600869";
     public void handXqData(String today) {
         List<XqData> add = new ArrayList<>();//入库的数据
+        Map<String, String> req = new HashMap<>();
+        req.put("symbol", codes);
+        String result = HttpRequestUtil.get(XUE_QIU_REALTIME_STOCK, req, null);
+        String arr = JSONObject.parseObject(result).get("data").toString();
+        //指定数据
+        List<XueqiuVO.DataBean.ListBean> list = JSONArray.parseArray(arr, XueqiuVO.DataBean.ListBean.class);
         //全部数据
-        List<XueqiuVO.DataBean.ListBean> list = sysService.getXueqiuList(null, null);
+        //List<XueqiuVO.DataBean.ListBean> list = sysService.getXueqiuList(null, null);
         for (XueqiuVO.DataBean.ListBean bean : list) {
             XqData data = new XqData()
                     .setDate(today)
