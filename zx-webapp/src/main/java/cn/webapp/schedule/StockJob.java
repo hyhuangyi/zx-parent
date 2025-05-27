@@ -102,7 +102,7 @@ public class StockJob {
         handXqData(today);
     }
 
-    private  static String codes = "SZ000858,SH600869";
+    private  static String codes = "SZ000858";
 
     public void handXqData(String today) {
         List<XqData> add = new ArrayList<>();//入库的数据
