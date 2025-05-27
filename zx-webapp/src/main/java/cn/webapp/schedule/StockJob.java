@@ -12,6 +12,8 @@ import cn.common.util.date.DateUtils;
 import cn.common.util.http.HttpRequestUtil;
 import cn.common.util.ip.IpUtil;
 import cn.common.util.math.XMathUtil;
+import cn.common.util.redis.RedisUtil;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -100,11 +102,14 @@ public class StockJob {
         handXqData(today);
     }
 
-    private final static String codes = "SZ000858,SH600869";
+    private  static String codes = "SZ000858,SH600869";
 
     public void handXqData(String today) {
         List<XqData> add = new ArrayList<>();//入库的数据
         Map<String, String> req = new HashMap<>();
+        if(RedisUtil.hasKey("zx_run_stocks")){
+            codes=RedisUtil.get("zx_run_stocks").toString();
+        }
         req.put("symbol", codes);
         String result = HttpRequestUtil.get(XUE_QIU_REALTIME_STOCK, req, null);
         String arr = JSONObject.parseObject(result).get("data").toString();
