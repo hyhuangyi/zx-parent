@@ -26,6 +26,7 @@ import org.springframework.stereotype.Component;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static cn.biz.service.SysServiceImpl.XUE_QIU_REALTIME_STOCK;
 
@@ -92,13 +93,15 @@ public class StockJob {
             return;
         }
         try {
-            Thread.sleep(30*1000);
+            Thread.sleep(30 * 1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         handXqData(today);
     }
+
     private final static String codes = "SZ000858,SH600869";
+
     public void handXqData(String today) {
         List<XqData> add = new ArrayList<>();//入库的数据
         Map<String, String> req = new HashMap<>();
@@ -107,6 +110,8 @@ public class StockJob {
         String arr = JSONObject.parseObject(result).get("data").toString();
         //指定数据
         List<XueqiuVO.DataBean.ListBean> list = JSONArray.parseArray(arr, XueqiuVO.DataBean.ListBean.class);
+        List<XqData> xqData = stockMapper.selectStockInfos();
+        Map<String, String> xqDataMap = xqData.stream().collect(Collectors.toMap(XqData::getSymbol, XqData::getName, (v1, v2) -> v1));
         //全部数据
         //List<XueqiuVO.DataBean.ListBean> list = sysService.getXueqiuList(null, null);
         for (XueqiuVO.DataBean.ListBean bean : list) {
@@ -123,6 +128,9 @@ public class StockJob {
                     .setSymbol(bean.getSymbol())
                     .setTurnoverRate(bean.getTurnover_rate())
                     .setVolumeRatio(bean.getVolume_ratio());
+            if (xqDataMap.containsKey(bean.getSymbol().substring(2))) {
+                data.setName(xqDataMap.get(bean.getSymbol().substring(2)));
+            }
             add.add(data);
         }
         xqDataMapper.delete(new QueryWrapper<XqData>().eq("date", today));
