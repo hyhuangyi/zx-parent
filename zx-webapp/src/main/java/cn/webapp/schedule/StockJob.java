@@ -25,12 +25,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static cn.biz.service.SysServiceImpl.XUE_QIU_REALTIME_STOCK;
+import static cn.biz.service.SysServiceImpl.*;
 
 @Component
 @Slf4j
@@ -137,6 +138,42 @@ public class StockJob {
                 data.setName(xqDataMap.get(bean.getSymbol().substring(2)));
             }
             add.add(data);
+        }
+        xqDataMapper.delete(new QueryWrapper<XqData>().eq("date", today));
+        xqDataMapper.insertBatch(add);
+    }
+
+    public void handXqDataAll(String today) {
+        List<XqData> add = new ArrayList<>();//入库的数据
+
+        Map<String, String> head = new HashMap<>();
+        head.put("Host", "xueqiu.com");
+        head.put("Accept", "application/json");
+        head.put("User-Agent", "Xueqiu iPhone 11.8");
+        for(int i=1;i<=50;i++){
+          String url=  MessageFormat.format(XUE_QIU_V2, i);
+            String json = HttpRequestUtil.get(url, null, head);
+
+            XueqiuVO vo = JSONObject.parseObject(json, XueqiuVO.class);
+            List<XueqiuVO.DataBean.ListBean> list = vo.getData().getList();
+            List<XueqiuVO.DataBean.ListBean> res = new ArrayList();
+
+            for (XueqiuVO.DataBean.ListBean bean : list) {
+                XqData data = new XqData()
+                        .setDate(today)
+                        .setCreateTime(LocalDateTime.now())
+                        .setAmount(XMathUtil.divide(bean.getAmount(), "100000000"))
+                        .setAmplitude(bean.getAmplitude())
+                        .setCurrent(bean.getCurrent())
+                        .setCurrentYearPercent(bean.getCurrent_year_percent())
+                        .setMarketCapital(XMathUtil.divide(bean.getMarket_capital(), "100000000"))
+                        .setName(bean.getName())
+                        .setPercent(bean.getPercent())
+                        .setSymbol(bean.getSymbol())
+                        .setTurnoverRate(bean.getTurnover_rate())
+                        .setVolumeRatio(bean.getVolume_ratio());
+                add.add(data);
+            }
         }
         xqDataMapper.delete(new QueryWrapper<XqData>().eq("date", today));
         xqDataMapper.insertBatch(add);

@@ -116,6 +116,7 @@ public class SysServiceImpl implements ISysService {
      * 雪球api
      */
     public static final String XUE_QIU = "https://xueqiu.com/service/v5/stock/screener/quote/list?page=1&size=5000&order=asc&order_by=current_year_percent&market=CN&type=sh_sz";
+    public static final String XUE_QIU_V2 = "https://xueqiu.com/service/v5/stock/screener/quote/list?page={0}&size=100&order=desc&order_by=current_year_percent&market=CN&type=sh_sz";
 
     /**
      * 雪球个股实时数据

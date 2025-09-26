@@ -192,4 +192,12 @@ public class FundController {
         stockJob.handXqData(today);
         return true;
     }
+
+    @ApiOperation(value = "手动触发雪球数据All")
+    @GetMapping("/comm/xqData/hand-all")
+    public Boolean xqDataHandAll() {
+        String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());//当日日期
+        stockJob.handXqDataAll(today);
+        return true;
+    }
 }
