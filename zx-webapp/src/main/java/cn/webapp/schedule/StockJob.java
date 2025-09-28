@@ -88,7 +88,7 @@ public class StockJob {
      * 存入每天数据
      * 每隔15分钟执行一次（9-15）
      */
-    @Scheduled(cron = "0 0/15 9,10,11,13,14,15 * * ?")
+    @Scheduled(cron = "0 0/30 11,15 * * ?")
     public void xqStock() {
         String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());//当日日期
         String hm = DateUtils.getStringDate(new Date(), "HH:mm");
@@ -100,7 +100,8 @@ public class StockJob {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        handXqData(today);
+        //handXqData(today);
+        handXqDataAll(today);
     }
 
     private  static String codes = "SZ000858";
