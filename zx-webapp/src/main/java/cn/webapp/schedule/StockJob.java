@@ -147,7 +147,7 @@ public class StockJob {
     public void handXqDataAll(String today) {
         List<XqData> add = new ArrayList<>();//入库的数据
         for (String order : Arrays.asList("asc", "desc")) {
-            for (int i = 1; i <= 50; i++) {
+            for (int i = 1; i <= 30; i++) {
                 fetchXqData(add, today, i, order);
             }
         }
