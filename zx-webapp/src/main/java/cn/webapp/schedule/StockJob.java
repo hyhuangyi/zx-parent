@@ -104,13 +104,13 @@ public class StockJob {
         handXqDataAll(today);
     }
 
-    private  static String codes = "SZ000858";
+    private static String codes = "SZ000858";
 
     public void handXqData(String today) {
         List<XqData> add = new ArrayList<>();//入库的数据
         Map<String, String> req = new HashMap<>();
-        if(RedisUtil.hasKey("zx_run_stocks")){
-            codes=RedisUtil.get("zx_run_stocks").toString();
+        if (RedisUtil.hasKey("zx_run_stocks")) {
+            codes = RedisUtil.get("zx_run_stocks").toString();
         }
         req.put("symbol", codes);
         String result = HttpRequestUtil.get(XUE_QIU_REALTIME_STOCK, req, null);
@@ -146,37 +146,45 @@ public class StockJob {
 
     public void handXqDataAll(String today) {
         List<XqData> add = new ArrayList<>();//入库的数据
+        for (String order : Arrays.asList("asc", "desc")) {
+            for (int i = 1; i <= 50; i++) {
+                fetchXqData(add, today, i, order);
+            }
+        }
+        if (!add.isEmpty()) {
+            xqDataMapper.delete(new QueryWrapper<XqData>().eq("date", today));
+            xqDataMapper.insertBatch(add);
+        }
+    }
 
+    private void fetchXqData(List<XqData> add, String today, Integer i, String order) {
         Map<String, String> head = new HashMap<>();
         head.put("Host", "xueqiu.com");
         head.put("Accept", "application/json");
         head.put("User-Agent", "Xueqiu iPhone 11.8");
-        for(int i=1;i<=50;i++){
-          String url=  MessageFormat.format(XUE_QIU_V2, i);
-            String json = HttpRequestUtil.get(url, null, head);
+        String url = MessageFormat.format(XUE_QIU_V2, i, order);
+        String json = HttpRequestUtil.get(url, null, head);
 
-            XueqiuVO vo = JSONObject.parseObject(json, XueqiuVO.class);
-            List<XueqiuVO.DataBean.ListBean> list = vo.getData().getList();
-            List<XueqiuVO.DataBean.ListBean> res = new ArrayList();
+        XueqiuVO vo = JSONObject.parseObject(json, XueqiuVO.class);
+        List<XueqiuVO.DataBean.ListBean> list = vo.getData().getList();
 
-            for (XueqiuVO.DataBean.ListBean bean : list) {
-                XqData data = new XqData()
-                        .setDate(today)
-                        .setCreateTime(LocalDateTime.now())
-                        .setAmount(XMathUtil.divide(bean.getAmount(), "100000000"))
-                        .setAmplitude(bean.getAmplitude())
-                        .setCurrent(bean.getCurrent())
-                        .setCurrentYearPercent(bean.getCurrent_year_percent())
-                        .setMarketCapital(XMathUtil.divide(bean.getMarket_capital(), "100000000"))
-                        .setName(bean.getName())
-                        .setPercent(bean.getPercent())
-                        .setSymbol(bean.getSymbol())
-                        .setTurnoverRate(bean.getTurnover_rate())
-                        .setVolumeRatio(bean.getVolume_ratio());
+        for (XueqiuVO.DataBean.ListBean bean : list) {
+            XqData data = new XqData()
+                    .setDate(today)
+                    .setCreateTime(LocalDateTime.now())
+                    .setAmount(XMathUtil.divide(bean.getAmount(), "100000000"))
+                    .setAmplitude(bean.getAmplitude())
+                    .setCurrent(bean.getCurrent())
+                    .setCurrentYearPercent(bean.getCurrent_year_percent())
+                    .setMarketCapital(XMathUtil.divide(bean.getMarket_capital(), "100000000"))
+                    .setName(bean.getName())
+                    .setPercent(bean.getPercent())
+                    .setSymbol(bean.getSymbol())
+                    .setTurnoverRate(bean.getTurnover_rate())
+                    .setVolumeRatio(bean.getVolume_ratio());
+            if (!add.stream().map(XqData::getSymbol).collect(Collectors.toList()).contains(bean.getSymbol())) {
                 add.add(data);
             }
         }
-        xqDataMapper.delete(new QueryWrapper<XqData>().eq("date", today));
-        xqDataMapper.insertBatch(add);
     }
 }
