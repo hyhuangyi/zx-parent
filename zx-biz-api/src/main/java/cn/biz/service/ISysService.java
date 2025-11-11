@@ -47,10 +47,6 @@ public interface ISysService {
      List<Fund> getZeroRateFund(int num)throws Exception;
      /*费率为0的基金当日排行*/
      List<FundVO> getZeroRateFundRank(int num) throws Exception;
-     /*获取大盘信息*/
-     StockVO getStockInfo();
-     /*获取大盘信息 v2*/
-     StockVO getStockInfoV2();
      /*获取大盘chart数据*/
      Map getStockChartData(String type);
      /*获取年内涨幅少的股票*/

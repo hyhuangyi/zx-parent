@@ -10,7 +10,4 @@ public class MarkDownMsg {
 	private MarkDownContent markdown;
 	
 	private At at;
-	
-	private Boolean isAtAll;
-	
 }

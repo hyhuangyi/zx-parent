@@ -103,11 +103,6 @@ public class SysServiceImpl implements ISysService {
      **/
     public static final String FUND_GZ = "http://fundgz.1234567.com.cn/js/";
     /**
-     * 小熊api 大盘信息
-     */
-    public static final String XX_STOCK = "https://api.doctorxiong.club/v1/stock/board";
-
-    /**
      * 果仁网api
      */
     public static final String GUO_REN = "https://guorn.com/language/query?query=";
@@ -555,73 +550,6 @@ public class SysServiceImpl implements ISysService {
         Collections.sort(res);//倒序
         FileUtil.writeFile(ZERO_FUND_RANK_PATH, JSON.toJSONString(res));
         log.info("所有线程执行结束，耗时：" + (end - start) + "毫秒。一共" + res.size() + "条。");
-        return res;
-    }
-
-    /**
-     * 获取大盘信息
-     *
-     * @return
-     */
-    @Override
-    public StockVO getStockInfo() {
-        String res = HttpRequestUtil.get(XX_STOCK, null, null);
-        JSONObject obj = JSONObject.parseObject(res);
-        StockVO vo = new StockVO();
-        double cje = 0.0;
-        if ("200".equals(obj.get("code").toString())) {
-            JSONArray array = JSONArray.parseArray(obj.get("data").toString());
-            for (Object o : array) {
-                JSONObject j = JSONObject.parseObject(o.toString());
-                if (j.get("code").equals("sh000001") || j.get("code").equals("sz399001")) {
-                    cje = NumberUtil.add(cje, j.get("turnover").toString());
-                }
-                if (j.get("code").equals("sh000001")) {//上证
-                    vo.setShangz(Double.valueOf(j.get("changePercent").toString()));
-                }
-                if (j.get("code").equals("sz399001")) {//深证
-                    vo.setShenz(Double.valueOf(j.get("changePercent").toString()));
-                }
-                if (j.get("code").equals("sz399006")) {//创业板
-                    vo.setChuangy(Double.valueOf(j.get("changePercent").toString()));
-                }
-            }
-            vo.setTurnOver(NumberUtil.div(cje, 10000));
-        }
-        return vo;
-    }
-
-    @Override
-    public StockVO getStockInfoV2() {
-        StockVO res = new StockVO();
-        Map<String, String> head = new HashMap<>();
-        head.put("Host", "xueqiu.com");
-        head.put("Accept", "application/json");
-        head.put("User-Agent", "Xueqiu iPhone 15.8");
-        Map<String, String> req = new HashMap<>();
-        req.put("symbol", "SH000001,SZ399001,SZ399006");
-        String json = HttpRequestUtil.get(XUE_QIU_REALTIME_STOCK, req, head);
-        JSONArray array = JSON.parseObject(json).getJSONArray("data");
-        BigDecimal amount = BigDecimal.ZERO;
-        for (Object l : array) {
-            JSONObject jsonObject = JSON.parseObject(l.toString());
-            String symbol = jsonObject.getString("symbol");
-            double percent = jsonObject.getDoubleValue("percent");
-            double current = jsonObject.getDoubleValue("current");
-            if (symbol.contains("000001")) {
-                res.setShangz(percent);
-            } else if (symbol.contains("399001")) {
-                res.setShenz(percent);
-            } else {
-                res.setChuangy(percent);
-            }
-            System.out.println(symbol + "=》current:" + current + " percent:" + percent);
-            if (symbol.contains("000001") || symbol.contains("399001")) {
-                amount = amount.add(jsonObject.getBigDecimal("amount"));
-            }
-        }
-        System.out.println("amount=>" + XMathUtil.divide(amount, BigDecimal.valueOf(100000000), 2));
-        res.setTurnOver(XMathUtil.divide(amount, BigDecimal.valueOf(100000000), 2).doubleValue());
         return res;
     }
 

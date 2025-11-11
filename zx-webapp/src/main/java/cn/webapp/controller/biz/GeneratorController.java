@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
@@ -19,9 +19,9 @@ import java.util.List;
 @Api(tags = "代码生成相关接口")
 @RestController
 @Slf4j
+@RequiredArgsConstructor
 public class GeneratorController {
-    @Autowired
-    private ISysService sysService;
+    private final ISysService sysService;
 
     @ApiOperation("代码生成")
     @GetMapping("/comm/generate/code")

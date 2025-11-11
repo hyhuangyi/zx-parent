@@ -16,7 +16,7 @@ import cn.common.util.date.DateUtils;
 import cn.common.util.file.EasyPoiUtil;
 import cn.webapp.aop.annotation.OperateLog;
 import cn.webapp.aop.annotation.TimeCount;
-import cn.webapp.schedule.StockJob;
+import cn.webapp.job.XqDataHandle;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -42,7 +42,7 @@ public class FundController {
     @Autowired
     private ISysService sysService;
     @Autowired
-    private StockJob stockJob;
+    private XqDataHandle xqDataHandle;
 
     @TimeCount
     @ApiOperation("更新所有基金列表")
@@ -140,17 +140,10 @@ public class FundController {
         EasyPoiUtil.exportExcel(list, "fund", "zero_fund", FundVO.class, "免费率列表.xls", response);
     }
 
-    @ApiOperation("获取大盘信息")
-    @GetMapping("/comm/stock")
-    public StockVO getStockInfo() {
-        return sysService.getStockInfo();
-    }
-
-
     @ApiOperation("获取大盘信息V2")
     @GetMapping("/comm/stockV2")
     public StockVO getStockInfoV2() {
-        return sysService.getStockInfoV2();
+        return xqDataHandle.getStockInfoV2();
     }
 
     @ApiOperation("获取大盘chart数据")
@@ -185,19 +178,11 @@ public class FundController {
         return sysService.getRealTimeInfo(codes, type);
     }
 
-    @ApiOperation(value = "手动触发雪球数据")
-    @GetMapping("/comm/xqData/hand")
-    public Boolean xqDataHand() {
-        String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());//当日日期
-        stockJob.handXqData(today);
-        return true;
-    }
-
     @ApiOperation(value = "手动触发雪球数据All")
     @GetMapping("/comm/xqData/hand-all")
     public Boolean xqDataHandAll() {
         String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());//当日日期
-        stockJob.handXqDataAll(today);
+        xqDataHandle.handXqDataAll(today);
         return true;
     }
 }

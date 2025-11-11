@@ -27,19 +27,18 @@ public class DingdingNotifyUtil {
     /**
      * 钉钉通知
      */
-    public static void sendDingding(String title, String content, String dingdingUrl, String secret) {
+    public static void sendDingding(String title, String content, String dingdingUrl, String secret,Boolean isAtAll) {
         HttpResponse response = null;
         HttpClient httpclient = HttpClients.createDefault();
         MarkDownContent markdowncontent = new MarkDownContent();
         markdowncontent.setText(content);
         markdowncontent.setTitle(title);
         At at = new At();
+        at.setAtAll(isAtAll);
         MarkDownMsg markDownMsg = new MarkDownMsg();
-        markDownMsg.setAt(at);
-        markDownMsg.setIsAtAll(false);
         markDownMsg.setMsgtype("markdown");
-        markDownMsg.setIsAtAll(false);
         markDownMsg.setMarkdown(markdowncontent);
+        markDownMsg.setAt(at);
         Gson gson = new Gson();
         String textMsg = gson.toJson(markDownMsg);
         StringEntity se = new StringEntity(textMsg, "utf-8");
@@ -81,6 +80,6 @@ public class DingdingNotifyUtil {
         StringBuilder builder = new StringBuilder();
         builder.append("**黄梓萱**").append("\n\n").append("出生日期: ").append("2024-02-18 20:24").append("\n\n").append("当前日期: ").append(DateUtils.getStringDate(new Date(),"yyyy-MM-dd HH:mm")).append("\n\n");
         builder.append("出生时长: ").append(DateUtils.getDaysByBorn(2024,2,18,20,24));
-        sendDingding("黄梓萱", builder.toString(), url,secret);
+        sendDingding("黄梓萱", builder.toString(), url,secret,true);
     }
 }

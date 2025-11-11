@@ -14,8 +14,8 @@ import cn.webapp.aop.annotation.OperateLog;
 import cn.webapp.aop.annotation.TimeCount;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 /**
@@ -23,10 +23,10 @@ import org.springframework.web.bind.annotation.*;
  **/
 @Api(tags = "登陆和系统监控")
 @RestController
+@RequiredArgsConstructor
 public class LoginController {
 
-    @Autowired
-    private ISysUserService sysUserService;
+    private final ISysUserService sysUserService;
 
     @ApiOperation("登陆")
     @RequestMapping(value = "/comm/login",method = RequestMethod.POST)

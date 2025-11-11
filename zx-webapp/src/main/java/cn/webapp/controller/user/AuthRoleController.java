@@ -12,7 +12,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -25,9 +25,9 @@ import java.util.List;
 @RestController
 @Validated
 @RequestMapping("/role")
+@RequiredArgsConstructor
 public class AuthRoleController {
-    @Autowired
-    private IAuthRoleService authRoleService;
+    private final IAuthRoleService authRoleService;
     @ApiOperation("角色列表")
     @GetMapping("/list")
     @PreAuthorize("hasAuthority('role:list')")

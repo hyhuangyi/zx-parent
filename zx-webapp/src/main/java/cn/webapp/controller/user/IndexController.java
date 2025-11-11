@@ -8,6 +8,7 @@ import cn.common.pojo.servlet.ServletContextHolder;
 import cn.webapp.aop.annotation.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,9 +27,9 @@ import java.util.Map;
 @Api(tags = "首页")
 @Validated
 @Controller
+@RequiredArgsConstructor
 public class IndexController {
-    @Autowired
-    private ISysUserService sysUserService;
+    private final ISysUserService sysUserService;
 
     @ApiOperation("爱情树")
     @RequestMapping(value = "/comm/html/aqs", method = RequestMethod.GET)

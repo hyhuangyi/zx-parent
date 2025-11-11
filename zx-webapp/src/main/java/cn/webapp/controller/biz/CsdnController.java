@@ -7,20 +7,21 @@ import cn.common.util.redis.RedisUtil;
 import com.google.common.collect.Maps;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import java.util.Map;
 
 @Api(tags = "csdn相关接口")
 @RestController
 @Slf4j
+@RequiredArgsConstructor
 public class CsdnController {
 
-    @Autowired
-    private ISysService sysService;
+    private final ISysService sysService;
 
     @GetMapping("/comm/start/csdn")
     @ApiOperation("启动csdn访问")
@@ -45,12 +46,12 @@ public class CsdnController {
 
     @GetMapping("/comm/runStatus")
     @ApiOperation("获取运行状态")
-    public Map<String,Object> getStatus(){
-       Object o1= RedisUtil.get(RedisConst.CSDN_KEY+1);
-       Object o2= RedisUtil.get(RedisConst.CSDN_KEY+2);
-       Map<String,Object> map= Maps.newHashMap();
-       map.put("v1",o1);
-       map.put("v2",o2);
-       return map;
+    public Map<String, Object> getStatus() {
+        Object o1 = RedisUtil.get(RedisConst.CSDN_KEY + 1);
+        Object o2 = RedisUtil.get(RedisConst.CSDN_KEY + 2);
+        Map<String, Object> map = Maps.newHashMap();
+        map.put("v1", o1);
+        map.put("v2", o2);
+        return map;
     }
 }

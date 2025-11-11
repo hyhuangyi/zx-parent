@@ -5,7 +5,7 @@ import cn.common.util.redis.RedisLockUtil;
 import cn.common.util.redis.RedisUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.stereotype.Controller;
@@ -19,9 +19,9 @@ import java.util.concurrent.CountDownLatch;
  **/
 @Api(tags = "分布式锁测试")
 @Controller
+@RequiredArgsConstructor
 public class RedisLockController {
-    @Autowired
-    private RedisTemplate redisTemplate;
+    private final RedisTemplate redisTemplate;
 
     @ApiOperation("分布式锁测试一")
     @GetMapping(value = "/comm/redisTest1")

@@ -6,7 +6,7 @@ import java.util.List;
 
 @Data
 public class At {
-
+	private boolean isAtAll;
 	private List<String> atMobiles;
 
 }
