@@ -14,7 +14,9 @@ import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.*;
 
 /**
@@ -716,7 +718,24 @@ public class DateUtils {
         System.out.println(res);
         return res;
     }
+    /**
+     * 根据出生年月日计算年龄（年数和月数）
+     * @param year 出生年份
+     * @param month 出生月份
+     * @param day 出生日期
+     * @return 格式化的年龄字符串，例如"1岁2个月"
+     */
+    public static String getAgeByBorn(Integer year, Integer month, Integer day) {
+        LocalDate birthDate = LocalDate.of(year, month, day);
+        LocalDate currentDate = LocalDate.now();
+
+        Period period = Period.between(birthDate, currentDate);
+        int years = period.getYears();
+        int months = period.getMonths();
+        int days = period.getDays();
+        return years + " 岁 " + months + " 个月 " + days + " 天";
+    }
     public static void main(String[] args) {
-        System.out.println(getWeek("2023-06-24"));
+        System.out.println(getAgeByBorn(2024,2,18));
     }
 }

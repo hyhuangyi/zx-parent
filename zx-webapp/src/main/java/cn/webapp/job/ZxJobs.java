@@ -34,7 +34,7 @@ public class ZxJobs implements ApplicationListener<RefreshScopeRefreshedEvent> {
     }
     @Scheduled(cron = "${zx.cron.born}")
     public void hzxJob() {
-        String builder = "**黄梓萱**" + "\n\n" + "出生日期: " + "2024-02-18 20:24" + "\n\n" + "当前日期: " + DateUtils.getStringDate(new Date(), "yyyy-MM-dd HH:mm") + "\n\n" + "出生时长: " + DateUtils.getDaysByBorn(2024, 2, 18, 20, 24);
+        String builder = "**黄梓萱**" + "\n\n" + "出生日期: " + "2024-02-18 20:24" + "\n\n" + "当前日期: " + DateUtils.getStringDate(new Date(), "yyyy-MM-dd HH:mm") + "\n\n" + "出生时长: " + DateUtils.getDaysByBorn(2024, 2, 18, 20, 24) + "\n\n" +"此刻年龄: "+ DateUtils.getAgeByBorn(2024, 2, 18);
         DingdingNotifyUtil.sendDingding("黄梓萱", builder, DingdingNotifyUtil.url, DingdingNotifyUtil.secret,false);
     }
 
