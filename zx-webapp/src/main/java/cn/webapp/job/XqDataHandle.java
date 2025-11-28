@@ -6,6 +6,7 @@ import cn.biz.po.Stock;
 import cn.biz.po.XqData;
 import cn.biz.vo.StockVO;
 import cn.biz.vo.XueqiuVO;
+import cn.common.util.date.DateUtils;
 import cn.common.util.dingding.DingdingNotifyUtil;
 import cn.common.util.http.HttpRequestUtil;
 import cn.common.util.math.XMathUtil;
@@ -15,6 +16,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
@@ -35,6 +37,7 @@ import static cn.biz.service.SysServiceImpl.XUE_QIU_V2;
 public class XqDataHandle {
     private final XqDataMapper xqDataMapper;
     private final StockMapper stockMapper;
+
     /**
      * Checks if the given time is within trading hours (9:30-11:30 and 13:00-15:00), inclusive
      *
@@ -49,6 +52,14 @@ public class XqDataHandle {
 
         return (!time.isBefore(morningStart) && !time.isAfter(morningEnd)) ||
                 (!time.isBefore(afternoonStart) && !time.isAfter(afternoonEnd));
+    }
+
+    public static Boolean ifPass(LocalTime localTime) {
+        boolean isTradingTime = XqDataHandle.isWithinTradingHours(localTime);
+        boolean isWorkday = "0".equals(DateUtils.isHoliday(DateFormatUtils.format(new Date(), "yyyy-MM-dd")));
+        //不在交易时间 9:30-11:30 13:00-15:00 直接pass
+        //不是交易日 直接pass
+        return !isTradingTime || !isWorkday;
     }
 
     public void handleTurnover(String date, String hm) {

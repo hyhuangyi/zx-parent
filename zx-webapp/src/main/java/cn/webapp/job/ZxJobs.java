@@ -39,7 +39,7 @@ public class ZxJobs implements ApplicationListener<RefreshScopeRefreshedEvent> {
         String now = DateUtils.getStringDate(new Date(), "yyyy-MM-dd HH:mm");
         String hm = DateUtils.getStringDate(new Date(), "HH:mm");
         //不在交易时间或者节假日、周末不做操作
-        if (XqDataHandle.isWithinTradingHours(LocalTime.now()) || !"0".equals(DateUtils.isHoliday(DateFormatUtils.format(new Date(), "yyyy-MM-dd")))) {
+        if(XqDataHandle.ifPass(LocalTime.now())){
             return;
         }
         xqDataHandle.handleTurnover(now, hm);
@@ -52,7 +52,7 @@ public class ZxJobs implements ApplicationListener<RefreshScopeRefreshedEvent> {
     @Scheduled(cron = "0 0/30 11,15 * * ?")
     public void xqStock() {
         String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());//当日日期
-        if (XqDataHandle.isWithinTradingHours(LocalTime.now()) || !"0".equals(DateUtils.isHoliday(today))) {//排除不在交易时间或者节假日、周末
+        if(XqDataHandle.ifPass(LocalTime.now())){
             return;
         }
         try {
