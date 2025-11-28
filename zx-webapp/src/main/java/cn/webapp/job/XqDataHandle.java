@@ -21,6 +21,7 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -34,6 +35,21 @@ import static cn.biz.service.SysServiceImpl.XUE_QIU_V2;
 public class XqDataHandle {
     private final XqDataMapper xqDataMapper;
     private final StockMapper stockMapper;
+    /**
+     * Checks if the given time is within trading hours (9:30-11:30 and 13:00-15:00), inclusive
+     *
+     * @param time the time to check
+     * @return true if time is within trading hours, false otherwise
+     */
+    public static boolean isWithinTradingHours(LocalTime time) {
+        LocalTime morningStart = LocalTime.of(9, 30);
+        LocalTime morningEnd = LocalTime.of(11, 30);
+        LocalTime afternoonStart = LocalTime.of(13, 0);
+        LocalTime afternoonEnd = LocalTime.of(15, 0);
+
+        return (!time.isBefore(morningStart) && !time.isAfter(morningEnd)) ||
+                (!time.isBefore(afternoonStart) && !time.isAfter(afternoonEnd));
+    }
 
     public void handleTurnover(String date, String hm) {
         try {

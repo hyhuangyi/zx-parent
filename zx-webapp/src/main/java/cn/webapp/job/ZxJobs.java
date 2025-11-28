@@ -11,6 +11,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.*;
 
 
@@ -18,16 +19,8 @@ import java.util.*;
 @Slf4j
 @RequiredArgsConstructor
 public class ZxJobs implements ApplicationListener<RefreshScopeRefreshedEvent> {
-    private static final List<String> list = new ArrayList<>();
     private final XqDataHandle xqDataHandle;
-    static {
-        list.add("09:00");
-        list.add("09:15");
-        list.add("11:45");
-        list.add("15:15");
-        list.add("15:30");
-        list.add("15:45");
-    }
+
     @Override
     public void onApplicationEvent(RefreshScopeRefreshedEvent event) {
 
@@ -41,12 +34,12 @@ public class ZxJobs implements ApplicationListener<RefreshScopeRefreshedEvent> {
     /**
      * 记录两市成交额
      */
-    @Scheduled(cron = "0 0/15 9,10,11,13,14,15 * * ?")
+    @Scheduled(cron = "0 0/5 9-15 * * ?")
     public void turnoverJob() {
         String now = DateUtils.getStringDate(new Date(), "yyyy-MM-dd HH:mm");
         String hm = DateUtils.getStringDate(new Date(), "HH:mm");
         //不在交易时间或者节假日、周末不做操作
-        if (list.contains(hm) || !"0".equals(DateUtils.isHoliday(DateFormatUtils.format(new Date(), "yyyy-MM-dd")))) {
+        if (XqDataHandle.isWithinTradingHours(LocalTime.now()) || !"0".equals(DateUtils.isHoliday(DateFormatUtils.format(new Date(), "yyyy-MM-dd")))) {
             return;
         }
         xqDataHandle.handleTurnover(now, hm);
@@ -59,8 +52,7 @@ public class ZxJobs implements ApplicationListener<RefreshScopeRefreshedEvent> {
     @Scheduled(cron = "0 0/30 11,15 * * ?")
     public void xqStock() {
         String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());//当日日期
-        String hm = DateUtils.getStringDate(new Date(), "HH:mm");
-        if (list.contains(hm) || !"0".equals(DateUtils.isHoliday(today))) {//排除不在交易时间或者节假日、周末
+        if (XqDataHandle.isWithinTradingHours(LocalTime.now()) || !"0".equals(DateUtils.isHoliday(today))) {//排除不在交易时间或者节假日、周末
             return;
         }
         try {
@@ -70,5 +62,4 @@ public class ZxJobs implements ApplicationListener<RefreshScopeRefreshedEvent> {
         }
         xqDataHandle.handXqDataAll(today);
     }
-
 }
