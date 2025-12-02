@@ -48,8 +48,7 @@ public class XqDataHandle {
         LocalTime morningStart = LocalTime.of(9, 30);
         LocalTime morningEnd = LocalTime.of(11, 30);
         LocalTime afternoonStart = LocalTime.of(13, 0);
-        LocalTime afternoonEnd = LocalTime.of(15, 0);
-
+        LocalTime afternoonEnd = LocalTime.of(15, 0,59);
         return (!time.isBefore(morningStart) && !time.isAfter(morningEnd)) ||
                 (!time.isBefore(afternoonStart) && !time.isAfter(afternoonEnd));
     }
