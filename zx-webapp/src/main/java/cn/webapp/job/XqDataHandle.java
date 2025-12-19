@@ -107,7 +107,7 @@ public class XqDataHandle {
         head.put("Accept", "application/json");
         head.put("User-Agent", "Xueqiu iPhone 15.8");
         Map<String, String> req = new HashMap<>();
-        req.put("symbol", "SH000001,SZ399001,SZ399006");
+        req.put("symbol", "SH000001,SZ399001,SZ399006,HKHSTECH");
         String json = HttpRequestUtil.get(XUE_QIU_REALTIME_STOCK, req, head);
         JSONArray array = JSON.parseObject(json).getJSONArray("data");
         BigDecimal amount = BigDecimal.ZERO;
@@ -120,8 +120,10 @@ public class XqDataHandle {
                 res.setShangz(percent);
             } else if (symbol.contains("399001")) {
                 res.setShenz(percent);
-            } else {
+            } else if(symbol.contains("399006")) {
                 res.setChuangy(percent);
+            }else {
+                res.setHkhstech(percent);
             }
             System.out.println(symbol + "=》current:" + current + " percent:" + percent);
             if (symbol.contains("000001") || symbol.contains("399001")) {
