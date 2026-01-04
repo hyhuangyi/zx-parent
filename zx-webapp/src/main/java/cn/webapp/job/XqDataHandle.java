@@ -53,12 +53,15 @@ public class XqDataHandle {
                 (!time.isBefore(afternoonStart) && !time.isAfter(afternoonEnd));
     }
 
+
     public static Boolean ifPass(LocalTime localTime) {
         boolean isTradingTime = XqDataHandle.isWithinTradingHours(localTime);
         boolean isWorkday = "0".equals(DateUtils.isHoliday(DateFormatUtils.format(new Date(), "yyyy-MM-dd")));
+        boolean isWeekend = DateUtils.isWeekend(DateFormatUtils.format(new Date(), "yyyy-MM-dd"));
         //不在交易时间 9:30-11:30 13:00-15:00 直接pass
         //不是交易日 直接pass
-        return !isTradingTime || !isWorkday;
+        //是周末 直接pass
+        return !isTradingTime || !isWorkday || isWeekend;
     }
 
     public void handleTurnover(String date, String hm) {

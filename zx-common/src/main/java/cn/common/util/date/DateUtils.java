@@ -493,6 +493,10 @@ public class DateUtils {
         return new SimpleDateFormat("yyyy-MM-dd").format(c.getTime());
     }
 
+    public static Boolean isWeekend(String date) {
+        String week = getWeek(date);
+        return "星期六".equals(week) || "星期日".equals(week);
+    }
     /**
      * 根据一个日期，返回是星期几的字符串
      *
@@ -509,28 +513,6 @@ public class DateUtils {
         // 1=星期日 7=星期六，其他类推
         return new SimpleDateFormat("EEEE",Locale.CHINA).format(c.getTime());
     }
-
-    public static String getWeekStr(String sdate) {
-        String str = "";
-        str = DateUtils.getWeek(sdate);
-        if ("1".equals(str)) {
-            str = "星期日";
-        } else if ("2".equals(str)) {
-            str = "星期一";
-        } else if ("3".equals(str)) {
-            str = "星期二";
-        } else if ("4".equals(str)) {
-            str = "星期三";
-        } else if ("5".equals(str)) {
-            str = "星期四";
-        } else if ("6".equals(str)) {
-            str = "星期五";
-        } else if ("7".equals(str)) {
-            str = "星期六";
-        }
-        return str;
-    }
-
     /**
      * 两个时间之间的天数
      *
@@ -734,8 +716,5 @@ public class DateUtils {
         int months = period.getMonths();
         int days = period.getDays();
         return years + " 岁 " + months + " 个月 " + days + " 天";
-    }
-    public static void main(String[] args) {
-        System.out.println(getAgeByBorn(2024,2,18));
     }
 }
