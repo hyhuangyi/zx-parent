@@ -48,7 +48,7 @@ public interface ISysService {
      /*费率为0的基金当日排行*/
      List<FundVO> getZeroRateFundRank(int num) throws Exception;
      /*获取大盘chart数据*/
-     Map getStockChartData(String type);
+     Map<String, Object> getStockChartData(String type);
      /*获取年内涨幅少的股票*/
      List<XueqiuVO.DataBean.ListBean> getXueqiuList(Double percent,Integer yearPercent);
      /*获取雪球历史数据*/

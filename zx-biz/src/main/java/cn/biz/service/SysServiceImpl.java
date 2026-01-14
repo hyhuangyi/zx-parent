@@ -125,31 +125,32 @@ public class SysServiceImpl implements ISysService {
      * 输出基金费率0的实时排名结果地址
      **/
     public static final String ZERO_FUND_RANK_PATH = "/home/zx/fund/zeroFundRank.txt";
-    /**
-     * 横坐标
-     */
-    private static final List<String> HZB = new ArrayList<>();
 
-    //初始化
-    static {
-        HZB.add("09:30");
-        HZB.add("09:45");
-        HZB.add("10:00");
-        HZB.add("10:15");
-        HZB.add("10:30");
-        HZB.add("10:45");
-        HZB.add("11:00");
-        HZB.add("11:15");
-        HZB.add("11:30");
-        HZB.add("13:00");
-        HZB.add("13:15");
-        HZB.add("13:30");
-        HZB.add("13:45");
-        HZB.add("14:00");
-        HZB.add("14:15");
-        HZB.add("14:30");
-        HZB.add("14:45");
-        HZB.add("15:00");
+    private static List<String> generateTimePoints() {
+        List<String> timePoints = new ArrayList<>();
+        // 从 9:30 到 11:30 (每5分钟)
+        for (int hour = 9; hour <= 11; hour++) {
+            for (int minute = 0; minute < 60; minute += 5) {
+                String time = String.format("%02d:%02d", hour, minute);
+                // 对于9点，只添加30-59分；对于10-11点，添加全部时间
+                if ((hour == 9 && minute >= 30) || (hour == 10) || (hour == 11 && minute <= 30)) {
+                    timePoints.add(time);
+                }
+            }
+        }
+
+        // 从 13:00 到 15:00 (每5分钟)
+        for (int hour = 13; hour <= 15; hour++) {
+            for (int minute = 0; minute < 60; minute += 5) {
+                String time = String.format("%02d:%02d", hour, minute);
+                // 只在13点和14点添加全部时间，15点只添加00分
+                if ((hour < 15) || (hour == 15 && minute == 0)) {
+                    timePoints.add(time);
+                }
+            }
+        }
+
+        return Collections.unmodifiableList(timePoints);
     }
 
     /*生成代码*/
@@ -560,23 +561,24 @@ public class SysServiceImpl implements ISysService {
      * @return
      */
     @Override
-    public Map getStockChartData(String type) {
-        List series = new ArrayList();
+    public Map<String,Object> getStockChartData(String type) {
+        List<String> HZB = generateTimePoints();
+        List<Map<String, Object>> series = new ArrayList<>();
         //展示最近7天
         List<String> date = stockMapper.getDate();
-        if (date.size() == 0) {
+        if (date.isEmpty()) {
             return null;
         }
         //数据
-        List<Map> data = stockMapper.getData();
-        for (int i = 0; i < date.size(); i++) {
-            Map m = new HashMap();
+        List<Map<String, Object>> data = stockMapper.getData();
+        for (String s : date) {
+            Map<String, Object> m = new HashMap<>();
             List<Double> turnOver = new ArrayList<>();
-            for (int j = 0; j < HZB.size(); j++) {
+            for (String string : HZB) {
                 boolean isSetNull = true;
-                for (int k = 0; k < data.size(); k++) {
-                    if (date.get(i).equals(data.get(k).get("date")) && HZB.get(j).equals(data.get(k).get("hour"))) {
-                        turnOver.add((double) data.get(k).get("turnOver"));
+                for (Map<String,Object> datum : data) {
+                    if (s.equals(datum.get("date")) && string.equals(datum.get("hour"))) {
+                        turnOver.add((double) datum.get("turnOver"));
                         isSetNull = false;
                         break;
                     }
@@ -586,12 +588,12 @@ public class SysServiceImpl implements ISysService {
                 }
             }
             m.put("data", turnOver);
-            m.put("name", date.get(i));
+            m.put("name", s);
             m.put("type", type);
             series.add(m);
         }
         //结果集
-        Map result = Maps.newHashMap();
+        Map<String,Object> result = Maps.newHashMap();
         result.put("xAxis", HZB);
         result.put("series", series);
         result.put("legend", date);

@@ -17,7 +17,7 @@ public interface StockMapper extends BaseMapper<Stock> {
     //获取最近7天的日期
     List<String> getDate();
     //获取最近7天的数据
-    List<Map> getData();
+    List<Map<String,Object>> getData();
     @Select("select symbol,name  from stock_info ")
     List<XqData>selectStockInfos();
 }

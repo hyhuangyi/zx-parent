@@ -148,7 +148,7 @@ public class FundController {
 
     @ApiOperation("获取大盘chart数据")
     @GetMapping("/comm/stock/chartData")
-    public Map getChartData(@RequestParam(required = false, defaultValue = "line") String type) {
+    public Map<String, Object> getChartData(@RequestParam(required = false, defaultValue = "line") String type) {
         return sysService.getStockChartData(type);
     }
 
