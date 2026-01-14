@@ -3,15 +3,15 @@
 <mapper namespace="cn.biz.mapper.StockMapper">
     <!--获取最近7天日期-->
     <select id="getDate" resultType="string">
-         SELECT
-            DATE_FORMAT(date, '%Y-%m-%d') AS date
+        SELECT DATE_FORMAT(date, '%Y-%m-%d') AS date
         FROM
             stock
+        where DATE_FORMAT(date, '%Y-%m-%d') >= DATE_SUB(CURDATE(), INTERVAL 5 DAY)
         GROUP BY
             DATE_FORMAT(date, '%Y-%m-%d')
         ORDER BY
             DATE_FORMAT(date, '%Y-%m-%d') DESC
-        LIMIT 7
+
     </select>
     <!--获取7天的数据 18*7=126-->
     <select id="getData" resultType="map">
@@ -21,12 +21,12 @@
             turn_over AS turnOver
         FROM
             stock
+        where
+            DATE_FORMAT(date, '%Y-%m-%d') >= DATE_SUB(CURDATE(), INTERVAL 5 DAY)
         GROUP BY
             DATE_FORMAT(date, '%Y-%m-%d'),
             DATE_FORMAT(date, '%H:%i')
         ORDER BY
             DATE_FORMAT(date, '%Y-%m-%d') DESC
-        where
-            DATE_FORMAT(date, '%Y-%m-%d') >= DATE_SUB(CURDATE(), INTERVAL 5 DAY)
     </select>
 </mapper>
