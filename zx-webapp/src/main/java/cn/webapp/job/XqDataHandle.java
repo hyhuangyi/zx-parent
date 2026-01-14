@@ -48,7 +48,7 @@ public class XqDataHandle {
         LocalTime morningStart = LocalTime.of(9, 30);
         LocalTime morningEnd = LocalTime.of(11, 30);
         LocalTime afternoonStart = LocalTime.of(13, 0);
-        LocalTime afternoonEnd = LocalTime.of(15, 0,59);
+        LocalTime afternoonEnd = LocalTime.of(15, 0, 59);
         return (!time.isBefore(morningStart) && !time.isAfter(morningEnd)) ||
                 (!time.isBefore(afternoonStart) && !time.isAfter(afternoonEnd));
     }
@@ -66,8 +66,10 @@ public class XqDataHandle {
 
     public void handleTurnover(String date, String hm) {
         try {
-            if ("09:30".equals(hm) || "15:00".equals(hm)) {
+            if ("09:30".equals(hm)) {
                 Thread.sleep(90000);
+            } else if ("15:00".equals(hm)) {
+                Thread.sleep(120000);
             } else {
                 Thread.sleep(30000);//休息30秒
             }
@@ -123,9 +125,9 @@ public class XqDataHandle {
                 res.setShangz(percent);
             } else if (symbol.contains("399001")) {
                 res.setShenz(percent);
-            } else if(symbol.contains("399006")) {
+            } else if (symbol.contains("399006")) {
                 res.setChuangy(percent);
-            }else {
+            } else {
                 res.setHkhstech(percent);
             }
             System.out.println(symbol + "=》current:" + current + " percent:" + percent);

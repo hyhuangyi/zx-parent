@@ -26,6 +26,7 @@
             DATE_FORMAT(date, '%H:%i')
         ORDER BY
             DATE_FORMAT(date, '%Y-%m-%d') DESC
-        limit 126
+        where
+            DATE_FORMAT(date, '%Y-%m-%d') >= DATE_SUB(CURDATE(), INTERVAL 5 DAY)
     </select>
 </mapper>
